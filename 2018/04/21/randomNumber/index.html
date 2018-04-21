@@ -96,7 +96,7 @@
 	            <a href="#s1">分类</a>
 	                    <ul class="submenu">
 	                        <li>
-	                        
+	                        <a class="category-link" href="/liuyihust.github.io/categories/Programming/">Programming</a>
 	                    </ul>
 	        </li>
 	        
@@ -146,8 +146,6 @@
 		                <li><a href="https://github.com" class="icon fa-github"><span class="label">GitHub</span></a></li>
 		            
 		            
-		                <li><a href="" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-		            
 		            
 		                <li><a href="" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
 		            
@@ -158,13 +156,12 @@
 </nav>
 
         <div id="main" >
-            <div class ="post_page_title_img" style="height: 25rem;background-image: url();background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
+            <div class ="post_page_title_img" style="height: 25rem;background-image: url(https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1524307010934&amp;di=59469e50d35fefc29cc59b6acb52444e&amp;imgtype=0&amp;src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F4e4a20a4462309f72a31ef2e790e0cf3d7cad6b4.jpg);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
                 <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >Random Number Generator</h2></a>
             </div>
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
-                <p><img src="&quot;myBlogImages/pic02.jpg&quot;" alt="myImage" title="myImage"></p>
-<p>C++编程时经常要用到随机数，那么到底有哪些随机数产生器或函数呢？我这里来给大家做个小结！</p>
+                <p>C++编程时经常要用到随机数，那么到底有哪些随机数产生器或函数呢？我这里来给大家做个小结！</p>
 <hr>
 <h2 id="1、RNG（OpenCV中的随机数生成器）"><a href="#1、RNG（OpenCV中的随机数生成器）" class="headerlink" title="1、RNG（OpenCV中的随机数生成器）"></a>1、RNG（OpenCV中的随机数生成器）</h2><p>RNG是OpenCV中的一个类，具体使用方法如下：</p>
 <ul>
@@ -174,7 +171,7 @@
 </code></pre><ul>
 <li>高斯（正态）随机数：</li>
 </ul>
-<pre><code><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">   RNG myRNG;</span><br><span class="line"><span class="keyword">double</span> r5 = myRNG.gaussian(<span class="number">2</span>); <span class="comment">//括号内为高斯分布的参数	sigma（double型）</span></span><br></pre></td></tr></table></figure>
+<pre><code><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">   RNG myRNG<span class="comment">;</span></span><br><span class="line">double r5 = myRNG.gaussian(<span class="number">2</span>)<span class="comment">; //括号内为高斯分布的参数	sigma（double型）</span></span><br></pre></td></tr></table></figure>
 </code></pre><ul>
 <li>当定义RNG类时，系统默认给构造函数赋初值，这样会使得程序每次运行所产生的结果都相同，方便测试工作需要。但有时我们需要使其每次运行的结果都不同，该如何解决呢？通常我们将种子设置为当前时间，如此一来我们每次获取的随机数就不相同了：</li>
 </ul>
@@ -187,38 +184,38 @@
 <h2 id="2、函数系列"><a href="#2、函数系列" class="headerlink" title="2、函数系列"></a>2、函数系列</h2><table>
 <thead>
 <tr>
-<th>函数</th>
-<th>使用方法</th>
+<th style="text-align:left"><strong>函数</strong></th>
+<th style="text-align:left"><strong>使用方法</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>rand()</td>
-<td>返回一个[0, RAND_MAX)的随机数，返回类型与接收返回值的变量类型有关，RAND_MAX在stdlib.h中有定义。</td>
+<td style="text-align:left">rand()</td>
+<td style="text-align:left">返回一个[0, RAND_MAX)的随机数，返回类型与接收返回值的变量类型有关，RAND_MAX在stdlib.h中有定义。</td>
 </tr>
 <tr>
-<td>rand() % n + a</td>
-<td>返回一个[a, n)的随机整数。</td>
+<td style="text-align:left">rand() % n + a</td>
+<td style="text-align:left">返回一个[a, n)的随机整数。</td>
 </tr>
 <tr>
-<td>rand() % RAND_MAX</td>
-<td>返回一个[0, 1)的随机浮点数。</td>
+<td style="text-align:left">rand() % RAND_MAX</td>
+<td style="text-align:left">返回一个[0, 1)的随机浮点数。</td>
 </tr>
 <tr>
-<td>srand(unsigned int)</td>
-<td>设置种子，可以使上述函数在程序每次运行时产生的随机数序列都不一样。一般参数可以设置为(unsigned)time(NULL)或(int)time(0)。</td>
+<td style="text-align:left">srand(unsigned int)</td>
+<td style="text-align:left">设置种子，可以使上述函数在程序每次运行时产生的随机数序列都不一样。一般参数可以设置为(unsigned)time(NULL)或(int)time(0)。</td>
 </tr>
 <tr>
-<td>randu(dst, low, high)</td>
-<td>返回一个[low, high)的随机数矩阵或数组dst。</td>
+<td style="text-align:left">randu(dst, low, high)</td>
+<td style="text-align:left">返回一个[low, high)的随机数矩阵或数组dst。</td>
 </tr>
 <tr>
-<td>randn(dst, mean, stddev)</td>
-<td>返回一个均值为mean、标准差为stddev的高斯分布随机数矩阵或数组dst。</td>
+<td style="text-align:left">randn(dst, mean, stddev)</td>
+<td style="text-align:left">返回一个均值为mean、标准差为stddev的高斯分布随机数矩阵或数组dst。</td>
 </tr>
 <tr>
-<td>randShuffle(dst)</td>
-<td>将原矩阵或数组打乱重排。</td>
+<td style="text-align:left">randShuffle(dst)</td>
+<td style="text-align:left">将原矩阵或数组打乱重排。</td>
 </tr>
 </tbody>
 </table>
