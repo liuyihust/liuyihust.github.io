@@ -43,7 +43,7 @@
     <script src="/liuyihust.github.io/js/util.js"></script>
     <script src="/liuyihust.github.io/js/main.js"></script>
 	
-</head>
+<link rel="stylesheet" href="/liuyihust.github.io/css/prism.css" type="text/css"></head>
     
 		
 <!-- Layouts -->
@@ -76,7 +76,7 @@
 	            <a href="#s1">Categories</a>
 	                    <ul class="submenu">
 	                        <li>
-	                        <a class="category-link" href="/liuyihust.github.io/categories/Programming/">Programming</a>
+	                        <a class="category-link" href="/liuyihust.github.io/categories/C/">C++</a></li><li><a class="category-link" href="/liuyihust.github.io/categories/C/OpenCV/">OpenCV</a>
 	                    </ul>
 	        </li>
 	        
@@ -145,8 +145,8 @@
 <ul>
 <li><strong>均匀随机数：</strong></li>
 </ul>
-<pre><code><figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">RNG myRNG; <span class="comment">//定义RNG类</span></span><br><span class="line">   <span class="type">double</span> r1 = myRNG.<span class="keyword">uniform</span>(<span class="number">0</span>, <span class="number">1</span>); <span class="comment">//只产生0，值得注意！</span></span><br><span class="line">   <span class="type">double</span> r2 = myRNG.<span class="keyword">uniform</span>(<span class="number">0.0</span>, <span class="number">1.0</span>); <span class="comment">//产生[0, 1)的随机double型浮点数</span></span><br><span class="line">   <span class="type">double</span> r3 = myRNG.<span class="keyword">uniform</span>(<span class="number">0.</span>f, <span class="number">1.</span>f); <span class="comment">//产生[0, 1)的随机float型浮点数</span></span><br><span class="line">   <span class="type">double</span> r4 = myRNG.<span class="keyword">uniform</span>(<span class="number">0</span>, <span class="number">10</span>); <span class="comment">//产生[0, 10)的随机整数(r4也可以是int、float型)</span></span><br></pre></td></tr></table></figure>
-</code></pre><ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">RNG myRNG; <span class="comment">//定义RNG类</span></span><br><span class="line"><span class="keyword">double</span> r1 = myRNG.uniform(<span class="number">0</span>, <span class="number">1</span>); <span class="comment">//只产生0，值得注意！</span></span><br><span class="line"><span class="keyword">double</span> r2 = myRNG.uniform(<span class="number">0.0</span>, <span class="number">1.0</span>); <span class="comment">//产生[0, 1)的随机double型浮点数</span></span><br><span class="line"><span class="keyword">double</span> r3 = myRNG.uniform(<span class="number">0.f</span>, <span class="number">1.f</span>); <span class="comment">//产生[0, 1)的随机float型浮点数</span></span><br><span class="line"><span class="keyword">double</span> r4 = myRNG.uniform(<span class="number">0</span>, <span class="number">10</span>); <span class="comment">//产生[0, 10)的随机整数(r4也可以是int、float型)</span></span><br></pre></td></tr></table></figure>
+<ul>
 <li><strong>高斯（正态）随机数：</strong></li>
 </ul>
 <pre><code><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>RNG myRNG;</span><br><span class="line"><span class="variable">$ </span>double r5 = myRNG.gaussian(<span class="number">2</span>); <span class="regexp">//</span>括号内为高斯分布的参数	<span class="variable">$ </span>sigma（double型）</span><br></pre></td></tr></table></figure>
