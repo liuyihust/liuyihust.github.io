@@ -803,6 +803,10 @@
     content: "\f099"
 }
 
+.fa-weibo:before {
+    content: "\f18a"
+}
+
 .fa-facebook-f:before,
 .fa-facebook:before {
     content: "\f09a"
