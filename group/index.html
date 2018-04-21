@@ -159,34 +159,11 @@
 
         <div id="main" >
             <div class ="post_page_title_img" style="height: 25rem;background-image: url();background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
-                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 ></h2></a>
+                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >My Resume</h2></a>
             </div>
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
-                <hr>
-<p>title: How to generate random numbers in C++?<br>date: 2018-04-21 10:17:00</p>
-<h2 id="tags-C"><a href="#tags-C" class="headerlink" title="tags: C++"></a>tags: C++</h2><p>C++编程时经常要用到随机数，那么到底有哪些随机数产生器或函数呢？我这里来给大家做个小结！</p>
-<hr>
-<h2 id="1、RNG（OpenCV中的随机数生成器）"><a href="#1、RNG（OpenCV中的随机数生成器）" class="headerlink" title="1、RNG（OpenCV中的随机数生成器）"></a>1、RNG（OpenCV中的随机数生成器）</h2><p>RNG是OpenCV中的一个类，具体使用方法如下：</p>
-<ul>
-<li><p>均匀随机数：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">RNG myRNG; <span class="comment">//定义RNG类</span></span><br><span class="line"><span class="keyword">double</span> r1 = myRNG.uniform(<span class="number">0</span>, <span class="number">1</span>); <span class="comment">//只产生0，值得注意！</span></span><br><span class="line"><span class="keyword">double</span> r2 = myRNG.uniform(<span class="number">0.0</span>, <span class="number">1.0</span>); <span class="comment">//产生[0, 1)的随机double型浮点数</span></span><br><span class="line"><span class="keyword">double</span> r3 = myRNG.uniform(<span class="number">0.f</span>, <span class="number">1.f</span>); <span class="comment">//产生[0, 1)的随机float型浮点数</span></span><br><span class="line"><span class="keyword">double</span> r4 = myRNG.uniform(<span class="number">0</span>, <span class="number">10</span>); <span class="comment">//产生[0, 10)的随机整数(r4也可以是int、float型)</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>高斯（正态）随机数：</p>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RNG myRNG;</span><br><span class="line"><span class="keyword">double</span> r5 = myRNG.gaussian(<span class="number">2</span>); <span class="comment">//括号内为高斯分布的参数sigma（double型）</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>当定义RNG类时，系统默认给构造函数赋初值，这样会使得程序每次运行所产生的结果都相同，方便测试工作需要。但有时我们需要使其每次运行的结果都不同，该如何解决呢？通常我们将种子设置为当前时间，如此一来我们每次获取的随机数就不相同了：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RNG myRNG((unsigned)time(NULL)); //将当前时间(unsigned)time(NULL)设置为种子</span><br><span class="line"><span class="keyword">double</span> r5 = myRNG.uniform(<span class="number">0.0</span>, <span class="number">1.0</span>);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>定义随机矩阵</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*方法为fill(&lt;#InputOutputArray mat#&gt;, &lt;#int distType#&gt;, &lt;#InputArray a#&gt;, &lt;#InputArray b#&gt;)</span></span><br><span class="line"><span class="comment">其中distType可以是RNG::UNIFORM或RNG::GAUSSIAN。</span></span><br><span class="line"><span class="comment">当类型选择为RNG::UNIFORM型时，a为下界（闭区间），b为上界（开区间）</span></span><br><span class="line"><span class="comment">当类型选择为RNG::GAUSSIAN型时，a为均值，b为标准差*/</span></span><br><span class="line">RNG myRNG; </span><br><span class="line"><span class="function">Mat <span class="title">myMat</span><span class="params">(<span class="number">3</span>, <span class="number">3</span>, CV_8U)</span></span>; <span class="comment">//定义一个3x3的单通道无符号8位型矩阵</span></span><br><span class="line">myRNG.fill(myMat, RNG::UNIFORM, <span class="number">0</span>, <span class="number">10</span>); <span class="comment">//填充[0, 10)的随机整数到上述矩阵中</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<hr>
-<h2 id="2、函数系列"><a href="#2、函数系列" class="headerlink" title="2、函数系列"></a>2、函数系列</h2><p>函数 | 使用方法<br>|-|-|<br>rand()| 返回一个[0, RAND_MAX)的随机数，返回类型与接收返回值的变量类型有关，RAND_MAX在stdlib.h中有定义。<br>rand() % n + a | 返回一个[a, n)的随机整数。<br>rand() % RAND_MAX | 返回一个[0, 1)的随机浮点数。<br>srand(unsigned int) | 设置种子，可以使上述函数在程序每次运行时产生的随机数序列都不一样。一般参数可以设置为(unsigned)time(NULL)或(int)time(0)。<br>randu(dst, low, high) | 返回一个[low, high)的随机数矩阵或数组dst。<br>randn(dst, mean, stddev) |返回一个均值为mean、标准差为stddev的高斯分布随机数矩阵或数组dst。<br>randShuffle(dst) | 将原矩阵或数组打乱重排。</p>
-
+                <h2 id="Hello-it’s-me"><a href="#Hello-it’s-me" class="headerlink" title="Hello ,it’s me!"></a>Hello ,it’s me!</h2>
             </div>
 
             <!-- Post Comments -->
@@ -248,8 +225,8 @@ $('.btn_click_load').click(function() {
 -->
 <script type="text/javascript">
     var disqus_config = function () {
-        this.page.url = 'https://liuyihust.github.io/blog/2018/04/20/myFirstArticle/';  // Replace PAGE_URL with your page's canonical URL variable
-        this.page.identifier = 'https://liuyihust.github.io/blog/2018/04/20/myFirstArticle/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        this.page.url = 'https://liuyihust.github.io/blog/group/index.html';  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = 'https://liuyihust.github.io/blog/group/index.html'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
     };
 </script>
 
