@@ -149,7 +149,7 @@
 <ul>
 <li><strong>高斯（正态）随机数：</strong></li>
 </ul>
-<pre><code><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>RNG myRNG;</span><br><span class="line"><span class="variable">$ </span>double r5 = myRNG.gaussian(<span class="number">2</span>); <span class="regexp">//</span>括号内为高斯分布的参数	<span class="variable">$ </span>sigma（double型）</span><br></pre></td></tr></table></figure>
+<pre><code><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RNG myRNG;</span><br><span class="line"><span class="keyword">double</span> r5 = myRNG.gaussian(<span class="number">2</span>); <span class="comment">//括号内为高斯分布的参数	sigma（double型）</span></span><br></pre></td></tr></table></figure>
 </code></pre><ul>
 <li>当定义RNG类时，系统默认给构造函数赋初值，这样会使得程序每次运行所产生的结果都相同，方便测试工作需要。但有时我们需要使其每次运行的结果都不同，该如何解决呢？通常我们将种子设置为当前时间，如此一来我们每次获取的随机数就不相同了：</li>
 </ul>
