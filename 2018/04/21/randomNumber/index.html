@@ -43,7 +43,7 @@
     <script src="/liuyihust.github.io/js/util.js"></script>
     <script src="/liuyihust.github.io/js/main.js"></script>
 	
-<link rel="stylesheet" href="/liuyihust.github.io/css/prism.css" type="text/css"></head>
+</head>
     
 		
 <!-- Layouts -->
@@ -145,19 +145,34 @@
 <ul>
 <li><strong>均匀随机数：</strong></li>
 </ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">RNG myRNG; <span class="comment">//定义RNG类</span></span><br><span class="line"><span class="keyword">double</span> r1 = myRNG.uniform(<span class="number">0</span>, <span class="number">1</span>); <span class="comment">//只产生0，值得注意！</span></span><br><span class="line"><span class="keyword">double</span> r2 = myRNG.uniform(<span class="number">0.0</span>, <span class="number">1.0</span>); <span class="comment">//产生[0, 1)的随机double型浮点数</span></span><br><span class="line"><span class="keyword">double</span> r3 = myRNG.uniform(<span class="number">0.f</span>, <span class="number">1.f</span>); <span class="comment">//产生[0, 1)的随机float型浮点数</span></span><br><span class="line"><span class="keyword">double</span> r4 = myRNG.uniform(<span class="number">0</span>, <span class="number">10</span>); <span class="comment">//产生[0, 10)的随机整数(r4也可以是int、float型)</span></span><br></pre></td></tr></table></figure>
+<pre><code>RNG myRNG; &#x2F;&#x2F;定义RNG类
+double r1 = myRNG.uniform(0, 1); &#x2F;&#x2F;只产生0，值得注意！
+double r2 = myRNG.uniform(0.0, 1.0); &#x2F;&#x2F;产生[0, 1)的随机double型浮点数
+double r3 = myRNG.uniform(0.f, 1.f); &#x2F;&#x2F;产生[0, 1)的随机float型浮点数
+double r4 = myRNG.uniform(0, 10); &#x2F;&#x2F;产生[0, 10)的随机整数(r4也可以是int、float型)</code></pre>
 <ul>
 <li><strong>高斯（正态）随机数：</strong></li>
 </ul>
-<pre><code><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RNG myRNG;</span><br><span class="line"><span class="keyword">double</span> r5 = myRNG.gaussian(<span class="number">2</span>); <span class="comment">//括号内为高斯分布的参数	sigma（double型）</span></span><br></pre></td></tr></table></figure>
+<pre><code>```C++ 
+RNG myRNG;
+double r5 = myRNG.gaussian(2); //括号内为高斯分布的参数    sigma（double型）
+```
 </code></pre><ul>
 <li>当定义RNG类时，系统默认给构造函数赋初值，这样会使得程序每次运行所产生的结果都相同，方便测试工作需要。但有时我们需要使其每次运行的结果都不同，该如何解决呢？通常我们将种子设置为当前时间，如此一来我们每次获取的随机数就不相同了：</li>
 </ul>
-<pre><code><figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ RNG myRNG((<span class="built_in">unsigned</span>)<span class="built_in">time</span>(<span class="keyword">NULL</span>)); //将当前时间	(<span class="built_in">unsigned</span>)<span class="built_in">time</span>(<span class="keyword">NULL</span>)设置为种子</span><br><span class="line">$ double r5 = myRNG.uniform(<span class="number">0.0</span>, <span class="number">1.0</span>);</span><br></pre></td></tr></table></figure>
+<pre><code>```
+$ RNG myRNG((unsigned)time(NULL)); //将当前时间    (unsigned)time(NULL)设置为种子
+$ double r5 = myRNG.uniform(0.0, 1.0); 
+```
 </code></pre><ul>
 <li><strong>定义随机矩阵</strong></li>
 </ul>
-<pre><code><figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//方法为fill(&lt;#InputOutputArray mat#&gt;, &lt;#int distType#&gt;, &lt;#InputArray a#&gt;, &lt;#InputArray b#&gt;)其中distType可以是RNG::UNIFORM或RNG::GAUSSIAN。当类型选择为RNG::UNIFORM型时，a为下界（闭区间），b为上界（开区间）当类型选择为RNG::GAUSSIAN型时，a为均值，b为标准差</span></span><br><span class="line"><span class="symbol">$</span> RNG myRNG; </span><br><span class="line"><span class="symbol">$</span> Mat myMat(<span class="number">3</span>, <span class="number">3</span>, CV_8U); <span class="comment">//定义一个3x3的单通道无符号8位型矩阵</span></span><br><span class="line"><span class="symbol">$</span> myRNG.fill(myMat, RNG::<span class="built-in">UNIFORM</span>, <span class="number">0</span>, <span class="number">10</span>); <span class="comment">//填充[0, 10)	的随机整数到上述矩阵中</span></span><br></pre></td></tr></table></figure>
+<pre><code>```
+//方法为fill(&lt;#InputOutputArray mat#&gt;, &lt;#int distType#&gt;, &lt;#InputArray a#&gt;, &lt;#InputArray b#&gt;)其中distType可以是RNG::UNIFORM或RNG::GAUSSIAN。当类型选择为RNG::UNIFORM型时，a为下界（闭区间），b为上界（开区间）当类型选择为RNG::GAUSSIAN型时，a为均值，b为标准差
+$ RNG myRNG; 
+$ Mat myMat(3, 3, CV_8U); //定义一个3x3的单通道无符号8位型矩阵
+$ myRNG.fill(myMat, RNG::UNIFORM, 0, 10); //填充[0, 10)    的随机整数到上述矩阵中
+```
 </code></pre><hr>
 <h2 id="2、函数系列"><a href="#2、函数系列" class="headerlink" title="2、函数系列"></a>2、函数系列</h2><table>
 <thead>
@@ -202,87 +217,7 @@
 
             <!-- Post Comments -->
             
-    <!-- 使用 DISQUS_CLICK -->
-<div id="disqus-comment">
-    <div id="disqus_thread"></div>
-
-<!-- add animation -->
-<style>
-	.disqus_click_btn {
-            line-height: 30px;
-            margin: 0;
-            min-width: 50px;
-            padding: 0 14px;
-            display: inline-block;
-            font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-            font-size: 14px;
-            font-weight: 400;
-            text-transform: uppercase;
-            letter-spacing: 0;
-            overflow: hidden;
-            will-change: box-shadow;
-            transition: box-shadow .2s cubic-bezier(.4, 0, 1, 1), background-color .2s cubic-bezier(.4, 0, .2, 1), color .2s cubic-bezier(.4, 0, .2, 1);
-            outline: 0;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-            vertical-align: middle;
-            border: 0;
-            background: rgba(158, 158, 158, .2);
-            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
-            color: #fff;
-            background-color: #7EC0EE;
-            text-shadow: 0
-        }
-</style>
-	
-<div class="btn_click_load" id="disqus_bt"> 
-    <button class="disqus_click_btn">点击查看评论</button>
-</div>
-
-<!--
-<script type="text/javascript">
-$('.btn_click_load').click(function() {
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'http-miccall-tech'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-
-    document.getElementById('disqus_bt').style.display = "none";
-});
-</script>
--->
-<script type="text/javascript">
-    var disqus_config = function () {
-        this.page.url = 'https://liuyihust.github.io/blog/2018/04/21/randomNumber/';  // Replace PAGE_URL with your page's canonical URL variable
-        this.page.identifier = 'https://liuyihust.github.io/blog/2018/04/21/randomNumber/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-</script>
-
-<script type="text/javascript">
-    $('.btn_click_load').click(function() {  //click to load comments
-        (function() { // DON'T EDIT BELOW THIS LINE
-            var d = document;
-            var s = d.createElement('script');
-            s.src = '//http-miccall-tech.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', + new Date());
-            (d.head || d.body).appendChild(s);
-        })();
-        $('.btn_click_load').css('display','none');
-    });
-</script>
-</div>
-<style>
-    #disqus-comment{
-        background-color: #eee;
-        padding: 2pc;
-    }
-</style>
+    
 
 
         </div>
