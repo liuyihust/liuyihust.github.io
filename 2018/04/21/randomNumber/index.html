@@ -134,7 +134,7 @@
 </nav>
 
         <div id="main" >
-            <div class ="post_page_title_img" style="height: 25rem;background-image: url(http://i4.bvimg.com/642514/a957538bdf0006c1.jpg);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
+            <div class ="post_page_title_img" style="height: 25rem;background-image: url(http://i4.bvimg.com/642514/a957538bdf0006c1.jpg);background-position: center;background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
                 <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >Random Number Generator</h2></a>
             </div>
             <!-- Post -->
@@ -145,34 +145,21 @@
 <ul>
 <li><strong>均匀随机数：</strong></li>
 </ul>
-<pre><code>RNG myRNG; &#x2F;&#x2F;定义RNG类
-double r1 = myRNG.uniform(0, 1); &#x2F;&#x2F;只产生0，值得注意！
-double r2 = myRNG.uniform(0.0, 1.0); &#x2F;&#x2F;产生[0, 1)的随机double型浮点数
-double r3 = myRNG.uniform(0.f, 1.f); &#x2F;&#x2F;产生[0, 1)的随机float型浮点数
-double r4 = myRNG.uniform(0, 10); &#x2F;&#x2F;产生[0, 10)的随机整数(r4也可以是int、float型)</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">RNG myRNG; //定义RNG类</span><br><span class="line">double r1 = myRNG.uniform(0, 1); //只产生0，值得注意！</span><br><span class="line">double r2 = myRNG.uniform(0.0, 1.0); //产生[0, 1)的随机double型浮点数</span><br><span class="line">double r3 = myRNG.uniform(0.f, 1.f); //产生[0, 1)的随机float型浮点数</span><br><span class="line">double r4 = myRNG.uniform(0, 10); //产生[0, 10)的随机整数(r4也可以是int、float型)</span><br></pre></td></tr></table></figure>
 <ul>
 <li><strong>高斯（正态）随机数：</strong></li>
 </ul>
-<pre><code>```C++ 
-RNG myRNG;
-double r5 = myRNG.gaussian(2); //括号内为高斯分布的参数    sigma（double型）
-```
-</code></pre><ul>
+<pre><code class="language-c++">RNG myRNG;<br>double r5 = myRNG.gaussian(2); //括号内为高斯分布的参数sigma（double型）</code></pre>
+
+
+<ul>
 <li>当定义RNG类时，系统默认给构造函数赋初值，这样会使得程序每次运行所产生的结果都相同，方便测试工作需要。但有时我们需要使其每次运行的结果都不同，该如何解决呢？通常我们将种子设置为当前时间，如此一来我们每次获取的随机数就不相同了：</li>
 </ul>
-<pre><code>```
-$ RNG myRNG((unsigned)time(NULL)); //将当前时间    (unsigned)time(NULL)设置为种子
-$ double r5 = myRNG.uniform(0.0, 1.0); 
-```
+<pre><code><figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ RNG myRNG((<span class="built_in">unsigned</span>)<span class="built_in">time</span>(<span class="keyword">NULL</span>)); //将当前时间	(<span class="built_in">unsigned</span>)<span class="built_in">time</span>(<span class="keyword">NULL</span>)设置为种子</span><br><span class="line">$ double r5 = myRNG.uniform(<span class="number">0.0</span>, <span class="number">1.0</span>);</span><br></pre></td></tr></table></figure>
 </code></pre><ul>
 <li><strong>定义随机矩阵</strong></li>
 </ul>
-<pre><code>```
-//方法为fill(&lt;#InputOutputArray mat#&gt;, &lt;#int distType#&gt;, &lt;#InputArray a#&gt;, &lt;#InputArray b#&gt;)其中distType可以是RNG::UNIFORM或RNG::GAUSSIAN。当类型选择为RNG::UNIFORM型时，a为下界（闭区间），b为上界（开区间）当类型选择为RNG::GAUSSIAN型时，a为均值，b为标准差
-$ RNG myRNG; 
-$ Mat myMat(3, 3, CV_8U); //定义一个3x3的单通道无符号8位型矩阵
-$ myRNG.fill(myMat, RNG::UNIFORM, 0, 10); //填充[0, 10)    的随机整数到上述矩阵中
-```
+<pre><code><figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//方法为fill(&lt;#InputOutputArray mat#&gt;, &lt;#int distType#&gt;, &lt;#InputArray a#&gt;, &lt;#InputArray b#&gt;)其中distType可以是RNG::UNIFORM或RNG::GAUSSIAN。当类型选择为RNG::UNIFORM型时，a为下界（闭区间），b为上界（开区间）当类型选择为RNG::GAUSSIAN型时，a为均值，b为标准差</span></span><br><span class="line"><span class="symbol">$</span> RNG myRNG; </span><br><span class="line"><span class="symbol">$</span> Mat myMat(<span class="number">3</span>, <span class="number">3</span>, CV_8U); <span class="comment">//定义一个3x3的单通道无符号8位型矩阵</span></span><br><span class="line"><span class="symbol">$</span> myRNG.fill(myMat, RNG::<span class="built-in">UNIFORM</span>, <span class="number">0</span>, <span class="number">10</span>); <span class="comment">//填充[0, 10)	的随机整数到上述矩阵中</span></span><br></pre></td></tr></table></figure>
 </code></pre><hr>
 <h2 id="2、函数系列"><a href="#2、函数系列" class="headerlink" title="2、函数系列"></a>2、函数系列</h2><table>
 <thead>
