@@ -4434,8 +4434,8 @@
 	}
 	.post_page_title_img a > h2{
 		font-weight: bold; 		/* 加粗 */
-		font-size: 3rem;
-		color: #fff;
+		font-size: 3rem; /*之前是3*/
+		color: #fff; 
 	}
 
 	@media screen and (max-width: 820px) {
@@ -4443,8 +4443,11 @@
 			padding: 1rem;
 		}
 		.post_page_title_img a{
-			padding-top: 30%;
+			padding-top: 20%;
 		}
+		.post_page_title_img a > h2{
+		font-size: 2rem; /*之前是3*/
+	}
 	}
 	@media screen and (max-width: 600px) {
 		.post-content{
