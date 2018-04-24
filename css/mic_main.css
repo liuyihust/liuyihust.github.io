@@ -4444,11 +4444,32 @@
 		}
 		.post_page_title_img a{
 			padding-top: 20%; 
-			padding-left: 2rem;
-			padding-right: 3rem;
+			padding-left: 1rem;
+			padding-right: 1rem;
 		}
 		.post_page_title_img a > h2{
 			font-size: 2rem;          /*手机上文章标题的字大小，之前是3rem*/
+			padding-left: 1rem;
+			padding-right: 1rem;
+		}
+		/*自己加进去的*/	
+		.post-content h1{
+			font-size: 2rem;
+		}
+		.post-content h2{
+			font-size: 1.8rem;	
+		}
+		.post-content h3{
+			font-size: 1.6rem;
+		}
+		.post-content h4{
+			font-size: 1.4rem;
+		}
+		.post-content h5{
+			font-size: 1.2rem;
+		}
+		.post-content h6{
+			font-size: 1rem;
 		}
 	}
 	@media screen and (max-width: 600px) {
