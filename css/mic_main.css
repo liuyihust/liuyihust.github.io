@@ -2268,6 +2268,7 @@
 			#main {
 				width: 100%;
 				background-color: #fff;
+				opacity: 0.8  /*改变主面板上的不透明度*/
 			}
 
 			.panel {
@@ -4326,7 +4327,8 @@
 		font-weight: bold;
 		text-shadow:0px 0px 15px #000;  /* 文章展示栏的字体阴影 */
 		bottom:2px;
-		padding-left: 4%;
+		text-align: left; /* 文章展示栏的文字靠左对齐 */
+		padding-left: 3%;
 		color:#ffffff;
 	}
 	.page_title h3{
