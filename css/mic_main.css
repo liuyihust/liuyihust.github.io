@@ -4350,7 +4350,7 @@
 	border-bottom: 0;
 	color: red;
 }
-		@media screen and (max-width: 480px) {
+		@media screen and (max-width: 780px) {
 			.post-content{
 				padding: -10rem;
 			}
@@ -4367,11 +4367,11 @@
 		font-family: FZLT;
 	}
 	.post-content li{
-		list-style-type:square;
-		margin:0;
-		padding:0;
-		list-style:square url;
-		text-align:left;
+		list-style-type: square;
+		margin: 0;
+		padding: 0;
+		list-style: square;
+		text-align: left;
 	}
 	.post-content ul{
 		margin-top: 1rem;
@@ -4380,7 +4380,7 @@
 	.post-content ul > li{
 		font-size: 1.5rem;
 		margin-top: 1rem;
-		line-height:2.2rem;
+		line-height: 2.2rem;
 	}
 	.post-content h1{
 		text-transform:none;
@@ -4444,7 +4444,6 @@
 		}
 		.post_page_title_img a{
 			padding-top: 20%; 
-			padding-left: 1%
 		}
 		.post_page_title_img a > h2{
 			font-size: 2rem;          /*手机上文章标题的字大小，之前是3rem*/
