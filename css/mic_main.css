@@ -4444,12 +4444,12 @@
 		}
 		.post_page_title_img a{
 			padding-top: 20%;
-
+			padding-left: 3% 
 		}
 		.post_page_title_img a > h2{
-		font-size: 2rem;          /*手机上文章标题的字大小，之前是3rem*/
-		padding-left: 4% 
-	}
+			font-size: 2rem;          /*手机上文章标题的字大小，之前是3rem*/
+			padding-left: 4% 
+		}
 	}
 	@media screen and (max-width: 600px) {
 		.post-content{
