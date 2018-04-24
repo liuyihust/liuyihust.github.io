@@ -2413,7 +2413,7 @@
 				margin: 0 0 7px 0;
 				background: #ffffff;
 				opacity: 0.8  /*改变主面板上的不透明度*/
-				border-radius:5px;
+				border-radius: 5px;
 				box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.25);
 			}
 
@@ -4426,12 +4426,14 @@
 	}
 	.post_page_title_img a{
 		position:absolute;
-		text-shadow:3px 2px #f03, -3px -2px #09c; /* 蓝红阴影字体 */
 		font-weight: bold; 		/* 加粗 */
+		text-shadow:3px 2px #f03, -3px -2px #09c; /* 蓝红阴影字体 */
+		
 		padding-top: 20%; 
 		border-bottom:none; 
 	}
 	.post_page_title_img a > h2{
+		font-weight: bold; 		/* 加粗 */
 		font-size: 3rem;
 		color: #fff;
 	}
