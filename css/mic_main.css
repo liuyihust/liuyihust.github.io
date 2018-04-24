@@ -4427,14 +4427,14 @@
 	.post_page_title_img a{
 		position:absolute;
 		font-weight: bold; 		/* 加粗 */
-		text-shadow:2px 0px #f03, -2px 0px #09c; /* 文章内容大标题蓝红阴影字体 */
+		text-shadow:2px 2px 5px #f03, -2px 2px 5px #09c; /* 文章内容大标题蓝红阴影字体 */
 		
 		padding-top: 20%; 
 		border-bottom:none; 
 	}
 	.post_page_title_img a > h2{
 		font-weight: bold; 		/* 加粗 */
-		font-size: 3rem; /*之前是3*/
+		font-size: 3rem; 
 		color: #fff; 
 	}
 
@@ -4446,7 +4446,7 @@
 			padding-top: 20%;
 		}
 		.post_page_title_img a > h2{
-		font-size: 2rem; /*之前是3*/
+		font-size: 2rem;          /*手机上文章标题的字大小，之前是3rem*/
 	}
 	}
 	@media screen and (max-width: 600px) {
