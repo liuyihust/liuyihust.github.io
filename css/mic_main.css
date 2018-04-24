@@ -4367,10 +4367,10 @@
 		font-family: FZLT;
 	}
 	.post-content li{
-		list-style-type:none;
+		list-style-type:square;
 		margin:0;
 		padding:0;
-		list-style:none;
+		list-style:square url;
 		text-align:left;
 	}
 	.post-content ul{
@@ -4430,7 +4430,7 @@
 		/*text-shadow:2px 2px 5px #f03, -2px 2px 5px #09c; /* 文章内容大标题蓝红阴影字体 */
 		text-shadow: 2px 2px 20px #111, 0px 0px 20px #111;
 		padding-top: 20%; 
-		border-bottom:none; 
+		border-bottom: none; 
 	}
 	.post_page_title_img a > h2{
 		font-weight: bold; 		/* 加粗 */
@@ -4440,10 +4440,11 @@
 
 	@media screen and (max-width: 820px) {
 		.post-content{
-			padding: 0.5rem;
+			padding: 1rem;
 		}
 		.post_page_title_img a{
 			padding-top: 20%; 
+			padding-left: 1%
 		}
 		.post_page_title_img a > h2{
 			font-size: 2rem;          /*手机上文章标题的字大小，之前是3rem*/
