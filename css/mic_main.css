@@ -4427,8 +4427,8 @@
 	.post_page_title_img a{
 		position:absolute;
 		font-weight: bold; 		/* 加粗 */
-		text-shadow:2px 2px 5px #f03, -2px 2px 5px #09c; /* 文章内容大标题蓝红阴影字体 */
-		
+		/*text-shadow:2px 2px 5px #f03, -2px 2px 5px #09c; /* 文章内容大标题蓝红阴影字体 */
+		text-shadow: 2px 2px 20px #111, -2px -2px 20px #111;
 		padding-top: 20%; 
 		border-bottom:none; 
 	}
