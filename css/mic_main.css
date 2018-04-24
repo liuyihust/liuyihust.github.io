@@ -2372,7 +2372,7 @@
 			body, input, textarea, select {
 				font-weight: bold;
 				font-size: 11pt;
-				line-height: 1.75em;
+				line-height: 110%;
 				border-radius:5px;
 			}
 
@@ -2384,7 +2384,7 @@
 
 			h3, h4, h5, h6 {
 				font-weight: bold;
-				font-size: 1.25em;
+				font-size: 1.05em;
 				letter-spacing: -0.025em;
 			}
 
