@@ -48,18 +48,12 @@
 		
 <!-- Layouts -->
 
-    <!-- Tags Cloud -->
-    
-<link rel="stylesheet" href="/css/item.css" />
-<style >
-    .row a{
-        border-bottom: none;
-    }
-    .special{
-        padding: 0;
-        padding: 2rem;
-    }
-</style>
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_coy.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
 <body class="is-loading">
     <!-- Wrapper 外包 s-->
     <div id="wrapper" class="fade-in">
@@ -138,30 +132,74 @@
 		            
 			</ul>
 </nav>
-                <div id="main">
-            <!-- Main first s-->
-            <article id="me" class="panel">
-                <header style="color: #000000">
-                    <h1>This Is A Personal Blog</h1>
-                    <p>There are original articles about my life, diary, study, etc.</p>
-                </header>
-                <a href="http://liuyihust.github.io/about/" class="jumplink pic">
-                    <span class="arrow icon fa-chevron-right"><span></span></span>
-                    <img src="images/me.jpg" alt="" />
-                </a>
-            </article>
-            <!-- Main first e-->
+
+        <div id="main" >
+            <div class ="post_page_title_img" style="height: 25rem;background-image: url(https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1524636483426&amp;di=b2e5ed3d32bee35d6cd007e15a4fdb26&amp;imgtype=0&amp;src=http%3A%2F%2Fbpic.ooopic.com%2F16%2F08%2F45%2F16084594-b7eeeeb9040f6a711da09940ae82951b-0.jpg);background-position: center;background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
+                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >日语中的动词变形</h2></a>
+            </div>
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <p>学过日语的人都知道，日语中的动词是需要变形的，所以我这里简单来总结一下日语中的动词变形！</p>
+<h2 id="1、一类动词（动1）-五段动词"><a href="#1、一类动词（动1）-五段动词" class="headerlink" title="1、一类动词（动1）/五段动词"></a>1、一类动词（动1）/五段动词</h2><ul>
+<li><strong>特征：</strong>词尾在う段上</li>
+<li><p><strong>变形：</strong>词尾的う段相应地变成い段，再加上ます（现在将来式肯定）、ません（现在将来式否定）、ますか（现在将来式疑问）、ました（过去式肯定）、ませんでした(过去式否定)、ましたか（过去式疑问）</p>
+</li>
+<li><p><strong>例子：</strong><br>始<sup>はじ</sup>まる　＝＞　始まります //开始<br>終<sup>お</sup>わる　＝＞　終わります　 //结束<br>働<sup>はたら</sup>く　＝＞　働きます   //工作</p>
+</li>
+</ul>
+<h2 id="2、二类动词（动2）-一段动词"><a href="#2、二类动词（动2）-一段动词" class="headerlink" title="2、二类动词（动2）/一段动词"></a>2、二类动词（动2）/一段动词</h2><ul>
+<li><strong>特征：</strong>以い段或え段＋る结尾</li>
+<li><strong>变形：</strong>把る去掉，再加上ます（现在将来式肯定）、ません（现在将来式否定）、ますか（现在将来式疑问）、ました（过去式肯定）、ませんでした(过去式否定)、ましたか（过去式疑问）</li>
+<li><strong>例子：</strong><br>起<sup>お</sup>きる　＝＞　起きます　//起床<br>寝<sup>ね</sup>る　＝＞　寝ます     //睡觉</li>
+</ul>
+<h2 id="3、三类动词（动3）-变格动词"><a href="#3、三类动词（动3）-变格动词" class="headerlink" title="3、三类动词（动3）/变格动词"></a>3、三类动词（动3）/变格动词</h2><h4 id="3-1-サ变动词"><a href="#3-1-サ变动词" class="headerlink" title="3.1 サ变动词"></a>3.1 サ变动词</h4><ul>
+<li><strong>する：</strong>中文是做（事）的意思，直接变为：します、しますか、しません</li>
+<li><strong>例子：</strong><br>勉強<sup>べんきょう</sup>する　＝＞　勉強します　 //学习</li>
+</ul>
+<h4 id="3-2-か变动词"><a href="#3-2-か变动词" class="headerlink" title="3.2 か变动词"></a>3.2 か变动词</h4><p><strong>来<sup>く</sup>る：</strong>中文是来、到的意思，变形为：来<sup>き</sup>ます、来<sup>き</sup>ますか、来<sup>き</sup>ません</p>
+<h2 id="4、动词为什么要做变形？"><a href="#4、动词为什么要做变形？" class="headerlink" title="4、动词为什么要做变形？"></a>4、动词为什么要做变形？</h2><ul>
+<li><strong>更礼貌：</strong>从简体变到礼貌体，说话方式更得体。</li>
+<li><strong>表达更丰富：</strong>多了否定、疑问等表达方式。</li>
+</ul>
+
+            </div>
+
+            <!-- Post Comments -->
+            
+    <!-- 使用 DISQUS -->
+<div id="disqus-comment">
+    <div id="disqus_thread"></div>
+
+<script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'https://liuyihust.github.io/blog/2018/04/25/japanese-2/';  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = 'https://liuyihust.github.io/blog/2018/04/25/japanese-2/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+</script>
+
+<script type="text/ls-javascript" id="disqus-thread-script">
+    queue.offer(function() {
+            (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document;
+                var s = d.createElement('script');
+                s.src = '//http-miccall-tech.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', + new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        });
+</script>
+
+</div>
+
+<style>
+    #disqus-comment{
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
+
+
         </div>
-
-        <section class="special">
-                            <div class="row" style="border-bottom: none;">
-
-        <a href="/liuyihust.github.io/tags/Japanese/" style="font-size: 17px;">Japanese</a> <a href="/liuyihust.github.io/tags/Progamming/" style="font-size: 16px;">Progamming</a> <a href="/liuyihust.github.io/tags/test/" style="font-size: 16px;">test</a>
-
-                            </div>
-                    
-        </section>
-
         <!-- Copyright 版权 start -->
                 <div id="copyright">
             <ul>
@@ -175,6 +213,7 @@
         </div>
     </div>
 </body>
+
 
 
  	
