@@ -140,11 +140,12 @@
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
                 <a id="more"></a>
-<p>大体可参考：<a href="https://www.cnblogs.com/wuhuacong/p/6101853.html" target="_blank" rel="noopener">使用Setup Factory安装包制作工具制作安装包</a></p>
+<p>大体可参考：<a href="https://www.cnblogs.com/wuhuacong/p/6101853.html" title="链接跳转至https://www.cnblogs.com/wuhuacong/p/6101853.html" target="_blank" rel="noopener">使用Setup Factory安装包制作工具制作安装包</a></p>
 <h2 id="补充："><a href="#补充：" class="headerlink" title="补充："></a>补充：</h2><ul>
-<li><strong>创建和删除文件夹：</strong></li>
+<li><p><strong>创建和删除文件夹：</strong></p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 创建文件夹一般放在安装过程中的Actions中，例如On Post Install</span><br><span class="line">Folder.Create(_ProgramFilesFolder..<span class="string">"\\ObjectTracking"</span>);  // 创建文件夹C:\\Program Files\\ObjectTracking，注意中间的两点起连接字符串的作用</span><br><span class="line"></span><br><span class="line">// 删除文件夹一般放在卸载过程中的Actions中，例如On Post Uninstall</span><br><span class="line">Folder.DeleteTree(_ProgramFilesFolder..<span class="string">"\\ObjectTracking"</span>, nil); // 删除C:\\Program Files\\ObjectTracking目录下所有的子文件夹和文件，但不删除文件夹C:\\Program Files\\ObjectTracking</span><br><span class="line">Folder.Delete(_ProgramFilesFolder..<span class="string">"\\ObjectTracking"</span>); // 删除文件夹C:\\Program Files\\ObjectTracking</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 创建文件夹一般放在安装过程中的Actions中，例如On Post Install</span><br><span class="line">Folder.Create(_ProgramFilesFolder..<span class="string">"\\ObjectTracking"</span>);  // 创建文件夹C:\\Program Files\\ObjectTracking，注意中间的两点起连接字符串的作用</span><br><span class="line"></span><br><span class="line">// 删除文件夹一般放在卸载过程中的Actions中，例如On Post Uninstall</span><br><span class="line">Folder.DeleteTree(_ProgramFilesFolder..<span class="string">"\\ObjectTracking"</span>, nil); // 删除C:\\Program Files\\ObjectTracking目录下所有的子文件夹和文件，但不删除文件夹C:\\Program Files\\ObjectTracking</span><br><span class="line">Folder.Delete(_ProgramFilesFolder..<span class="string">"\\ObjectTracking"</span>); // 删除文件夹C:\\Program Files\\ObjectTracking</span><br></pre></td></tr></table></figure>
 
             </div>
 
