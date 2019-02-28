@@ -45,25 +45,24 @@
 	
 </head>
     
-		<body class="is-loading">
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_coy.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
     <!-- Wrapper 外包 s-->
-    <div id="wrapper" class="fade-in overlay">
+    <div id="wrapper" class="fade-in">
         <!-- Intro 头部显示 s -->
-                <div id="intro">
-            <h1>WELCOME TO <br /> 
-            			LIUYEE'S BLOG </h1>
-            <p> Do not aim for success if you really want it <br/> Just stick to what you love and believe in <br/> and it will come naturally
-            </p>
-            <ul class="actions">
-                <li><a href="#header" class="button icon solo fa-arrow-down scrolly">Continue</a></li>
-            </ul>
-        </div>
         <!-- Intro 头部显示 e -->
         <!-- Header 头部logo start -->
         <header id="header">
     <a href="/liuyihust.github.io/" class="logo">Go Back</a>
 </header>
-        <!-- Header 头部logo end -->
         <!-- Nav 导航条 start -->
         <nav id="nav" class="special" >
             <ul class="menu links" >
@@ -133,55 +132,58 @@
 		            
 			</ul>
 </nav>
-        <!-- Nav 导航条 end -->
-        <!-- Main 主要部分 start -->
-        
-        <!-- 文章列表   s -->
-        <div id="main" style="background-color: transparent; padding:0;">
-        <section class="link_container" style="margin-top: 0; background-color: transparent; ">
-            <div class="link_row">
-                <!-- 文章sample  s-->
 
-                
-                <div class="6u 12u(narrower)">
-                    <section class="link_box special">
-                       <a href="/liuyihust.github.io/2018/04/21/randomNumber/">
-                        <div class="page_title" style="background-image: url(https://news-cdn.softpedia.com/images/news2/why-create-and-how-to-use-random-numbers-in-windows-484903-4.jpg);background-position: center; background-repeat:no-repeat;border-top-right-radius: 5px;border-top-left-radius: 5px;background-size:cover;-moz-background-size:cover;">
-                            <!--标题-->
-                            <h2 class="page_title_text"> Random Number Generator </h2>
-                            <!--段落-->
-                        </div>
-                        </a>
-                        <div class="home-post-info">
-                            <!-- Author Avatar -->
-                            <div class="home-post-info-author-avatar">
-                                <h6><span class="home-post-info-data">2018-04-21</span></h6>
-                                <div class="home-post-info-Category">
-                                    <!-- Category -->
-                                    <span>
-                            <h6>
-                            <a class="post_category-link" href="http://localhost:4000/categories/Algorithm/">
-                                <a class="post_category-link" href="/liuyihust.github.io/categories/C/">C++</a>, <a class="post_category-link" href="/liuyihust.github.io/categories/C/OpenCV/">OpenCV</a></a>
-                            </h6>
-                        </span>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-                <!-- 文章sample  e-->
-            
+        <div id="main" >
+            <div class ="post_page_title_img" style="height: 25rem;background-image: url(https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1551354755775&amp;di=0371981a1e84cfa4406a3f20117e442b&amp;imgtype=0&amp;src=http%3A%2F%2Fimg007.hc360.cn%2Fy5%2FM02%2FEF%2F56%2FwKhQUVXZS3GEPXTtAAAAANb28C4176.jpg);background-position: center;background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
+                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >程序打包（Setup使用技巧）</h2></a>
             </div>
-        </section>
-        </div>
-        <!-- 文章列表   end -->
-        <!-- Main 主要部分 end -->
-        <!-- footer  页码 start-->
-        <footer style="text-align: center; padding-top: 2em;">
-  
-</footer>
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <a id="more"></a>
+<p>大体可参考：<a href="https://www.cnblogs.com/wuhuacong/p/6101853.html" target="_blank" rel="noopener">使用Setup Factory安装包制作工具制作安装包</a></p>
+<h2 id="补充："><a href="#补充：" class="headerlink" title="补充："></a>补充：</h2><ul>
+<li><strong>创建和删除文件夹：</strong></li>
+</ul>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 创建文件夹一般放在安装过程中的Actions中，例如<span class="keyword">On</span> Post <span class="keyword">Install</span></span><br><span class="line">Folder.Create(_ProgramFilesFolder..<span class="string">"\\ObjectTracking"</span>);  // 创建文件夹<span class="keyword">C</span>:\\Program Files\\ObjectTracking，注意中间的两点起连接字符串的作用</span><br><span class="line"></span><br><span class="line">// 删除文件夹一般放在卸载过程中的Actions中，例如<span class="keyword">On</span> Post <span class="keyword">Uninstall</span></span><br><span class="line">Folder.DeleteTree(_ProgramFilesFolder..<span class="string">"\\ObjectTracking"</span>, nil); // 删除<span class="keyword">C</span>:\\Program Files\\ObjectTracking目录下所有的子文件夹和文件，但不删除文件夹<span class="keyword">C</span>:\\Program Files\\ObjectTracking</span><br><span class="line">Folder.<span class="keyword">Delete</span>(_ProgramFilesFolder..<span class="string">"\\ObjectTracking"</span>); // 删除文件夹<span class="keyword">C</span>:\\Program Files\\ObjectTracking</span><br></pre></td></tr></table></figure>
 
-        <!-- footer  页码 end-->
+            </div>
+
+            <!-- Post Comments -->
+            
+    <!-- 使用 DISQUS -->
+<div id="disqus-comment">
+    <div id="disqus_thread"></div>
+
+<script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'https://liuyihust.github.io/blog/2019/01/15/setup-package/';  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = 'https://liuyihust.github.io/blog/2019/01/15/setup-package/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+</script>
+
+<script type="text/ls-javascript" id="disqus-thread-script">
+    queue.offer(function() {
+            (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document;
+                var s = d.createElement('script');
+                s.src = '//http-miccall-tech.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', + new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        });
+</script>
+
+</div>
+
+<style>
+    #disqus-comment{
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
+
+
+        </div>
         <!-- Copyright 版权 start -->
                 <div id="copyright">
             <ul>
@@ -193,11 +195,10 @@
             	<span id="busuanzi_container_site_pv">2019&nbsp;Total Visits:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;Times</span>
 			
         </div>
-        <!-- Copyright 版权 end -->
     </div>
-    <!-- Wrapper 外包 e-->
-    <!-- Scripts -->
 </body>
+
+
 
  	
 </html>
