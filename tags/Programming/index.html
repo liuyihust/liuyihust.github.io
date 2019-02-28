@@ -45,24 +45,25 @@
 	
 </head>
     
-		
-<!-- Layouts -->
-
-
-
-<!--  代码渲染  -->
-<link rel="stylesheet" href="/css/prism_coy.css" />
-<link rel="stylesheet" href="/css/typo.css" />
-<!-- 文章页 -->
-<body class="is-loading">
+		<body class="is-loading">
     <!-- Wrapper 外包 s-->
-    <div id="wrapper" class="fade-in">
+    <div id="wrapper" class="fade-in overlay">
         <!-- Intro 头部显示 s -->
+                <div id="intro">
+            <h1>WELCOME TO <br /> 
+            			LIUYEE'S BLOG </h1>
+            <p> Do not aim for success if you really want it <br/> Just stick to what you love and believe in <br/> and it will come naturally
+            </p>
+            <ul class="actions">
+                <li><a href="#header" class="button icon solo fa-arrow-down scrolly">Continue</a></li>
+            </ul>
+        </div>
         <!-- Intro 头部显示 e -->
         <!-- Header 头部logo start -->
         <header id="header">
     <a href="/liuyihust.github.io/" class="logo">Go Back</a>
 </header>
+        <!-- Header 头部logo end -->
         <!-- Nav 导航条 start -->
         <nav id="nav" class="special" >
             <ul class="menu links" >
@@ -132,55 +133,55 @@
 		            
 			</ul>
 </nav>
+        <!-- Nav 导航条 end -->
+        <!-- Main 主要部分 start -->
+        
+        <!-- 文章列表   s -->
+        <div id="main" style="background-color: transparent; padding:0;">
+        <section class="link_container" style="margin-top: 0; background-color: transparent; ">
+            <div class="link_row">
+                <!-- 文章sample  s-->
 
-        <div id="main" >
-            <div class ="post_page_title_img" style="height: 25rem;background-image: url(http://www.technocrazed.com/wp-content/uploads/2015/12/beautiful-wallpaper-download-14.jpg);background-position: center;background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
-                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >A Blog for Image Insertion Test!!! 字数能不能再多一点点！！！</h2></a>
-            </div>
-            <!-- Post -->
-            <div class="typo" style="padding: 3rem;">
-                <p>Only two photos in this file!</p>
-<p><img src="http://www.gandex.ru/upl/oboi/g20695.jpg" alt="Markdown"></p>
-<p><img src="img/pic02.jpg"></p>
-
-            </div>
-
-            <!-- Post Comments -->
+                
+                <div class="6u 12u(narrower)">
+                    <section class="link_box special">
+                       <a href="/liuyihust.github.io/2019/02/28/tf-version-problem/">
+                        <div class="page_title" style="background-image: url(https://pic3.zhimg.com/v2-258db0c147a052dc90cc007311a00e7e_1200x500.jpg);background-position: center; background-repeat:no-repeat;border-top-right-radius: 5px;border-top-left-radius: 5px;background-size:cover;-moz-background-size:cover;">
+                            <!--标题-->
+                            <h2 class="page_title_text"> 安装Tensorflow版本不匹配问题及解决 </h2>
+                            <!--段落-->
+                        </div>
+                        </a>
+                        <div class="home-post-info">
+                            <!-- Author Avatar -->
+                            <div class="home-post-info-author-avatar">
+                                <h6><span class="home-post-info-data">2019-02-28</span></h6>
+                                <div class="home-post-info-Category">
+                                    <!-- Category -->
+                                    <span>
+                            <h6>
+                            <a class="post_category-link" href="http://localhost:4000/categories/Algorithm/">
+                                <a class="post_category-link" href="/liuyihust.github.io/categories/Python/">Python</a>, <a class="post_category-link" href="/liuyihust.github.io/categories/Python/TensorFlow/">TensorFlow</a></a>
+                            </h6>
+                        </span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!-- 文章sample  e-->
             
-    <!-- 使用 DISQUS -->
-<div id="disqus-comment">
-    <div id="disqus_thread"></div>
-
-<script type="text/javascript">
-    var disqus_config = function () {
-        this.page.url = 'https://liuyihust.github.io/blog/2018/04/21/test/';  // Replace PAGE_URL with your page's canonical URL variable
-        this.page.identifier = 'https://liuyihust.github.io/blog/2018/04/21/test/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-</script>
-
-<script type="text/ls-javascript" id="disqus-thread-script">
-    queue.offer(function() {
-            (function() { // DON'T EDIT BELOW THIS LINE
-                var d = document;
-                var s = d.createElement('script');
-                s.src = '//http-miccall-tech.disqus.com/embed.js';
-                s.setAttribute('data-timestamp', + new Date());
-                (d.head || d.body).appendChild(s);
-            })();
-        });
-</script>
-
-</div>
-
-<style>
-    #disqus-comment{
-        background-color: #eee;
-        padding: 2pc;
-    }
-</style>
-
-
+            </div>
+        </section>
         </div>
+        <!-- 文章列表   end -->
+        <!-- Main 主要部分 end -->
+        <!-- footer  页码 start-->
+        <footer style="text-align: center; padding-top: 2em;">
+  
+</footer>
+
+        <!-- footer  页码 end-->
         <!-- Copyright 版权 start -->
                 <div id="copyright">
             <ul>
@@ -192,10 +193,11 @@
             	<span id="busuanzi_container_site_pv">2019&nbsp;Total Visits:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;Times</span>
 			
         </div>
+        <!-- Copyright 版权 end -->
     </div>
+    <!-- Wrapper 外包 e-->
+    <!-- Scripts -->
 </body>
-
-
 
  	
 </html>

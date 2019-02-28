@@ -134,14 +134,41 @@
 </nav>
 
         <div id="main" >
-            <div class ="post_page_title_img" style="height: 25rem;background-image: url(http://www.technocrazed.com/wp-content/uploads/2015/12/beautiful-wallpaper-download-14.jpg);background-position: center;background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
-                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >A Blog for Image Insertion Test!!! 字数能不能再多一点点！！！</h2></a>
+            <div class ="post_page_title_img" style="height: 25rem;background-image: url(https://pic3.zhimg.com/v2-258db0c147a052dc90cc007311a00e7e_1200x500.jpg);background-position: center;background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
+                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >安装Tensorflow版本不匹配问题及解决</h2></a>
             </div>
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
-                <p>Only two photos in this file!</p>
-<p><img src="http://www.gandex.ru/upl/oboi/g20695.jpg" alt="Markdown"></p>
-<p><img src="img/pic02.jpg"></p>
+                <a id="more"></a>
+<h2 id="1、问题描述"><a href="#1、问题描述" class="headerlink" title="1、问题描述"></a>1、问题描述</h2><p>截止至2019年2月27日，Anaconda3的版本已经更新到3.7了，对应的python版本是3.7.1，而没有对应的Tensorflow版本与之相匹配。而python3.5是可以找到tensorflow的。<br>具体报错内容如下：</p>
+<hr>
+<h2 id="2、解决方法"><a href="#2、解决方法" class="headerlink" title="2、解决方法"></a>2、解决方法</h2><p>创建python3.5环境，与Anaconda3下的python3.7共存。<br>环境：Windows10、Python3.7、Anaconda3.7、conda4.5.12</p>
+<p>#####2.1、使用管理员权限，打开Anaconda Prompt；</p>
+<p>#####2.2、键入以下命令：<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda <span class="built_in">create</span> <span class="comment">--name python35 python=3.5</span></span><br></pre></td></tr></table></figure></p>
+<p>#####2.3、过程中遇到Proceed([y]/n)时，键入y，按回车键继续。</p>
+<p>#####2.4、成功后，执行下面的命令进行Python3.5环境：</p>
+<pre><code><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 进入python3.5环境</span></span><br><span class="line"><span class="built_in">c</span> nda activate python35</span><br><span class="line"><span class="comment">// 退出环境（即回到python3.7环境）</span></span><br><span class="line">conda deactivate</span><br></pre></td></tr></table></figure>
+</code></pre><p>#####2.5、在python3.5环境中，执行下列命令，安装tensorflow：<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> tensorflow</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="3、测试"><a href="#3、测试" class="headerlink" title="3、测试"></a>3、测试</h2><p>在Python3.5环境下测试Tensorflow是否可以正常使用：</p>
+<p>键入以下代码：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow as t</span><br><span class="line">sess = tf.Session()</span><br><span class="line">hello = tf.constant(<span class="string">"hello, world"</span>)</span><br><span class="line">sess.run(hello)</span><br></pre></td></tr></table></figure>
+<p>不出意外，键入第二行代码后会出现如下警告（不会影响程序运行）：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2019</span><span class="number">-02</span><span class="number">-27</span> <span class="number">14</span>:<span class="number">59</span>:<span class="number">44.875953</span>: I tensorflow<span class="regexp">/core/</span>platform/cpu_feature_guard.<span class="string">cc:</span><span class="number">141</span>] Your CPU supports instructions that <span class="keyword">this</span> TensorFlow binary was not compiled to <span class="string">use:</span> AVX2</span><br></pre></td></tr></table></figure>
+<p>解决方法为在上述代码之前加入以下代码：</p>
+<figure class="highlight moonscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="built_in">os</span></span><br><span class="line"><span class="built_in">os</span>.environ[<span class="string">'TF_CPP_MIN_LOG_LEVEL'</span>] = <span class="string">'2'</span> # 设置提示信息的等级为<span class="number">2</span>级，只显示warning和Error</span><br></pre></td></tr></table></figure>
+<p>运行成功，输出：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b'hello, world'</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="4、在Pycharm上配置Tensorflow环境"><a href="#4、在Pycharm上配置Tensorflow环境" class="headerlink" title="4、在Pycharm上配置Tensorflow环境"></a>4、在Pycharm上配置Tensorflow环境</h2><ul>
+<li><strong>打开Pycharm，选择或新建一个工程。</strong></li>
+<li><strong>File -&gt; Settings -&gt; Projects: [PROJECT_NAME] -&gt; Project Interpreter -&gt; Add Local。</strong></li>
+<li><strong>选择 Anaconda3/envs/python35 文件夹下面的python.exe，即配置成功。</strong></li>
+</ul>
+<hr>
+<h2 id="5、写在最后"><a href="#5、写在最后" class="headerlink" title="5、写在最后"></a>5、写在最后</h2><blockquote>
+<p>Every problem you encounter  has been met and solved by someone better than you, and you can find the corresponding one in Google.</p>
+</blockquote>
 
             </div>
 
@@ -153,8 +180,8 @@
 
 <script type="text/javascript">
     var disqus_config = function () {
-        this.page.url = 'https://liuyihust.github.io/blog/2018/04/21/test/';  // Replace PAGE_URL with your page's canonical URL variable
-        this.page.identifier = 'https://liuyihust.github.io/blog/2018/04/21/test/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        this.page.url = 'https://liuyihust.github.io/blog/2019/02/28/tf-version-problem/';  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = 'https://liuyihust.github.io/blog/2019/02/28/tf-version-problem/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
     };
 </script>
 
