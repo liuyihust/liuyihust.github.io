@@ -1,0 +1,2080 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Liuyee&#39;s Blog">
+    <title>开发岗面试问题总结：C/C++语言 - Liuyee&#39;s Blog</title>
+    <meta name="author" content="Liu Yi">
+    
+        <meta name="keywords" content="开发,面试,求职 - C - C++">
+    
+    
+        <link rel="icon" href="/assets/images/favicon.ico">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liu Yi","sameAs":["https://github.com/liuyihust","mailto:liuyihust@foxmail.com"],"image":"portrait.gif"},"articleBody":"\n\n\n\n题目\n一个C++源文件从文本到可执行文件经历的过程。答案 \n#include 的顺序以及尖叫括号和双引号的区别。答案 \n进程和线程的区别，为什么要有线程？答案 \nC++11有哪些新特性？答案 \n为什么可变参数模板至关重要以及右值引用，完美转发，lambda答案 \nmalloc的原理，brk系统调用干什么的，mmap呢？答案\nC++的内存管理方式，STL的allocaotr，最新版本默认使用的分配器。答案\nC++/C的内存分配，栈和堆的区别，为什么栈要快？答案\nC++和C的区别。答案\n如何判断内存泄露，野指针是什么，内存泄漏怎么办？答案\n内存分布答案\n讲讲虚函数（内存布局，虚函数的局限，C++11提供的类似虚函数的新函数，两种动态多态的实现及优缺点）答案\n类什么时候会析构？答案\n虚函数底层机制。答案\nC++解决内存泄漏方法。答案\n查内存泄露 （valgrind）答案\nC++处理异常可以有两种方式，一种是throw异常，一种是在函数中return错误码。你怎么理解这两个方法的优劣.答案\nC++11 future和promise，poll，libev优点。答案\n如何查看函数所占用的内存。答案\nC++多态是怎么实现的，哪些函数不能是虚函数？答案\nmalloc(0)返回什么？答案\n静态变量什么时候初始化？答案\n为什么析构函数要是虚函数，为什么C++没有默认析构函数为虚函数。答案\n模板成员函数不可以是虚函数。答案\nauto，shared_ptr, weak_ptr, unique_ptr，forward, move完美转发，RAII机制，lock_guard。答案\n修改指向const对象的指针。答案\nC++中类成员的访问权限和继承权限问题。答案\nC++中static关键字的作用。答案\nvector 跟 list 的iterator有什么区别？答案\ncout和printf有什么区别？答案\n为什么模板类一般都是放在一个h文件中？答案\nSTL的基本组成。答案\n必须使用初始化列表初始化的成员变量。答案\nstruct和class的区别 、 union和struct的区别。答案\nc++获得内存的各种方式\nmalloc和new的区别。答案\ndelete加[]与不加[]有什么区别？数组对象的时候怎么析构函数怎么释放？答案\n智能指针有没有内存泄露的情况？答案\nstruct中为什么要字节对齐，怎么修改默认对齐方式。答案\njava中有没有指针，所有的都是智能指针\nmemcpy和memmove的区别，剖析性能差异。答案\nvolatile的作用。答案\n画一下类的对象的内存布局。答案\n函数重载是怎么实现的（编译器在汇编层结合函数名和参数类型给重载等函数不同的汇编实现、C/C++ 时混编要使用extern告诉编译器这是不支持重载的C的代码）。答案\nprintf可变参数怎么实现的？答案\n解释一下函数调用是怎么样的过程（怎么传参）。答案\nC++引用和指针的区别。答案\n内联函数与宏函数的区别以及各自优缺点。答案\n代码可扩展性\n函数栈帧。答案\n面向对象特性。答案\nC实现C++特性。答案\n泛型编程。答案\n模板底层实现原理，如何把int和T绑定？答案\nSTL库常用的接口\n\nC语言怎么生成随机数；\nA* a = new A; a-&gt;i = 10;在内核中的内存分配上发生了什么？\n给你一个类，里面有static，virtual，之类的，问你这个类的内存分布。\n如何给指定物理地址赋值，如何跳转到制定物理地址执行。\n析构函数的作用\nlambda的实质（编译器层面）\n以下代码中这两个指针的区别，以及第一个指针离开作用域要delete，那第二个指针是否必须要delete？答案 \n\n123456class A;void func() &#123;    char buff[1024];    A* ptr1 = new ptr();    A* ptr2 = new (buff) A;&#125;\n\n\n什么时候需要重载，重载有什么坏处\n怎么实现类A可以支持以下工作？重载运算符应该是全局的还是类内成员函数，两者有什么区别？\n\n123class A;A a;a= a + 1;\n\n\n如果不想一个类被继承应该怎么办？答案\n宏定义和枚举的区别。 答案\n函数指针和指针函数的区别。写个例子出来。答案\n系统调用是什么。你用过哪些系统调用。什么系统调用会耗时长。\nSTL中迭代器的作用，有指针为何还要迭代器。答案 \nC++ STL 内存优化\nvector和list的区别的，应用，越详细越好。\n给你1MB的内存，你们怎么设计， 才能使其利用率最高，产生的碎片最少\nC++ 类成员初始化，为什么按顺序顺序， 构造函数的调用和 代码扩展，还有初始化列表？\n类成员初始化的方式。\nconst成员函数的理解和应用。\n这四者的区别：    \nconst char* arr = “123”;\nchar* brr = “123”;\nconst char crr[] = “123”;\nchar drr[] = “123”;\n\n\ni++和++i的区别以及实现；\n能写个函数在main函数执行前先运行的吗？\n手写 share_ptr\nC++运行池\n当多个文件包含头文件时，会不会存在多份vector的实现\nSTL里resize和reserve的区别\n撸一个std::lower_bound，不断优化，直到最坏复杂度也为O(logN)\nQ：C++里是怎么定义常量的？常量存放在内存的哪个位置？\nC++ 类内可以定义引用数据成员吗？\n隐式类型转换，如何避免\nexplicit关键字\nC++类型转换有四种\n说说你了解的RTTI.答案 \nC++函数栈空间的最大值 \nextern “C” ？\n那么C++的锁你知道几种。\nC语言如何处理返回值？\nSTL中vector的实现机制\nSTL标准库中的数据结构占用的哪一部分的内存\nC++  的类中那些成员会被算入sizeof中\n为什么要内存对齐\n为什么会有大端小端，htol这一类函数的作用\n手写一个智能指针类，怎么处理并发的情况，加锁的话怎么提高效率\n说说右值引用。说说右值移动构造。一定会有控制权移交吗？为什么会有性能提升？你觉得这个新特性用的多吗？\n那如果析构抛出异常怎么办？\ninline和virtual能够同时修饰吗？答案 \n一个32位的机子，最多有多少的内存，实际内存有这么多吗\n模板的作用，给定一个数组和两个指针，手写一个队列模板\n全局变量和static变量的区别.如果在两个.h文件中声明两个同名变量会怎么样？ 如果使用extern 如果没有使用·\n浅拷贝和深拷贝的区别？\n如果一个函数传入一个对象，那么这是浅拷贝还是深拷贝？\n形参实参的区别\nc++各种new的原理和应用——operator new,placement new，new operator\nstring的length和size一样吗\nstring是怎么增长的\n虚函数，虚函数表，虚函数表是公用的吗\n从汇编层去解释一下引用\nSTL allocator\niterator 与 container 之间的耦合关系\nType traits的作用\n传入一个char *变量,怎样求这个字符数组的长度 用strlen还是sizeof啊?\n识别手机号的正则表达式\nC++中，::有什么意义\n能否显示的调用构造函数和析构函数，举例说明\n知道前向声明吗，有什么作用，什么情况下可以使用，举例\n内联函数与宏函数的区别以及各自优缺点\nC++隐式函数举例\n静态链接  动态链接\nVector内存泄漏怎么办\n父类指针查找虚表的过程。\n\n函数只声明不定义会在什么时候报错？（如果不调用的话没问题，调用的话会在链接时出错）。\n模板底层实现原理，如何把int和T绑定？\n那vs出现链接错误，符号未定义什么情况？\n手动实现STL的equal_range()\n\n\n参考答案\n 包括四个步骤：\n\n预处理（生成.ii文件）：\n对#define进行宏展开\n处理所有条件编译指令，如#if、#ifdef、#elif、#ifndef、#endif等\n处理#include语句，此过程是递归的\n删除所有的注释\n添加行号和文件标识\n保留所有的#pragma编译器指令\n\n\n编译（生成.s汇编文件）：\n进行一系列词法、语法、语义分析，以及优化后生成相应的汇编代码文件。\n\n\n汇编（生成.o或.obj目标文件）：\n将汇编代码转化为机器可以执行的代码，每一个汇编语句几乎都对应一个机器指令。\n\n\n链接（生成.out或.exe可执行文件）：\n主要包括地址和空间分配、符号决议和重定位。返回原题\n\n\n\n\n \n\n\n尖括号：包含系统标准库头文件时使用，从系统文件目录下查找；\n双引号：包含自定义头文件时使用，从当前源文件目录下查找。返回原题\n\n\n \n\n\n区别：\n进程和线程是操作系统不同的资源管理方式。\n进程拥有独立的地址空间，在保护模式下，进程崩溃不会影响其它进程，而线程之间共享内存，线程崩溃，会导致同一进程下的其它线程崩溃。\n一个程序至少有一个进程，一个进程至少有一个线程。\n进程是资源分配的最小单位，线程是CPU调度的最小单位。\n不同进程间资源很难共享，但同一进程下的线程间则很容易。\n\n\n为什么要有线程？\n线程相比进程而言，更加轻量、更易创建和销毁。\n同一进程中的线程之间共享内存，使得它们之间互相通信非常容易，互相切换也更加容易，极大地提高了运行效率；\n线程的划分尺度小于进程，使得多线程的程序并发性高；返回原题\n\n\n\n\n\n\n \n\n\n对象结构改进：\n\n继承基类的构造函数（using 基类名：基类名）；\n默认成员值，在声明数据的时候赋一个默认值；\n委托构造函数，用其它构造函数来做它的一部分或全部工作；\noverride关键字，防止因拼写错误而没有正确重载成员函数；\n可以使用花括号初始化一个类的实例；\nfinal关键字，防止成员函数被派生类重载 ；\n\n\n其他核心语言新增功能：\n\n新增基于范围的for循环（for (auto i: array)）；\n\n自动类型推断auto；\n\n匿名函数lambda：[捕获列表](参数列表)-&gt;返回类型{函数体}；\n\nlong long int类型，通常是64位；\n\n移动语义：如果两个类对象较大时，交换起来非常耗时，这时便可以只转换所有权。例如：\n12345void swap(type&amp; a, type&amp; b) &#123;     type t = std::move(a);     a = std::move(b);     b = std::move(t); &#125;\n\n右值引用：可以绑定即将销毁的右值。\n1type&amp;&amp; rr = rvalue;\n\n智能指针：shared_ptr和unique_ptr，取代了auto_ptr，防止内存泄漏；\n\n原始字符串字面量，可以使用R前缀，将不会识别转义序列。如\n1string s = R\"C:\\user\\temp\"\n\n静态断言：使用static_assert使在编译时如果未满足条件则对错误信息打标记，这在模板中使用非常方便；\n\n可变参数模板：可使用任意数量参数。如\n12345template&lt;typename T, typename... TArgs&gt; printv(T v, TArgs... args) &#123;     cout &lt;&lt; v &lt;&lt; endl;     printv(args...);&#125;\n\n后置返回类型：\n1234template auto adding_func(const Lhs &amp;lhs, const Rhs &amp;rhs) -&gt; decltype(lhs+rhs) &#123;    return lhs + rhs; &#125;\n\n空指针常量nullptr；\n\nstatic_cast将左值转化为右值引用；\n\nconstexpr将变量或函数声明为字面值类型；\n\n\n\n标准库扩展：\n\n标准库元组模板tuple；\n\n随机数库random：\n123uniform_int_distribution&lt;unsigned&gt; u(0,9);default_random_engine e; cout &lt;&lt; u(3) &lt;&lt; endl;\n\n正则表达式库regex返回原题\n\n\n\n\n\n\n\n \n\n\n可变参数模板：当我们既不知道想要处理的实参的数目，也不知道它们的类型时，可变参数模板是很有用的。格式：\n1234template&lt;typename T, typename ...Ts&gt; void func(T v, Ts... args) &#123;     func(args...); &#125;\n\n完美转发：使用forward转发参数时会保留参数的左右值类型（格式：std::forward&lt;T&gt;(t)）\n\n右值引用：必须绑定到右值的引用（typename&amp;&amp; val）\n\nlambda函数：匿名函数，可以使代码变得简洁，不用费力去定义一个小函数。格式：[捕获列表](参数列表)-&gt;返回类型{函数体}，参数列表和返回类型可省略。返回原题\n\n\n\n\n\n \n\n\nmalloc原理：根据用户要求，从堆里分配内存空间。为减少内存碎片和降低内存开销，采用内存池的方式。malloc利用隐式链表，在分配时遍历整个链表，选择合适的内存块分配。\nbrk和mmap系统：内存分配会调用brk或mmap系统，小于128k时调用brk在堆区分配，大于128k时调用mmap在映射区分配。返回原题\n\n\n\n\n\n\n\nC++内存管理方式：new和delete；\nSTL中的Allocator：负责配置内存，但不负责构造对象（只相当于new的第一步）。为减少内存碎片，STL配置内存时采用两级配置器。当所需空间大于128B时采用第一级空间配置器，即使用malloc()等，小于128B时，采用第二级空间配置器，即内存池技术，通过空闲链表管理内存；\n默认分配器：std::alloc。返回原题\n\n\n\n\n\n\n\n栈和堆的区别：。\n分配方式：栈有动态分配和静态分配两种方式，而堆只有动态分配；\n分配大小：栈是由低地址扩展的数据结构，是一块连续的内存区域；而堆是由高地址扩展的数据结构，是不连续的内存区域；\n管理方式：栈由编译器自动分配和释放，而堆一般由程序员主动申请分配和释放，如果未能及时释放，可能会造成内存泄漏。\n\n\n栈更快的原因：\n栈是放在一块连续的内存区域上，所以数据定位的速度更快；而堆放在不连续的内存区域上，通过链表访问，访问效率更低；\n栈是CPU提供指令支持的，在指令的处理速度上，对栈数据的处理速度自然比操作系统支持的堆数据要快；\n栈放在一级缓存中，而堆放在二级缓存中，二者硬件性能差异巨大。返回原题\n\n\n\n\n\n\n\n\n\nC是面向过程的，C++是面向对象的，有封装、继承、多态三大特性；\nC++是C的超集，有虚函数、内联函数、友元函数、引用、命名空间等；\n动态分配内存时，C是malloc/free，而C++是new/delete；\n输入和输出，C是scanf/printf，而C++是cin/cout；返回原题\n\n\n\n\n\n\n\n内存泄漏：申请的一块内存没能及时释放，且没有指向它的指针了；\n野指针：指向不明区域的指针。原因：没有初始化的指针；指向堆区域的指针在释放内存后，没有置为nullptr；\n检查内存泄漏：\n使用Linux环境下的内存泄漏检测工具Valgrind进行检测；\n写代码时添加内存分配和释放的统计功能，统计当前申请和释放的次数是否一致；\n使用BoundsChecker，BoundsChecker是一个运行时错误检测工具，它主要用于定位程序运行时所发生的错误；\n调试运行DEBUG版程序，运用以下技术：CRT（C run-time libraries）、运行时函数调用堆栈、内存泄漏时提示的内存分配序号（集成开发环境OUTPUT窗口），综合分析内存泄漏的原因，排除内存泄漏。\n\n\n如何解决内存泄漏：养成良好的写代码习惯，自己动态分配的内存空间，一定要记得及时释放；使用智能指针。返回原题\n\n\n\n\n\n\n\n栈区：由编译器自动分配和释放，存放局部变量、函数参数值等，类似于数据结构中的堆；\n堆区：由程序员主动申请分配和释放；\n代码区：存放函数体的二进制代码；\n全局（静态）区：用于存放全局变量、静态全局变量、静态局部变量；\n文字常量区：用于存放常量字符串。返回原题\n\n\n\n\n\n\n\n虚函数内存布局：如果一个类定义了虚函数，则会生成一个虚函数指针，一般放在对象内存布局的第一个位置上（即对象地址为虚函数地址），虚函数指针指针虚函数表，虚函数表中存放的是一系列虚函数的地址，虚函数地址的顺序与类中虚函数声明的顺序一致。\n虚函数的局限：子类虚函数表与父类虚函数表的关系要么是继承、要么是重写、要么是新增，而对于继承的虚方法需要重复存储，浪费空间。\n两种多态：\n静态多态：泛型编程（模板函数）和函数重载，编译时关联。\n优点：类型安全性较高、耦合性低，集合的元素类型不再局限于指针，具体类可以只实现需要的接口，生成代码性能高；\n缺点：不能处理异类集合，可执行代码较大，模板库源码需要发布，对模板实参类型有约束。\n\n\n动态多态：虚函数，运行时关联。\n优点：能处理异类集合，可执行代码较小，可以完全编译而无需发布源码；\n缺点：耦合性高（继承 的耦合性高于组合），类型安全性差（编译期无类型检查），性能低（层层继承）。返回原题\n\n\n\n\n\n\n\n\n\n\n\n撤销类对象时；\n超出作用域时；\n动态分配的对象只有在指向该对象的指针被删除时才调用析构函数。返回原题\n\n\n\n\n\n\n\n对于含有虚函数的类或继承自有虚函数的类，每个类使用一个虚函数表，每个类对象使用一个虚表指针，虚表指针指向虚函数表；\n基类对象有一个虚表指针，指向基类的虚函数表，派生类对象也有一个虚表指针，指向派生类的虚函数表；\n若派生类重写了基类中的虚函数，则该派生类的虚函数表将保存重写的虚函数地址，而非基类的虚函数地址；\n若派生类没有重写基类中的虚函数，则继承下来，派生类的虚函数表将保存基类中未被重写的虚函数地址；\n若派生类新定义了新的虚函数，则该派生类的虚函数表将添加保存新虚函数的地址。返回原题\n\n\n\n\n\n\n\n\n\n使用智能指针，无需手动释放内存。\n养成良好的写代码习惯。返回原题\n\n\n\n\n\n\n\n使用Valgrind软件检测；\n写代码时统计内存分配和释放的次数，统计当前二者次数是否一致；\n使用BoundsChecker软件检测；\n调试运行DEBUG版程序，使用以下技术：CRT（C Run-Time Libraries）、运行时函数调用堆栈、内存泄漏时提示的内存分配序号，综合分析内存泄漏的原因，排除内存泄漏。返回原题\n\n\n\n\n\n\n\n使用throw：代码更加简洁，可以不用通过判断返回值就可以确定是否发生异常。不能被忽略，必须停下来处理。\n使用错误码返回值：更加轻量级。但需要通过查找错误码才能知道具体发生的错误。错误信息可以被忽略。返回原题\n\n\n\n\n\n\n\nfuture（只读）：提供了一种访问异步操作结果的机制。有三种状态：deferred（异步操作还没开始）、ready（异步操作已经完成）、timeout（异步操作完成）。\npromise（只写）：每个promise关联一个future，对promise的写入会令future的值可用。\nlibev：高性能事件循环。\npoll：未知。。。返回原题\n\n\n\n\n\n\n\n没搞懂？返回原题\n\n\n\n\n\n\n\n多态分为动态多态和静态多态：\n动态多态：通过虚函数实现。运行时通过指针指向的对象进行动态绑定。\n静态多态：通过泛型编程（模板函数）和重载函数实现。编译时关联。\n\n\n以下函数不能为虚函数：\n普通函数：只能被重载，不能被覆盖，声明为虚函数没啥意义；\n构造函数：虚函数是在不同对象产生不同的操作，构造函数之前对象还没产生，就无法使用虚函数；假设B类继承自A类，且A类的构造函数为虚函数，则构造B类对象时，只会执行B类的构造函数，这样A就不能构造了。\n友元函数：C++不支持友元函数的继承；\n静态成员函数：静态成员函数对每个类而言，只有一份代码，所有对象共享，而不归某个类共享，所以没有动态绑定的必要性。\n\n\n以下函数没有声明为虚函数的必要：\n内联函数：即使内联函数被声明为虚函数，编译器遇到这种情况不会把函数内联展开，而是当作普通函数处理；\n赋值运算符：赋值运算符要求形参和类本身类型相同，帮基类中的赋值操作符形参为基类类型，即使声明为虚函数，也不能作为子类的赋值操作符。返回原题\n\n\n\n\n\n\n\n\n\n返回一个nullptr或一个不能用于访问对象的非null的合法指针，可以调用free()函数释放。\nmalloc(-1)返回一个NULL，因为-1转化为无符号整型后是一个很大的值，无法分配这么大的内存空间，所以只能返回NULL。返回原题\n\n\n\n\n\n\n\n静态变量的初始化是在编译时进行，只初始化一次，赋值则发生在运行时。返回原题\n\n\n\n\n\n\n\n在删除指向派生类的基类类型指针时，如果析构函数不是虚函数，则只会调用基类的析构函数，而不会调用派生类的析构函数，会发生内存泄漏。\n为何默认析构函数不是虚函数：如果无需用到继承，虚析构函数便没有任何作用，但虚表指针和虚函数表的存在会导致资源浪费。返回原题\n\n\n\n\n\n\n\n原因：模板成员函数可以实例化出很多类型，不同的参数实例化出不同的类型，因此虚函数表中需要在编译时装入所有实例类型，无法实现，而且内存消耗代价过高，因此不能将模板成员函数定义为虚函数。返回原题\n\n\n\n\n\n\n\nauto：由编译器去分析表达式所属的类型；\nshared_ptr：智能指针，允许多个shared_ptr指针指向同一个对象，采用引用计数，当计数为0时，自动释放自己所管理的对象；\nunique_ptr：一个unique_ptr拥有它所指向的对象，某个时刻只能有一个unique_ptr指向一个给定对象，当unique_ptr被销毁时，它所指向的对象也被销毁。不支持普通的拷贝和赋值操作。\nweak_ptr：是一个不控制所指向对象生存期的智能指针，它指向一个由shared_ptr管理的对象。将一个weak_ptr绑定到一个shared_ptr不会改变其引用计数。一旦最后一个指向对象的shared_ptr被销毁时，即使有weak_ptr指向对象，对象也会被释放。\nmove：将一个左值转为对应的右值引用类型。\nforward：使用forward转发参数时会保留参数的左右值类型。格式：std::forward&lt;T&gt;(t)\n完美转发：使用模板函数转发参数时，会保留参数的左右值类型。\nRAII机制（Resourse Acquisition Is Initialization，资源获取即初始化）：用于管理资源、避免泄漏。通过把资源用类封装起来，对资源操作都在类的内部，在析构函数内释放资源，从而当定义的局部变量生命期结束时，它的析构函数就会自动地被调用，便无需程序员显示地去调用释放资源的操作了。\nlock_guard：做互斥量mutex的RAII。在构造lock_guard对象时，传入的mutex对象会被当前线程锁住，析构时，它所管理的mutex对象会自动解锁。lock_guard并不负责管理mutex对象的生命周期，只是简化了其上锁和解锁操作，而且不必担心异常安全问题。返回原题\n\n\n\n\n\n\n\n使用const_cast：例如：\n123const char c = 'C'; const char* pc = &amp;c; char* p = const_cast&lt;char*&gt;(pc);\n\n  返回原题\n\n\n\n\n\n\n\n\n访问权限：private成员仅供类内部成员和友元函数访问；protected成员在没有继承时和private访问权限相同；public成员可供类内部成员、友元函数、类对象实例访问。\n继承时的访问权限：\npublic派生：基类private在派生中不可见，基类protected和private在派生类中保留原有访问权限；派生类实例对象仅可访问基类的public成员；\nprotected派生：基类private在派生类中不可见，基类protected和private在派生类中均变成protected成员；派生类对象不可访问基类的任何成员；\nprivate派生：基类private在派生类中不可见，基类protected和private在派生类中均变成private成员；派生类对象不可访问基类中的任何成员；返回原题\n\n\n\n\n\n\n\n\n\n改变生命期：将其存储在全局（静态）区，程序运行结束后，才释放内存；\n改变作用域：将全局变量和函数声明为static后，会将其对其他源文件隐藏；\n默认初始化为0：全局静态区中所有字节默认都是0x00。返回原题\n\n\n\n\n\n\n\nvector的iterator在删除或增加一个元素后，后面的就可能失效了；而list的iterator在删除或添加元素后还可以继续使用。\nvector的iterator支持“+”、“+=”、“&gt;”等操作符，而由于list在内存空间上不是连续的，所以list的iterator不支持以上操作，只支持“++”。返回原题\n\n\n\n\n\n\n\nprintf需要指定格式，而cout无需指定格式；\nprintf是函数，而cout是ostream对象，和&lt;&lt;搭配使用；\nprintf是实参函数，没有类型检查，不安全；cout是通过运算符重载实现的，安全；\nprintf会将输出立刻显示在屏幕上，而cout会先存入缓冲区，在进行刷新缓冲操作后才会显示在屏幕上（常见缓冲刷新操作：flush，endl，调用cerr、clog、cin，退出程序）；\nprintf遇到不认识的类型的就没办法了，而cout对于不认识的类型可以通过重载来解决。返回原题\n\n\n\n\n\n\n\n当不使用模板类时，编译器不会去实例化它；当使用它时，编译器才会去实例化它。\n编译器一次只能处理一个单元，即处理一个cpp文件，所以实例化时需要看到模板的完整定义，因此需要放到.h文件中。\ncpp在编译期间不能决定模板参数的类型，所以不能生成模板函数的实例，因此会把模板类型带到链接期间，如果这个期间有函数调用了该实例，而由于没有把模板实例到特定类型，就会导致编译错误。返回原题\n\n\n\n\n\n\n\n容器：可容纳一些数据的模板类。\n迭代器：用于遍历容器中的数据对象。\n算法：处理容器中数据的方法或操作。\n分配器：给容器分配存储空间。\n仿函数：用于协助算法完成各种操作。\n配接器：用于套接适配仿函数。返回原题\n\n\n\n\n\n\n\nconst修饰的类成员或引用成员：在声明后马上要初始化，在构造函数中的操作为赋值，是不被允许的。\n子类初始化父类的私有成员：需要在参数初始化列表中显示调用父类构造函数；\n对象成员：数据成员是对象，并且对象只有含参数的构造函数。返回原题\n\n\n\n\n\n\n\nstruct和class的区别：\n都可以定义类，都可以用于继承。但struct的默认访问权限和继承方式是public，而class默认是private；\nclass可定义模板形参；\nstruct可以在定义的时候直接以{}对其成员赋初值，而class不可以。\n\n\nstruct和union的区别：\n两者都是用不同的数据类型成员组成，但在任何特定时刻，共用体只存放一个被选中的成员，而结构体则存放所有的成员变量；\n对共用体的不同成员赋值，会将原有值覆盖，而对结构体的不同成员赋值是互不影响的；\nstruct各成员有自己独立的内存空间，同时存在；而struct的所有成员不能同时占用它的内存空间，不能同时存在；\nsizeof(struct)会返回对齐之后所有成员大小相加之和，而sizeof(union)返回最大成员变量的大小。返回原题\n\n\n\n\n\n\n\n\n\nmalloc是c语言函数，而new是C++的运算符；\n都用于申请动态内存，但new比malloc更加智能，new在对象创建的时候自动执行构造函数；\nnew返回指定类型的指针，并自动计算出所需要的大小，而malloc必须用户指定大小，并且返回类型为void*，必须强行转换为实际类型的指针。返回原题\n\n\n\n\n\n\n\ndelete释放new分配的单个对象指针指向的内存，delete[]释放new分配的对象数组指针指向的内存；\n\n对于简单的类型，使用new分配的不管是数组不是非数组形式内存空间，用两种方式均可。\n123int *a = new int[10];delete a;delete[] a; // 与上式等价\n\n对于类类型，如果使用new分配的是数组形式的内存空间a[10]，用delete只会调用a[0]的析构函数，从而造成内存泄漏，因此此种情况下只能用delete[]。返回原题\n\n\n\n\n\n\n\n\n循环引用时可引起内存泄漏，即两个shared_ptr相互引用，引用计数都是1，不能自动释放。\n解决办法：使用弱引用weak_ptr来打破循环引用。返回原题\n\n\n\n\n\n\n\n对齐的原因：\n各个硬件平台对存储空间的处理上有很大的不同，一些平台对某些特定类型的数据只能从某些特定地址开始存取。\n效率上的考虑。比如一个int型数据存放在偶地址开始的地方，那么一个读周期就可以32bit，而如果存放在奇地址开始的地方，就需要2个读周期，并对再次读出的结果的高低字节进行拼凑才能得到32bit数据。\n\n\n修改对齐：\n使用伪指令#pragma pack(n)，编译器将按照n个字节对齐；\n使用伪指令#pragma pack()，取消自定义字节对齐方式。返回原题\n\n\n\n\n\n\n\n\n\nmemcpy：\n形式：void *memcpy(void *dest, const void *src, size_t n);\n描述：memcpy()函数从src内存中白拷贝n个字节到dest内存区域，但是源和目的内存区域不能重叠。返回指向dest的指针。\n\n\nmemmove：\n形式：void *memmove(void *dest, const void *src, size_t n);\n描述：memmove()函数从src内存中拷贝n个字节到dest内存区域，但是源和目的的内存可以重叠。返回一个指向dest的指针。\n\n\n唯一区别：memmove()允许源和目的区域重叠，而memcpy()不允许。返回原题\n\n\n\n\n\n\n\n描述：一个定义为volatile的变量是说这变量可能会被意想不到地改变，于是编译器就不会去优化这个变量的值了。即优化器在用到这个变量时必须每次都小心地重新读取这个变量的值，而不是使用保存在寄存器里的备份。\n用处：\n硬件寄存器（如：状态寄存器）\n一个中断服务子程序中会访问到的非自动变量\n多线程应用中被几个任务共享的变量返回原题\n\n\n\n\n\n\n\n\n\n详见CSDN。返回原题\n\n\n\n\n\n\n\n函数重载：在同一作用域内，可以有一组具有相同函数名、不同参数列表的函数，这组函数被称为重载函数。\n底层实现：C++利用name mangling（倾轧）技术，即在编译过程中，将函数、变量的名称重新改编的机制，来改变函数名，区分参数不同的同名函数。对于函数void foo(int x, int y);，在被C编译器编译后在库中的名字为_foo，而C++编译器则会产生像_foo_int_int的名字，所以编译之后C仍然无法辨别函数名相同、参数不同的函数。返回原题\n\n\n\n\n\n\n\nprintf是从右向左进行入栈的，后面的变量入栈后，前面的字符串再入栈。\nprintf的实现中有va_arg、va_start等函数，用于解析字符串，检查有多少个%d、%x等之类的符号，通过这个确认后面跟了多少参数。\n详见：C可变参数实现原理。返回原题\n\n\n\n\n\n\n\n参数入栈：将参数按照调用约定（C是从右向左）依次压入系统栈中； \n返回地址入栈：将函数调用语句的下一条语句的地址保存在栈中，以便函数调用完成后返回；\n跳转到函数体处；\n如果函数体内定义了变量，将变量压栈；\n将每一个形参以栈中对应的实参值取代，执行函数体的功能体；\n将函数体中的变量、保存到栈中的实参值，依次从栈中取出，释放栈空间（出栈）；\n执行return语句返回。从栈中取出刚开始调用函数时压入的地址，跳转到函数的下一条语句。当return语句不带有表达式时，按照保存的地址返回；否则将计算出的return表达式的值保存起来，然后再返回。返回原题\n\n\n\n\n\n\n\n指针是一个变量，存储一个地址，指向内存中的一个单元，而引用是另一个变量的别名；\n指针和引用的自增运算意义不一样；\n对指针进行sizeof()操作，得到的是指针本身的大小，而对引用进行sizeof()操作，得到的是对象的大小；\n有指向指针的指针，即多级指针，但没有多级引用；\n引用定义时必须赋初值，而指针定义时可以不用赋初值；\n有const指针，但没有const引用；\n指针的值在初始化之后可以改变，即指向其它的存储单元，而引用在进行初始化后就不能再改变了返回原题\n\n\n\n\n\n\n\n区别：\n展开的时间不同：宏函数由预处理器对宏进行替代，而内联函数是通过编译器控制来实现的。\n宏函数只是做简单的文本替换，编译内联函数可以嵌入到目标代码；\n内联函数会做类型、语法检查，而宏函数不具有这样的功能。\n内联函数是函数，而宏函数不是；\n\n\n宏函数：\n优点：宏在调用的地方，仅仅是参数的替换，不会出现函数调用那种压栈、出栈时的时间和空间的开销，执行效率高；\n缺点：没有检查参数类型是否匹配，不安全。\n\n\n内联函数：\n优点：函数代码被放入符号表中，在使用时进行替换，效率很高；会有类型检查，因此够安全；可以作为类的成员函数，可以使用所在类的保护成员及私有成员。\n缺点：如果函数代码过长，使用内联将消耗过多内存；如果函数体内有循环，那么 执行函数代码时间比调用开销大。返回原题\n\n\n\n\n\n\n\n\n\n函数桢栈：本质是一种栈，专门用于保存函数调用过程中的各种信息（参数、返回地址、本地变量）。每调用一个函数，就会生成一个新的栈桢。\n桢栈包括：函数的返回地址和参数、临时变量、函数调用的上下文；\n函数调用参考：第46题。返回原题\n\n\n\n\n\n\n\n封装：把客观事物封装成抽象的类，并且类可以把自己的数据和方法只让可信的类或对象操作，对不可信的进行信息隐藏；\n继承：可以使用现有类的所有功能，并在无需重新编写原来的类的情况下对这些功能进行扩展。继承的过程就是从一般到特殊的过程。\n继承的实现方式有三类：实现继承、接口继承和可视继承。\n实现继承：使用基类的属性和方法而无需额外编码的能力；（非虚函数）\n接口继承：仅使用属性和方法的名称，但是子类必须提供实现的能力；（纯虚函数）\n可视继承：子窗体（类）使用基窗体（类）的外观和实现代码的能力。（虚函数）\n\n\n多态：C++多态意味着调用成员函数时，会根据调用的对象的类型来执行不同的函数。\n多态的实现方式有两种：覆盖和重载。\n静态多态和动态多态。返回原题\n\n\n\n\n\n\n\n\n\nC语言实现封装性：将属性和方法（函数指针）封装到特定结构体中；\nC语言实现继承性：使用组合，即在新有类中定义已有类的对象，就可以在新类中通过已有类的对象访问已有类自己的成员变量与函数；\nC语言实现多态：通过函数覆盖实现。返回原题\n\n\n\n\n\n\n\n泛型编程：以独立于任何特定类型的方式编写代码。\n在C++中，模板是泛型编程的基础。返回原题\n\n\n\n\n\n\n\n编译器并不是把函数模板处理成能够处理任意类的函数。编译器从函数模板通过具体类型产生不同的函数，编译器会对函数模板进行两次编译：在声明的地方对模板代码本身进行编译，在调用的地方对参数替换后的代码进行编译。返回原题\n\n\n\n\n\n\n\n将类的构造函数和析构函数设为private：缺点是不能定义类的对象，解决办法是写一个静态方法来创建和删除类对象，因而只能在堆上建立对象；\n\n使用虚继承：既可在堆上创建对象，也可在栈上创建对象，代码如下：\n1234567891011121314151617181920212223template&lt;typename T&gt;class Base &#123;public:    friend T;private:    Base() &#123;&#125;    ~Base() &#123;&#125;&#125;// 必须是虚继承：// 若非虚继承，则由于每个类只初始化自己的直接基类，因此A初始化FinalClass，FinalClass初始化Base类，不会报错；// 若是虚继承，则由最低层次的派生类构造函数初始化虚基类，而A不是Base的友元，无法调用其私有构造函数，帮编译报错。class FinalClass: virtual public Base&lt;FinalClass&gt; &#123;public:    FinalClass() &#123;&#125;&#125;class A: public FinalClass &#123;public:    A(); // 继承时报错，无法通过编译    // 解释：由于FinalClass使用了虚继承，所以要创建A对象，A类的构造函数就要先构造Base类的构造函数，    // 而Base类的构造函数为私有成员，仅能友元FinalClass访问（友元无法继承），所以无法构造Base类，    // 因而编译错误。&#125;\n\n  返回原题\n\n\n\n\n\n\n\n\n宏定义是在预处理阶段进行的文本替换，而枚举是在编译的阶段进行的处理；\n宏作为指令存储在代码段，而枚举作为常量，存储在数据区；\n枚举常量具有类型，而宏没有类型；\n枚举一次可以定义大量相关的常量，而宏只能定义一个。返回原题\n\n\n\n\n\n\n\n函数指针：指向函数的指针，如int(*pf)(char, bool)，为指向返回类型为int、参数为(char, bool)的函数的指针。\n指针函数：返回值会指针的函数。如int* fun(char a, bool b)，其本身是个函数，返回值为int*型指针。返回原题\n\n\n\n\n\n\n\n迭代器和指针的区别：迭代器不是指针，是类模板，但表现得像指针（通过重载指针的一些运算符*、-&gt;、++、–等，来模拟指针的功能）。迭代器本质是封装了原生指针，提供了比指针更高级的行为。迭代器返回的是对象的引用而非对象的值。\n为何要用迭代器：迭代器就是把不同集合类的访问逻辑抽象出来，使得不用暴露集合内部的结构而达到循环遍历集合的结果。返回原题\n\n\n\n\n\n\n\n\ninline函数是将该函数的代码展开到调用该函数的地方，所以inline函数是没有地址的。\nvirtual函数的调用时在程序运行时根据调用函数的对象时父类对象还是子类对象来决定该调用哪一个虚函数，其中的原理就是通过vptr，vtbl等实现的，vptr指向vtbl中的虚函数，vbtl保存了虚函数的地址入口，所以每个虚函数都有个地址，这个地址保存在对应的虚函数表中，这个显然与inline函数没有地址是相违背的，所以inline和virtual是存在冲突的。返回原题\n\n\n\n\n\nRTTI(Run-Time Type Idetification，运行时类型检查)，提供了运行时确定类对象类型的方法。\nRTTI提供了两个有用的操作符：\ntypeid：返回指针或对象的实际类型。\ndynamic_cast：将基类指针或引用安全地转化为派生类的指针或引用。返回原题\n\n\n\n\n","dateCreated":"2019-08-15T19:50:44+08:00","dateModified":"2019-08-22T22:59:09+08:00","datePublished":"2019-08-15T19:50:44+08:00","description":"开发岗面试问题总结之C/C++语言","headline":"开发岗面试问题总结：C/C++语言","image":["thumbnail.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/2019/08/15/DevelopingInterview/"},"publisher":{"@type":"Organization","name":"Liu Yi","sameAs":["https://github.com/liuyihust","mailto:liuyihust@foxmail.com"],"image":"portrait.gif","logo":{"@type":"ImageObject","url":"portrait.gif"}},"url":"/2019/08/15/DevelopingInterview/","keywords":"求职, 面试","thumbnailUrl":"thumbnail.png"}</script>
+    <meta name="description" content="开发岗面试问题总结之C/C++语言">
+<meta name="keywords" content="开发,面试,求职 - C - C++">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="开发岗面试问题总结：C&#x2F;C++语言">
+<meta property="og:url" content="/2019/08/15/DevelopingInterview/index.html">
+<meta property="og:site_name" content="Liuyee&#39;s Blog">
+<meta property="og:description" content="开发岗面试问题总结之C/C++语言">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-08-22T14:59:09.374Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="开发岗面试问题总结：C&#x2F;C++语言">
+<meta name="twitter:description" content="开发岗面试问题总结之C/C++语言">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="/assets/images/portrait.gif"/>
+    
+    
+        <meta property="og:image" content="/2019/08/15/DevelopingInterview/thumbnail.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="/2019/08/15/DevelopingInterview/thumbnail.png"/>
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/all.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+
+    
+    <script type="text/javascript">
+	    var _hmt = _hmt || [];
+	    (function() {
+	      var hm = document.createElement("script");
+	      hm.src = "//hm.baidu.com/hm.js?9090c30aa810eb2d002253f0d0f5bbea";
+	      var s = document.getElementsByTagName("script")[0];
+	      s.parentNode.insertBefore(hm, s);
+	    })();
+    </script>
+
+
+    
+        
+            <link rel="stylesheet" href="/assets/css/gitment.css">
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/ "
+            aria-label=""
+        >
+            Liuyee&#39;s Blog
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="打开链接: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/portrait.gif" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="阅读有关作者的更多信息"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/portrait.gif" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Liu Yi</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>无趣的人生，有趣地生活。<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=245 height=52 align="middle" src="//music.163.com/outchain/player?type=2&id=26294503&auto=1&height=32"></iframe></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="https://github.com/liuyihust"
+                            title="GitHub"
+                        >
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="mailto:liuyihust@foxmail.com"
+                            title="邮箱"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">邮箱</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title">
+            开发岗面试问题总结：C/C++语言
+        </h1>
+    
+    
+        <div class="post-meta">
+    
+
+    <time datetime="2019-08-15T19:50:44+08:00">
+	
+		    8月 15, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Job-Hunting/">Job Hunting</a>
+
+
+    
+
+    <br>
+    <i class="fas fa-file-word"></i>
+    <font>本文字数:</font>
+    <span class="post-count">10.7k</span>
+    <span class="post-meta-divider">|</span>
+
+    <i class="far fa-clock"></i>
+    <font>建议阅读时长:</font>
+    <span class="post-count">37</span>
+    <font> min</font>
+
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+
+
+
+<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><ol>
+<li><span id="Q01-1"></span>一个C++源文件从文本到可执行文件经历的过程。<a href="#A01-1">答案</a> </li>
+<li><span id="Q01-2"></span>#include 的顺序以及尖叫括号和双引号的区别。<a href="#A01-2">答案</a> </li>
+<li><span id="Q01-3"></span>进程和线程的区别，为什么要有线程？<a href="#A01-3">答案</a> </li>
+<li><span id="Q01-4"></span>C++11有哪些新特性？<a href="#A01-4">答案</a> </li>
+<li><span id="Q01-5"></span>为什么可变参数模板至关重要以及右值引用，完美转发，lambda<a href="#A01-5">答案</a> </li>
+<li><span id="Q01-6"></span>malloc的原理，brk系统调用干什么的，mmap呢？<a href="#A01-6">答案</a></li>
+<li><span id="Q01-7"></span>C++的内存管理方式，STL的allocaotr，最新版本默认使用的分配器。<a href="#A01-7">答案</a></li>
+<li><span id="Q01-8"></span>C++/C的内存分配，栈和堆的区别，为什么栈要快？<a href="#A01-8">答案</a></li>
+<li><span id="Q01-9"></span>C++和C的区别。<a href="#A01-9">答案</a></li>
+<li><span id="Q01-10"></span>如何判断内存泄露，野指针是什么，内存泄漏怎么办？<a href="#A01-10">答案</a></li>
+<li><span id="Q01-11"></span>内存分布<a href="#A01-11">答案</a></li>
+<li><span id="Q01-12"></span>讲讲虚函数（内存布局，虚函数的局限，C++11提供的类似虚函数的新函数，两种动态多态的实现及优缺点）<a href="#A01-12">答案</a></li>
+<li><span id="Q01-13"></span>类什么时候会析构？<a href="#A01-13">答案</a></li>
+<li><span id="Q01-14"></span>虚函数底层机制。<a href="#A01-14">答案</a></li>
+<li><span id="Q01-15"></span>C++解决内存泄漏方法。<a href="#A01-15">答案</a></li>
+<li><span id="Q01-16"></span>查内存泄露 （valgrind）<a href="#A01-16">答案</a></li>
+<li><span id="Q01-17"></span>C++处理异常可以有两种方式，一种是throw异常，一种是在函数中<br>return错误码。你怎么理解这两个方法的优劣.<a href="#A01-17">答案</a></li>
+<li><span id="Q01-18"></span>C++11 future和promise，poll，libev优点。<a href="#A01-18">答案</a></li>
+<li><span id="Q01-19"></span>如何查看函数所占用的内存。<a href="#A01-19">答案</a></li>
+<li><span id="Q01-20"></span>C++多态是怎么实现的，哪些函数不能是虚函数？<a href="#A01-20">答案</a></li>
+<li><span id="Q01-21"></span>malloc(0)返回什么？<a href="#A01-21">答案</a></li>
+<li><span id="Q01-22"></span>静态变量什么时候初始化？<a href="#A01-22">答案</a></li>
+<li><span id="Q01-23"></span>为什么析构函数要是虚函数，为什么C++没有默认析构函数为虚函数。<a href="#A01-23">答案</a></li>
+<li><span id="Q01-24"></span>模板成员函数不可以是虚函数。<a href="#A01-24">答案</a></li>
+<li><span id="Q01-25"></span>auto，shared_ptr, weak_ptr, unique_ptr，forward, move完美转发，RAII机制，lock_guard。<a href="#A01-25">答案</a></li>
+<li><span id="Q01-26"></span>修改指向const对象的指针。<a href="#A01-26">答案</a></li>
+<li><span id="Q01-27"></span>C++中类成员的访问权限和继承权限问题。<a href="#A01-27">答案</a></li>
+<li><span id="Q01-28"></span>C++中static关键字的作用。<a href="#A01-28">答案</a></li>
+<li><span id="Q01-29"></span>vector 跟 list 的iterator有什么区别？<a href="#A01-29">答案</a></li>
+<li><span id="Q01-30"></span>cout和printf有什么区别？<a href="#A01-30">答案</a></li>
+<li><span id="Q01-31"></span>为什么模板类一般都是放在一个h文件中？<a href="#A01-31">答案</a></li>
+<li><span id="Q01-32"></span>STL的基本组成。<a href="#A01-32">答案</a></li>
+<li><span id="Q01-33"></span>必须使用初始化列表初始化的成员变量。<a href="#A01-33">答案</a></li>
+<li><span id="Q01-34"></span>struct和class的区别 、 union和struct的区别。<a href="#A01-34">答案</a></li>
+<li><span id="Q01-35"></span>c++获得内存的各种方式</li>
+<li><span id="Q01-36"></span>malloc和new的区别。<a href="#A01-36">答案</a></li>
+<li><span id="Q01-37"></span>delete加[]与不加[]有什么区别？数组对象的时候怎么析构函数怎么释放？<a href="#A01-37">答案</a></li>
+<li><span id="Q01-38"></span>智能指针有没有内存泄露的情况？<a href="#A01-38">答案</a></li>
+<li><span id="Q01-39"></span>struct中为什么要字节对齐，怎么修改默认对齐方式。<a href="#A01-39">答案</a></li>
+<li><span id="Q01-40"></span>java中有没有指针，所有的都是智能指针</li>
+<li><span id="Q01-41"></span>memcpy和memmove的区别，剖析性能差异。<a href="#A01-41">答案</a></li>
+<li><span id="Q01-42"></span>volatile的作用。<a href="#A01-42">答案</a></li>
+<li><span id="Q01-43"></span>画一下类的对象的内存布局。<a href="#A01-43">答案</a></li>
+<li><span id="Q01-44"></span>函数重载是怎么实现的（编译器在汇编层结合函数名和参数类型给重载等函数不同的汇编实现、C/C++ 时混编要使用extern告诉编译器这是不支持重载的C的代码）。<a href="#A01-44">答案</a></li>
+<li><span id="Q01-45"></span>printf可变参数怎么实现的？<a href="#A01-45">答案</a></li>
+<li><span id="Q01-46"></span>解释一下函数调用是怎么样的过程（怎么传参）。<a href="#A01-46">答案</a></li>
+<li><span id="Q01-47"></span>C++引用和指针的区别。<a href="#A01-47">答案</a></li>
+<li><span id="Q01-48"></span>内联函数与宏函数的区别以及各自优缺点。<a href="#A01-48">答案</a></li>
+<li><span id="Q01-49"></span>代码可扩展性</li>
+<li><span id="Q01-50"></span>函数栈帧。<a href="#A01-50">答案</a></li>
+<li><span id="Q01-51"></span>面向对象特性。<a href="#A01-51">答案</a></li>
+<li><span id="Q01-52"></span>C实现C++特性。<a href="#A01-52">答案</a></li>
+<li><span id="Q01-53"></span>泛型编程。<a href="#A01-53">答案</a></li>
+<li><span id="Q01-54"></span>模板底层实现原理，如何把int和T绑定？<a href="#A01-54">答案</a></li>
+<li><span id="Q01-55"></span>STL库常用的接口</li>
+<li><span id="Q01-56"></span></li>
+<li><span id="Q01-57"></span>C语言怎么生成随机数；</li>
+<li><span id="Q01-58"></span>A* a = new A; a-&gt;i = 10;在内核中的内存分配上发生了什么？</li>
+<li><span id="Q01-59"></span>给你一个类，里面有static，virtual，之类的，问你这个类的内存分布。</li>
+<li><span id="Q01-60"></span>如何给指定物理地址赋值，如何跳转到制定物理地址执行。</li>
+<li><span id="Q01-61"></span>析构函数的作用</li>
+<li><span id="Q01-62"></span>lambda的实质（编译器层面）</li>
+<li><span id="Q01-63"></span>以下代码中这两个指针的区别，以及第一个指针离开作用域要delete，那第二个指针是否必须要delete？<a href="#A01-63">答案</a> </li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> buff[<span class="number">1024</span>];</span><br><span class="line">    A* ptr1 = <span class="keyword">new</span> ptr();</span><br><span class="line">    A* ptr2 = <span class="keyword">new</span> (buff) A;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="64">
+<li><span id="Q01-64"></span>什么时候需要重载，重载有什么坏处</li>
+<li><span id="Q01-65"></span>怎么实现类A可以支持以下工作？重载运算符应该是全局的还是类内成员函数，两者有什么区别？</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>;</span></span><br><span class="line">A a;</span><br><span class="line">a= a + <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<ol start="66">
+<li><span id="Q01-66"></span>如果不想一个类被继承应该怎么办？<a href="#A01-66">答案</a></li>
+<li><span id="Q01-67"></span>宏定义和枚举的区别。 <a href="#A01-67">答案</a></li>
+<li><span id="Q01-68"></span>函数指针和指针函数的区别。写个例子出来。<a href="#A01-68">答案</a></li>
+<li><span id="Q01-69"></span>系统调用是什么。你用过哪些系统调用。什么系统调用会耗时长。</li>
+<li>STL中迭代器的作用，有指针为何还要迭代器。<a href="#A01-70">答案</a> </li>
+<li>C++ STL 内存优化</li>
+<li>vector和list的区别的，应用，越详细越好。</li>
+<li>给你1MB的内存，你们怎么设计， 才能使其利用率最高，产生的碎片最少</li>
+<li>C++ 类成员初始化，为什么按顺序顺序， 构造函数的调用和 代码扩展，还有初始化列表？</li>
+<li>类成员初始化的方式。</li>
+<li>const成员函数的理解和应用。</li>
+<li>这四者的区别：    <ul>
+<li>const char* arr = “123”;</li>
+<li>char* brr = “123”;</li>
+<li>const char crr[] = “123”;</li>
+<li>char drr[] = “123”;</li>
+</ul>
+</li>
+<li>i++和++i的区别以及实现；</li>
+<li>能写个函数在main函数执行前先运行的吗？</li>
+<li>手写 share_ptr</li>
+<li>C++运行池</li>
+<li>当多个文件包含头文件时，会不会存在多份vector<int>的实现</int></li>
+<li>STL里resize和reserve的区别</li>
+<li>撸一个std::lower_bound，不断优化，直到最坏复杂度也为O(logN)</li>
+<li>Q：C++里是怎么定义常量的？常量存放在内存的哪个位置？</li>
+<li>C++ 类内可以定义引用数据成员吗？</li>
+<li>隐式类型转换，如何避免</li>
+<li>explicit关键字</li>
+<li>C++类型转换有四种</li>
+<li><span id="Q01-90"></span>说说你了解的RTTI.<a href="#A01-90">答案</a> </li>
+<li>C++函数栈空间的最大值 </li>
+<li>extern “C” ？</li>
+<li>那么C++的锁你知道几种。</li>
+<li>C语言如何处理返回值？</li>
+<li>STL中vector的实现机制</li>
+<li>STL标准库中的数据结构占用的哪一部分的内存</li>
+<li>C++  的类中那些成员会被算入sizeof中</li>
+<li>为什么要内存对齐</li>
+<li>为什么会有大端小端，htol这一类函数的作用</li>
+<li>手写一个智能指针类，怎么处理并发的情况，加锁的话怎么提高效率</li>
+<li>说说右值引用。说说右值移动构造。一定会有控制权移交吗？为什么会有性能提升？你觉得这个新特性用的多吗？</li>
+<li>那如果析构抛出异常怎么办？</li>
+<li><span id="Q01-103"></span>inline和virtual能够同时修饰吗？<a href="#A01-103">答案</a> </li>
+<li>一个32位的机子，最多有多少的内存，实际内存有这么多吗</li>
+<li>模板的作用，给定一个数组和两个指针，手写一个队列模板</li>
+<li>全局变量和static变量的区别.如果在两个.h文件中声明两个同名变量会怎么样？ 如果使用extern 如果没有使用·</li>
+<li>浅拷贝和深拷贝的区别？</li>
+<li>如果一个函数传入一个对象，那么这是浅拷贝还是深拷贝？</li>
+<li>形参实参的区别</li>
+<li>c++各种new的原理和应用——operator new,placement new，new operator</li>
+<li>string的length和size一样吗</li>
+<li>string是怎么增长的</li>
+<li>虚函数，虚函数表，虚函数表是公用的吗</li>
+<li>从汇编层去解释一下引用</li>
+<li>STL allocator</li>
+<li>iterator 与 container 之间的耦合关系</li>
+<li>Type traits的作用</li>
+<li>传入一个char *变量,怎样求这个字符数组的长度 用strlen还是sizeof啊?</li>
+<li>识别手机号的正则表达式</li>
+<li>C++中，::有什么意义</li>
+<li>能否显示的调用构造函数和析构函数，举例说明</li>
+<li>知道前向声明吗，有什么作用，什么情况下可以使用，举例</li>
+<li>内联函数与宏函数的区别以及各自优缺点</li>
+<li>C++隐式函数举例</li>
+<li>静态链接  动态链接</li>
+<li>Vector内存泄漏怎么办</li>
+<li>父类指针查找虚表的过程。</li>
+<li></li>
+<li>函数只声明不定义会在什么时候报错？（如果不调用的话没问题，调用的话会在链接时出错）。</li>
+<li>模板底层实现原理，如何把int和T绑定？</li>
+<li>那vs出现链接错误，符号未定义什么情况？</li>
+<li>手动实现STL的equal_range()</li>
+</ol>
+<hr>
+<h1 id="参考答案"><a href="#参考答案" class="headerlink" title="参考答案"></a>参考答案</h1><ol>
+<li><p><span id="A01-1"> 包括四个步骤：</span></p>
+<ul>
+<li>预处理（生成.ii文件）：<ul>
+<li>对#define进行宏展开</li>
+<li>处理所有条件编译指令，如#if、#ifdef、#elif、#ifndef、#endif等</li>
+<li>处理#include语句，此过程是递归的</li>
+<li>删除所有的注释</li>
+<li>添加行号和文件标识</li>
+<li>保留所有的#pragma编译器指令</li>
+</ul>
+</li>
+<li>编译（生成.s汇编文件）：<ul>
+<li>进行一系列词法、语法、语义分析，以及优化后生成相应的汇编代码文件。</li>
+</ul>
+</li>
+<li>汇编（生成.o或.obj目标文件）：<ul>
+<li>将汇编代码转化为机器可以执行的代码，每一个汇编语句几乎都对应一个机器指令。</li>
+</ul>
+</li>
+<li>链接（生成.out或.exe可执行文件）：<ul>
+<li>主要包括地址和空间分配、符号决议和重定位。<br><a href="#Q01-1">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><span id="A01-2"> 
+
+<ul>
+<li>尖括号：包含系统标准库头文件时使用，从系统文件目录下查找；</li>
+<li>双引号：包含自定义头文件时使用，从当前源文件目录下查找。<a href="#Q01-2">返回原题</a></li>
+</ul>
+</span></li>
+<li><span id="A01-3"> 
+
+<ul>
+<li>区别：<ul>
+<li>进程和线程是操作系统不同的资源管理方式。</li>
+<li>进程拥有独立的地址空间，在保护模式下，进程崩溃不会影响其它进程，而线程之间共享内存，线程崩溃，会导致同一进程下的其它线程崩溃。</li>
+<li>一个程序至少有一个进程，一个进程至少有一个线程。</li>
+<li>进程是资源分配的最小单位，线程是CPU调度的最小单位。</li>
+<li>不同进程间资源很难共享，但同一进程下的线程间则很容易。</li>
+</ul>
+</li>
+<li>为什么要有线程？<ul>
+<li>线程相比进程而言，更加轻量、更易创建和销毁。</li>
+<li>同一进程中的线程之间共享内存，使得它们之间互相通信非常容易，互相切换也更加容易，极大地提高了运行效率；</li>
+<li>线程的划分尺度小于进程，使得多线程的程序并发性高；<br><a href="#Q01-3">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="4">
+<li><span id="A01-4"> 
+
+<ul>
+<li><p>对象结构改进：</p>
+<ul>
+<li>继承基类的构造函数（using 基类名：基类名）；</li>
+<li>默认成员值，在声明数据的时候赋一个默认值；</li>
+<li>委托构造函数，用其它构造函数来做它的一部分或全部工作；</li>
+<li>override关键字，防止因拼写错误而没有正确重载成员函数；</li>
+<li>可以使用花括号初始化一个类的实例；</li>
+<li>final关键字，防止成员函数被派生类重载 ；</li>
+</ul>
+</li>
+<li><p>其他核心语言新增功能：</p>
+<ul>
+<li><p>新增基于范围的for循环（for (auto i: array)）；</p>
+</li>
+<li><p>自动类型推断auto；</p>
+</li>
+<li><p>匿名函数lambda：[捕获列表](参数列表)-&gt;返回类型{函数体}；</p>
+</li>
+<li><p>long long int类型，通常是64位；</p>
+</li>
+<li><p>移动语义：如果两个类对象较大时，交换起来非常耗时，这时便可以只转换所有权。例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(type&amp; a, type&amp; b)</span> </span>&#123; </span><br><span class="line">    type t = <span class="built_in">std</span>::move(a); </span><br><span class="line">    a = <span class="built_in">std</span>::move(b); </span><br><span class="line">    b = <span class="built_in">std</span>::move(t); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>右值引用：可以绑定即将销毁的右值。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">type&amp;&amp; rr = rvalue;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>智能指针：shared_ptr和unique_ptr，取代了auto_ptr，防止内存泄漏；</p>
+</li>
+<li><p>原始字符串字面量，可以使用R前缀，将不会识别转义序列。如</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> s = R<span class="string">"C:\user\temp"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>静态断言：使用static_assert使在编译时如果未满足条件则对错误信息打标记，这在模板中使用非常方便；</p>
+</li>
+<li><p>可变参数模板：可使用任意数量参数。如</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span>... TArgs&gt; </span><br><span class="line">printv(T v, TArgs... args) &#123; </span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; v &lt;&lt; <span class="built_in">endl</span>; </span><br><span class="line">    printv(args...);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>后置返回类型：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">template auto adding_func(const Lhs &amp;lhs, const Rhs &amp;rhs) -&gt; decltype(lhs+rhs) </span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> lhs + rhs; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>空指针常量nullptr；</p>
+</li>
+<li><p>static_cast将左值转化为右值引用；</p>
+</li>
+<li><p>constexpr将变量或函数声明为字面值类型；</p>
+</li>
+</ul>
+</li>
+<li><p>标准库扩展：</p>
+<ul>
+<li><p>标准库元组模板tuple；</p>
+</li>
+<li><p>随机数库random：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">uniform_int_distribution&lt;<span class="keyword">unsigned</span>&gt; u(<span class="number">0</span>,<span class="number">9</span>);</span><br><span class="line">default_random_engine e; </span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; u(<span class="number">3</span>) &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>正则表达式库regex<br><a href="#Q01-4">返回原题</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="5">
+<li><span id="A01-5"> 
+
+<ul>
+<li><p>可变参数模板：当我们既不知道想要处理的实参的数目，也不知道它们的类型时，可变参数模板是很有用的。格式：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> ...Ts&gt; </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(T v, Ts... args)</span> </span>&#123; </span><br><span class="line">    func(args...); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>完美转发：使用forward转发参数时会保留参数的左右值类型（格式：<code>std::forward&lt;T&gt;(t)</code>）</p>
+</li>
+<li><p>右值引用：必须绑定到右值的引用（typename&amp;&amp; val）</p>
+</li>
+<li><p>lambda函数：匿名函数，可以使代码变得简洁，不用费力去定义一个小函数。格式：<code>[捕获列表](参数列表)-&gt;返回类型{函数体}</code>，参数列表和返回类型可省略。<br><a href="#Q01-5">返回原题</a></p>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="6">
+<li><span id="A01-6"> 
+
+<ul>
+<li>malloc原理：根据用户要求，从堆里分配内存空间。为减少内存碎片和降低内存开销，采用内存池的方式。malloc利用隐式链表，在分配时遍历整个链表，选择合适的内存块分配。</li>
+<li>brk和mmap系统：内存分配会调用brk或mmap系统，小于128k时调用brk在堆区分配，大于128k时调用mmap在映射区分配。<br><a href="#Q01-6">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="7">
+<li><span id="A01-7">
+
+<ul>
+<li>C++内存管理方式：new和delete；</li>
+<li>STL中的Allocator：负责配置内存，但不负责构造对象（只相当于new的第一步）。为减少内存碎片，STL配置内存时采用两级配置器。当所需空间大于128B时采用第一级空间配置器，即使用malloc()等，小于128B时，采用第二级空间配置器，即内存池技术，通过空闲链表管理内存；</li>
+<li>默认分配器：std::alloc。<br><a href="#Q01-7">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="8">
+<li><span id="A01-8">
+
+<ul>
+<li>栈和堆的区别：。<ul>
+<li>分配方式：栈有动态分配和静态分配两种方式，而堆只有动态分配；</li>
+<li>分配大小：栈是由低地址扩展的数据结构，是一块连续的内存区域；而堆是由高地址扩展的数据结构，是不连续的内存区域；</li>
+<li>管理方式：栈由编译器自动分配和释放，而堆一般由程序员主动申请分配和释放，如果未能及时释放，可能会造成内存泄漏。</li>
+</ul>
+</li>
+<li>栈更快的原因：<ul>
+<li>栈是放在一块连续的内存区域上，所以数据定位的速度更快；而堆放在不连续的内存区域上，通过链表访问，访问效率更低；</li>
+<li>栈是CPU提供指令支持的，在指令的处理速度上，对栈数据的处理速度自然比操作系统支持的堆数据要快；</li>
+<li>栈放在一级缓存中，而堆放在二级缓存中，二者硬件性能差异巨大。<br><a href="#Q01-8">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="9">
+<li><span id="A01-9">
+
+<ul>
+<li>C是面向过程的，C++是面向对象的，有封装、继承、多态三大特性；</li>
+<li>C++是C的超集，有虚函数、内联函数、友元函数、引用、命名空间等；</li>
+<li>动态分配内存时，C是malloc/free，而C++是new/delete；</li>
+<li>输入和输出，C是scanf/printf，而C++是cin/cout；<br><a href="#Q01-9">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="10">
+<li><span id="A01-10">
+
+<ul>
+<li>内存泄漏：申请的一块内存没能及时释放，且没有指向它的指针了；</li>
+<li>野指针：指向不明区域的指针。原因：没有初始化的指针；指向堆区域的指针在释放内存后，没有置为nullptr；</li>
+<li>检查内存泄漏：<ul>
+<li>使用Linux环境下的内存泄漏检测工具Valgrind进行检测；</li>
+<li>写代码时添加内存分配和释放的统计功能，统计当前申请和释放的次数是否一致；</li>
+<li>使用BoundsChecker，BoundsChecker是一个运行时错误检测工具，它主要用于定位程序运行时所发生的错误；</li>
+<li>调试运行DEBUG版程序，运用以下技术：CRT（C run-time libraries）、运行时函数调用堆栈、内存泄漏时提示的内存分配序号（集成开发环境OUTPUT窗口），综合分析内存泄漏的原因，排除内存泄漏。</li>
+</ul>
+</li>
+<li>如何解决内存泄漏：养成良好的写代码习惯，自己动态分配的内存空间，一定要记得及时释放；使用智能指针。<br><a href="#Q01-10">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="11">
+<li><span id="A01-11">
+
+<ul>
+<li>栈区：由编译器自动分配和释放，存放局部变量、函数参数值等，类似于数据结构中的堆；</li>
+<li>堆区：由程序员主动申请分配和释放；</li>
+<li>代码区：存放函数体的二进制代码；</li>
+<li>全局（静态）区：用于存放全局变量、静态全局变量、静态局部变量；</li>
+<li>文字常量区：用于存放常量字符串。<br><a href="#Q01-11">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="12">
+<li><span id="A01-12">
+
+<ul>
+<li>虚函数内存布局：如果一个类定义了虚函数，则会生成一个虚函数指针，一般放在对象内存布局的第一个位置上（即对象地址为虚函数地址），虚函数指针指针虚函数表，虚函数表中存放的是一系列虚函数的地址，虚函数地址的顺序与类中虚函数声明的顺序一致。</li>
+<li>虚函数的局限：子类虚函数表与父类虚函数表的关系要么是继承、要么是重写、要么是新增，而对于继承的虚方法需要重复存储，浪费空间。</li>
+<li>两种多态：<ul>
+<li>静态多态：泛型编程（模板函数）和函数重载，编译时关联。<ul>
+<li>优点：类型安全性较高、耦合性低，集合的元素类型不再局限于指针，具体类可以只实现需要的接口，生成代码性能高；</li>
+<li>缺点：不能处理异类集合，可执行代码较大，模板库源码需要发布，对模板实参类型有约束。</li>
+</ul>
+</li>
+<li>动态多态：虚函数，运行时关联。<ul>
+<li>优点：能处理异类集合，可执行代码较小，可以完全编译而无需发布源码；</li>
+<li>缺点：耦合性高（继承 的耦合性高于组合），类型安全性差（编译期无类型检查），性能低（层层继承）。<br><a href="#Q01-12">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="13">
+<li><span id="A01-13">
+
+<ul>
+<li>撤销类对象时；</li>
+<li>超出作用域时；</li>
+<li>动态分配的对象只有在指向该对象的指针被删除时才调用析构函数。<br><a href="#Q01-13">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="14">
+<li><span id="A01-14">
+
+<ul>
+<li>对于含有虚函数的类或继承自有虚函数的类，每个类使用一个虚函数表，每个类对象使用一个虚表指针，虚表指针指向虚函数表；</li>
+<li>基类对象有一个虚表指针，指向基类的虚函数表，派生类对象也有一个虚表指针，指向派生类的虚函数表；<ul>
+<li>若派生类重写了基类中的虚函数，则该派生类的虚函数表将保存重写的虚函数地址，而非基类的虚函数地址；</li>
+<li>若派生类没有重写基类中的虚函数，则继承下来，派生类的虚函数表将保存基类中未被重写的虚函数地址；</li>
+<li>若派生类新定义了新的虚函数，则该派生类的虚函数表将添加保存新虚函数的地址。<br><a href="#Q01-14">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="15">
+<li><span id="A01-15">
+
+<ul>
+<li>使用智能指针，无需手动释放内存。</li>
+<li>养成良好的写代码习惯。<br><a href="#Q01-15">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="16">
+<li><span id="A01-16">
+
+<ul>
+<li>使用Valgrind软件检测；</li>
+<li>写代码时统计内存分配和释放的次数，统计当前二者次数是否一致；</li>
+<li>使用BoundsChecker软件检测；</li>
+<li>调试运行DEBUG版程序，使用以下技术：CRT（C Run-Time Libraries）、运行时函数调用堆栈、内存泄漏时提示的内存分配序号，综合分析内存泄漏的原因，排除内存泄漏。<br><a href="#Q01-16">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="17">
+<li><span id="A01-17">
+
+<ul>
+<li>使用throw：代码更加简洁，可以不用通过判断返回值就可以确定是否发生异常。不能被忽略，必须停下来处理。</li>
+<li>使用错误码返回值：更加轻量级。但需要通过查找错误码才能知道具体发生的错误。错误信息可以被忽略。<br><a href="#Q01-17">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="18">
+<li><span id="A01-18">
+
+<ul>
+<li>future（只读）：提供了一种访问异步操作结果的机制。有三种状态：deferred（异步操作还没开始）、ready（异步操作已经完成）、timeout（异步操作完成）。</li>
+<li>promise（只写）：每个promise关联一个future，对promise的写入会令future的值可用。</li>
+<li>libev：高性能事件循环。</li>
+<li>poll：未知。。。<br><a href="#Q01-18">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="19">
+<li><span id="A01-19">
+
+<ul>
+<li>没搞懂？<br><a href="#Q01-19">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="20">
+<li><span id="A01-20">
+
+<ul>
+<li>多态分为动态多态和静态多态：<ul>
+<li>动态多态：通过虚函数实现。运行时通过指针指向的对象进行动态绑定。</li>
+<li>静态多态：通过泛型编程（模板函数）和重载函数实现。编译时关联。</li>
+</ul>
+</li>
+<li>以下函数不能为虚函数：<ul>
+<li>普通函数：只能被重载，不能被覆盖，声明为虚函数没啥意义；</li>
+<li>构造函数：虚函数是在不同对象产生不同的操作，构造函数之前对象还没产生，就无法使用虚函数；假设B类继承自A类，且A类的构造函数为虚函数，则构造B类对象时，只会执行B类的构造函数，这样A就不能构造了。</li>
+<li>友元函数：C++不支持友元函数的继承；</li>
+<li>静态成员函数：静态成员函数对每个类而言，只有一份代码，所有对象共享，而不归某个类共享，所以没有动态绑定的必要性。</li>
+</ul>
+</li>
+<li>以下函数没有声明为虚函数的必要：<ul>
+<li>内联函数：即使内联函数被声明为虚函数，编译器遇到这种情况不会把函数内联展开，而是当作普通函数处理；</li>
+<li>赋值运算符：赋值运算符要求形参和类本身类型相同，帮基类中的赋值操作符形参为基类类型，即使声明为虚函数，也不能作为子类的赋值操作符。<br><a href="#Q01-20">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="21">
+<li><span id="A01-21">
+
+<ul>
+<li>返回一个nullptr或一个不能用于访问对象的非null的合法指针，可以调用free()函数释放。</li>
+<li>malloc(-1)返回一个NULL，因为-1转化为无符号整型后是一个很大的值，无法分配这么大的内存空间，所以只能返回NULL。<br><a href="#Q01-21">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="22">
+<li><span id="A01-22">
+
+<ul>
+<li>静态变量的初始化是在编译时进行，只初始化一次，赋值则发生在运行时。<br><a href="#Q01-22">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="23">
+<li><span id="A01-23">
+
+<ul>
+<li>在删除指向派生类的基类类型指针时，如果析构函数不是虚函数，则只会调用基类的析构函数，而不会调用派生类的析构函数，会发生内存泄漏。</li>
+<li>为何默认析构函数不是虚函数：如果无需用到继承，虚析构函数便没有任何作用，但虚表指针和虚函数表的存在会导致资源浪费。<br><a href="#Q01-23">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="24">
+<li><span id="A01-24">
+
+<ul>
+<li>原因：模板成员函数可以实例化出很多类型，不同的参数实例化出不同的类型，因此虚函数表中需要在编译时装入所有实例类型，无法实现，而且内存消耗代价过高，因此不能将模板成员函数定义为虚函数。<br><a href="#Q01-24">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="25">
+<li><span id="A01-25">
+
+<ul>
+<li>auto：由编译器去分析表达式所属的类型；</li>
+<li>shared_ptr：智能指针，允许多个shared_ptr指针指向同一个对象，采用引用计数，当计数为0时，自动释放自己所管理的对象；</li>
+<li>unique_ptr：一个unique_ptr拥有它所指向的对象，某个时刻只能有一个unique_ptr指向一个给定对象，当unique_ptr被销毁时，它所指向的对象也被销毁。不支持普通的拷贝和赋值操作。</li>
+<li>weak_ptr：是一个不控制所指向对象生存期的智能指针，它指向一个由shared_ptr管理的对象。将一个weak_ptr绑定到一个shared_ptr不会改变其引用计数。一旦最后一个指向对象的shared_ptr被销毁时，即使有weak_ptr指向对象，对象也会被释放。</li>
+<li>move：将一个左值转为对应的右值引用类型。</li>
+<li>forward：使用forward转发参数时会保留参数的左右值类型。格式：<code>std::forward&lt;T&gt;(t)</code></li>
+<li>完美转发：使用模板函数转发参数时，会保留参数的左右值类型。</li>
+<li>RAII机制（Resourse Acquisition Is Initialization，资源获取即初始化）：用于管理资源、避免泄漏。通过把资源用类封装起来，对资源操作都在类的内部，在析构函数内释放资源，从而当定义的局部变量生命期结束时，它的析构函数就会自动地被调用，便无需程序员显示地去调用释放资源的操作了。</li>
+<li>lock_guard：做互斥量mutex的RAII。在构造lock_guard对象时，传入的mutex对象会被当前线程锁住，析构时，它所管理的mutex对象会自动解锁。lock_guard并不负责管理mutex对象的生命周期，只是简化了其上锁和解锁操作，而且不必担心异常安全问题。<br><a href="#Q01-25">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="26">
+<li><span id="A01-26">
+
+<ul>
+<li><p>使用const_cast：例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> c = <span class="string">'C'</span>; </span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span>* pc = &amp;c; </span><br><span class="line"><span class="keyword">char</span>* p = <span class="keyword">const_cast</span>&lt;<span class="keyword">char</span>*&gt;(pc);</span><br></pre></td></tr></table></figure>
+
+<p>  <a href="#Q01-26">返回原题</a></p>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="27">
+<li><span id="A01-27">
+
+<ul>
+<li>访问权限：private成员仅供类内部成员和友元函数访问；protected成员在没有继承时和private访问权限相同；public成员可供类内部成员、友元函数、类对象实例访问。</li>
+<li>继承时的访问权限：<ul>
+<li>public派生：基类private在派生中不可见，基类protected和private在派生类中保留原有访问权限；派生类实例对象仅可访问基类的public成员；</li>
+<li>protected派生：基类private在派生类中不可见，基类protected和private在派生类中均变成protected成员；派生类对象不可访问基类的任何成员；</li>
+<li>private派生：基类private在派生类中不可见，基类protected和private在派生类中均变成private成员；派生类对象不可访问基类中的任何成员；<br><a href="#Q01-27">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="28">
+<li><span id="A01-28">
+
+<ul>
+<li>改变生命期：将其存储在全局（静态）区，程序运行结束后，才释放内存；</li>
+<li>改变作用域：将全局变量和函数声明为static后，会将其对其他源文件隐藏；</li>
+<li>默认初始化为0：全局静态区中所有字节默认都是0x00。<br><a href="#Q01-28">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="29">
+<li><span id="A01-29">
+
+<ul>
+<li>vector的iterator在删除或增加一个元素后，后面的就可能失效了；而list的iterator在删除或添加元素后还可以继续使用。</li>
+<li>vector的iterator支持“+”、“+=”、“&gt;”等操作符，而由于list在内存空间上不是连续的，所以list的iterator不支持以上操作，只支持“++”。<br><a href="#Q01-29">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="30">
+<li><span id="A01-30">
+
+<ul>
+<li>printf需要指定格式，而cout无需指定格式；</li>
+<li>printf是函数，而cout是ostream对象，和&lt;&lt;搭配使用；</li>
+<li>printf是实参函数，没有类型检查，不安全；cout是通过运算符重载实现的，安全；</li>
+<li>printf会将输出立刻显示在屏幕上，而cout会先存入缓冲区，在进行刷新缓冲操作后才会显示在屏幕上（常见缓冲刷新操作：flush，endl，调用cerr、clog、cin，退出程序）；</li>
+<li>printf遇到不认识的类型的就没办法了，而cout对于不认识的类型可以通过重载来解决。<br><a href="#Q01-30">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="31">
+<li><span id="A01-31">
+
+<ul>
+<li>当不使用模板类时，编译器不会去实例化它；当使用它时，编译器才会去实例化它。</li>
+<li>编译器一次只能处理一个单元，即处理一个cpp文件，所以实例化时需要看到模板的完整定义，因此需要放到.h文件中。</li>
+<li>cpp在编译期间不能决定模板参数的类型，所以不能生成模板函数的实例，因此会把模板类型带到链接期间，如果这个期间有函数调用了该实例，而由于没有把模板实例到特定类型，就会导致编译错误。<br><a href="#Q01-31">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="32">
+<li><span id="A01-32">
+
+<ul>
+<li>容器：可容纳一些数据的模板类。</li>
+<li>迭代器：用于遍历容器中的数据对象。</li>
+<li>算法：处理容器中数据的方法或操作。</li>
+<li>分配器：给容器分配存储空间。</li>
+<li>仿函数：用于协助算法完成各种操作。</li>
+<li>配接器：用于套接适配仿函数。<br><a href="#Q01-32">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="33">
+<li><span id="A01-33">
+
+<ul>
+<li>const修饰的类成员或引用成员：在声明后马上要初始化，在构造函数中的操作为赋值，是不被允许的。</li>
+<li>子类初始化父类的私有成员：需要在参数初始化列表中显示调用父类构造函数；</li>
+<li>对象成员：数据成员是对象，并且对象只有含参数的构造函数。<br><a href="#Q01-33">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="34">
+<li><span id="A01-34">
+
+<ul>
+<li>struct和class的区别：<ul>
+<li>都可以定义类，都可以用于继承。但struct的默认访问权限和继承方式是public，而class默认是private；</li>
+<li>class可定义模板形参；</li>
+<li>struct可以在定义的时候直接以{}对其成员赋初值，而class不可以。</li>
+</ul>
+</li>
+<li>struct和union的区别：<ul>
+<li>两者都是用不同的数据类型成员组成，但在任何特定时刻，共用体只存放一个被选中的成员，而结构体则存放所有的成员变量；</li>
+<li>对共用体的不同成员赋值，会将原有值覆盖，而对结构体的不同成员赋值是互不影响的；</li>
+<li>struct各成员有自己独立的内存空间，同时存在；而struct的所有成员不能同时占用它的内存空间，不能同时存在；</li>
+<li>sizeof(struct)会返回对齐之后所有成员大小相加之和，而sizeof(union)返回最大成员变量的大小。<br><a href="#Q01-34">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="36">
+<li><span id="A01-36">
+
+<ul>
+<li>malloc是c语言函数，而new是C++的运算符；</li>
+<li>都用于申请动态内存，但new比malloc更加智能，new在对象创建的时候自动执行构造函数；</li>
+<li>new返回指定类型的指针，并自动计算出所需要的大小，而malloc必须用户指定大小，并且返回类型为void*，必须强行转换为实际类型的指针。<br><a href="#Q01-36">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="37">
+<li><span id="A01-37">
+
+<ul>
+<li><p>delete释放new分配的单个对象指针指向的内存，delete[]释放new分配的对象数组指针指向的内存；</p>
+</li>
+<li><p>对于简单的类型，使用new分配的不管是数组不是非数组形式内存空间，用两种方式均可。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *a = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];</span><br><span class="line"><span class="keyword">delete</span> a;</span><br><span class="line"><span class="keyword">delete</span>[] a; <span class="comment">// 与上式等价</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对于类类型，如果使用new分配的是数组形式的内存空间a[10]，用delete只会调用a[0]的析构函数，从而造成内存泄漏，因此此种情况下只能用delete[]。<br><a href="#Q01-37">返回原题</a></p>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="38">
+<li><span id="A01-38">
+
+<ul>
+<li>循环引用时可引起内存泄漏，即两个shared_ptr相互引用，引用计数都是1，不能自动释放。</li>
+<li>解决办法：使用弱引用weak_ptr来打破循环引用。<br><a href="#Q01-38">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="39">
+<li><span id="A01-39">
+
+<ul>
+<li>对齐的原因：<ul>
+<li>各个硬件平台对存储空间的处理上有很大的不同，一些平台对某些特定类型的数据只能从某些特定地址开始存取。</li>
+<li>效率上的考虑。比如一个int型数据存放在偶地址开始的地方，那么一个读周期就可以32bit，而如果存放在奇地址开始的地方，就需要2个读周期，并对再次读出的结果的高低字节进行拼凑才能得到32bit数据。</li>
+</ul>
+</li>
+<li>修改对齐：<ul>
+<li>使用伪指令<code>#pragma pack(n)</code>，编译器将按照n个字节对齐；</li>
+<li>使用伪指令<code>#pragma pack()</code>，取消自定义字节对齐方式。<br><a href="#Q01-39">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="41">
+<li><span id="A01-41">
+
+<ul>
+<li>memcpy：<ul>
+<li>形式：<code>void *memcpy(void *dest, const void *src, size_t n);</code></li>
+<li>描述：memcpy()函数从src内存中白拷贝n个字节到dest内存区域，但是源和目的内存区域不能重叠。返回指向dest的指针。</li>
+</ul>
+</li>
+<li>memmove：<ul>
+<li>形式：<code>void *memmove(void *dest, const void *src, size_t n);</code></li>
+<li>描述：memmove()函数从src内存中拷贝n个字节到dest内存区域，但是源和目的的内存可以重叠。返回一个指向dest的指针。</li>
+</ul>
+</li>
+<li>唯一区别：memmove()允许源和目的区域重叠，而memcpy()不允许。<br><a href="#Q01-41">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="42">
+<li><span id="A01-42">
+
+<ul>
+<li>描述：一个定义为volatile的变量是说这变量可能会被意想不到地改变，于是编译器就不会去优化这个变量的值了。即优化器在用到这个变量时必须每次都小心地重新读取这个变量的值，而不是使用保存在寄存器里的备份。</li>
+<li>用处：<ul>
+<li>硬件寄存器（如：状态寄存器）</li>
+<li>一个中断服务子程序中会访问到的非自动变量</li>
+<li>多线程应用中被几个任务共享的变量<br><a href="#Q01-42">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="43">
+<li><span id="A01-43">
+
+<ul>
+<li><a href="https://www.cnblogs.com/QG-whz/p/4909359.html" target="_blank" rel="noopener">详见CSDN</a>。<br><a href="#Q01-43">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="44">
+<li><span id="A01-44">
+
+<ul>
+<li>函数重载：在同一作用域内，可以有一组具有相同函数名、不同参数列表的函数，这组函数被称为重载函数。</li>
+<li>底层实现：C++利用name mangling（倾轧）技术，即在编译过程中，将函数、变量的名称重新改编的机制，来改变函数名，区分参数不同的同名函数。对于函数<code>void foo(int x, int y);</code>，在被C编译器编译后在库中的名字为<code>_foo</code>，而C++编译器则会产生像<code>_foo_int_int</code>的名字，所以编译之后C仍然无法辨别函数名相同、参数不同的函数。<br><a href="#Q01-44">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="45">
+<li><span id="A01-45">
+
+<ul>
+<li>printf是从右向左进行入栈的，后面的变量入栈后，前面的字符串再入栈。</li>
+<li>printf的实现中有va_arg、va_start等函数，用于解析字符串，检查有多少个%d、%x等之类的符号，通过这个确认后面跟了多少参数。</li>
+<li>详见：<a href="http://www.360doc.com/content/12/0804/11/3725126_228273988.shtml" target="_blank" rel="noopener">C可变参数实现原理</a>。<br><a href="#Q01-45">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="46">
+<li><span id="A01-46">
+
+<ul>
+<li>参数入栈：将参数按照调用约定（C是从右向左）依次压入系统栈中； </li>
+<li>返回地址入栈：将函数调用语句的下一条语句的地址保存在栈中，以便函数调用完成后返回；</li>
+<li>跳转到函数体处；</li>
+<li>如果函数体内定义了变量，将变量压栈；</li>
+<li>将每一个形参以栈中对应的实参值取代，执行函数体的功能体；</li>
+<li>将函数体中的变量、保存到栈中的实参值，依次从栈中取出，释放栈空间（出栈）；</li>
+<li>执行return语句返回。从栈中取出刚开始调用函数时压入的地址，跳转到函数的下一条语句。当return语句不带有表达式时，按照保存的地址返回；否则将计算出的return表达式的值保存起来，然后再返回。<br><a href="#Q01-46">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="47">
+<li><span id="A01-47">
+
+<ul>
+<li>指针是一个变量，存储一个地址，指向内存中的一个单元，而引用是另一个变量的别名；</li>
+<li>指针和引用的自增运算意义不一样；</li>
+<li>对指针进行sizeof()操作，得到的是指针本身的大小，而对引用进行sizeof()操作，得到的是对象的大小；</li>
+<li>有指向指针的指针，即多级指针，但没有多级引用；</li>
+<li>引用定义时必须赋初值，而指针定义时可以不用赋初值；</li>
+<li>有const指针，但没有const引用；</li>
+<li>指针的值在初始化之后可以改变，即指向其它的存储单元，而引用在进行初始化后就不能再改变了<br><a href="#Q01-47">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="48">
+<li><span id="A01-48">
+
+<ul>
+<li>区别：<ul>
+<li>展开的时间不同：宏函数由预处理器对宏进行替代，而内联函数是通过编译器控制来实现的。</li>
+<li>宏函数只是做简单的文本替换，编译内联函数可以嵌入到目标代码；</li>
+<li>内联函数会做类型、语法检查，而宏函数不具有这样的功能。</li>
+<li>内联函数是函数，而宏函数不是；</li>
+</ul>
+</li>
+<li>宏函数：<ul>
+<li>优点：宏在调用的地方，仅仅是参数的替换，不会出现函数调用那种压栈、出栈时的时间和空间的开销，执行效率高；</li>
+<li>缺点：没有检查参数类型是否匹配，不安全。</li>
+</ul>
+</li>
+<li>内联函数：<ul>
+<li>优点：函数代码被放入符号表中，在使用时进行替换，效率很高；会有类型检查，因此够安全；可以作为类的成员函数，可以使用所在类的保护成员及私有成员。</li>
+<li>缺点：如果函数代码过长，使用内联将消耗过多内存；如果函数体内有循环，那么 执行函数代码时间比调用开销大。<br><a href="#Q01-48">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="50">
+<li><span id="A01-50">
+
+<ul>
+<li>函数桢栈：本质是一种栈，专门用于保存函数调用过程中的各种信息（参数、返回地址、本地变量）。每调用一个函数，就会生成一个新的栈桢。</li>
+<li>桢栈包括：函数的返回地址和参数、临时变量、函数调用的上下文；</li>
+<li>函数调用参考：<a href="#A01-46">第46题</a>。<br><a href="#Q01-50">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="51">
+<li><span id="A01-51">
+
+<ul>
+<li>封装：把客观事物封装成抽象的类，并且类可以把自己的数据和方法只让可信的类或对象操作，对不可信的进行信息隐藏；</li>
+<li>继承：可以使用现有类的所有功能，并在无需重新编写原来的类的情况下对这些功能进行扩展。继承的过程就是从一般到特殊的过程。<ul>
+<li>继承的实现方式有三类：实现继承、接口继承和可视继承。</li>
+<li>实现继承：使用基类的属性和方法而无需额外编码的能力；（非虚函数）</li>
+<li>接口继承：仅使用属性和方法的名称，但是子类必须提供实现的能力；（纯虚函数）</li>
+<li>可视继承：子窗体（类）使用基窗体（类）的外观和实现代码的能力。（虚函数）</li>
+</ul>
+</li>
+<li>多态：C++多态意味着调用成员函数时，会根据调用的对象的类型来执行不同的函数。<ul>
+<li>多态的实现方式有两种：覆盖和重载。</li>
+<li>静态多态和动态多态。<br><a href="#Q01-51">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="52">
+<li><span id="A01-52">
+
+<ul>
+<li>C语言实现封装性：将属性和方法（函数指针）封装到特定结构体中；</li>
+<li>C语言实现继承性：使用组合，即在新有类中定义已有类的对象，就可以在新类中通过已有类的对象访问已有类自己的成员变量与函数；</li>
+<li>C语言实现多态：通过函数覆盖实现。<br><a href="#Q01-52">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="53">
+<li><span id="A01-53">
+
+<ul>
+<li>泛型编程：以独立于任何特定类型的方式编写代码。</li>
+<li>在C++中，模板是泛型编程的基础。<br><a href="#Q01-53">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="54">
+<li><span id="A01-54">
+
+<ul>
+<li>编译器并不是把函数模板处理成能够处理任意类的函数。编译器从函数模板通过具体类型产生不同的函数，编译器会对函数模板进行两次编译：在声明的地方对模板代码本身进行编译，在调用的地方对参数替换后的代码进行编译。<br><a href="#Q01-54">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="66">
+<li><span id="A01-66">
+
+<ul>
+<li><p>将类的构造函数和析构函数设为private：缺点是不能定义类的对象，解决办法是写一个静态方法来创建和删除类对象，因而只能在堆上建立对象；</p>
+</li>
+<li><p>使用虚继承：既可在堆上创建对象，也可在栈上创建对象，代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">friend</span> T;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Base() &#123;&#125;</span><br><span class="line">    ~Base() &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 必须是虚继承：</span></span><br><span class="line"><span class="comment">// 若非虚继承，则由于每个类只初始化自己的直接基类，因此A初始化FinalClass，FinalClass初始化Base类，不会报错；</span></span><br><span class="line"><span class="comment">// 若是虚继承，则由最低层次的派生类构造函数初始化虚基类，而A不是Base的友元，无法调用其私有构造函数，帮编译报错。</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FinalClass</span>:</span> <span class="keyword">virtual</span> <span class="keyword">public</span> Base&lt;FinalClass&gt; &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    FinalClass() &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span> <span class="keyword">public</span> FinalClass &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    A(); <span class="comment">// 继承时报错，无法通过编译</span></span><br><span class="line">    <span class="comment">// 解释：由于FinalClass使用了虚继承，所以要创建A对象，A类的构造函数就要先构造Base类的构造函数，</span></span><br><span class="line">    <span class="comment">// 而Base类的构造函数为私有成员，仅能友元FinalClass访问（友元无法继承），所以无法构造Base类，</span></span><br><span class="line">    <span class="comment">// 因而编译错误。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  <a href="#Q01-66">返回原题</a></p>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="67">
+<li><span id="A01-67">
+
+<ul>
+<li>宏定义是在预处理阶段进行的文本替换，而枚举是在编译的阶段进行的处理；</li>
+<li>宏作为指令存储在代码段，而枚举作为常量，存储在数据区；</li>
+<li>枚举常量具有类型，而宏没有类型；</li>
+<li>枚举一次可以定义大量相关的常量，而宏只能定义一个。<br><a href="#Q01-67">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="68">
+<li><span id="A01-68">
+
+<ul>
+<li>函数指针：指向函数的指针，如<code>int(*pf)(char, bool)</code>，为指向返回类型为int、参数为(char, bool)的函数的指针。</li>
+<li>指针函数：返回值会指针的函数。如<code>int* fun(char a, bool b)</code>，其本身是个函数，返回值为int*型指针。<br><a href="#Q01-68">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="70">
+<li><span id="A01-70">
+
+<ul>
+<li>迭代器和指针的区别：迭代器不是指针，是类模板，但表现得像指针（通过重载指针的一些运算符*、-&gt;、++、–等，来模拟指针的功能）。迭代器本质是封装了原生指针，提供了比指针更高级的行为。迭代器返回的是对象的引用而非对象的值。</li>
+<li>为何要用迭代器：迭代器就是把不同集合类的访问逻辑抽象出来，使得不用暴露集合内部的结构而达到循环遍历集合的结果。<br><a href="#Q01-70">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="103">
+<li><span id="A01-103">
+</span></li>
+</ol>
+<ul>
+<li>inline函数是将该函数的代码展开到调用该函数的地方，所以inline函数是没有地址的。</li>
+<li>virtual函数的调用时在程序运行时根据调用函数的对象时父类对象还是子类对象来决定该调用哪一个虚函数，其中的原理就是通过vptr，vtbl等实现的，vptr指向vtbl中的虚函数，vbtl保存了虚函数的地址入口，所以每个虚函数都有个地址，这个地址保存在对应的虚函数表中，这个显然与inline函数没有地址是相违背的，所以inline和virtual是存在冲突的。<br><a href="#Q01-103">返回原题</a></li>
+</ul>
+<ol start="90">
+<li><span id="A01-90">
+
+<ul>
+<li>RTTI(Run-Time Type Idetification，运行时类型检查)，提供了运行时确定类对象类型的方法。</li>
+<li>RTTI提供了两个有用的操作符：<ul>
+<li>typeid：返回指针或对象的实际类型。</li>
+<li>dynamic_cast：将基类指针或引用安全地转化为派生类的指针或引用。<br><a href="#Q01-90">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+            
+
+
+            <!-- 添加的部分 -->
+            <!-- copyright -->
+            
+            <!-- copyright -->
+        </div>
+    </div>
+
+
+    <!-- 打赏 -->
+    
+        <br>
+        <br>
+        <div class ="post-donate">
+            <div id="donate_board" class="donate_bar center">
+                <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+                <br>
+            </div>
+            <div id="donate_guide_alipay" class="donate_bar center hidden" >
+                <!-- 支付宝打赏图案 -->
+                <h1 align="center"
+style="color:#019fe8; font-size:17px; line-height:2%;">支付宝扫一扫
+                    <i class="fas fa-hand-point-down"></i>
+                </h1>
+                <img src="../../../../assets/images/alipay.png" alt="支付宝打赏">
+            </div>
+
+            <div id="donate_guide_wechat" class="donate_bar center hidden" >
+                <!-- 微信打赏图案 -->
+                <h1 align="center"
+style="color:#1AAD19; font-size:17px; line-height:2%;">微信扫一扫
+                    <i class="fas fa-hand-point-down"></i>
+                </h1>
+                <img src="../../../../assets/images/wechat.png" alt="微信打赏">
+                
+            </div>
+
+            <div id="donate_button_alipay" class="donate_bar center hidden">
+                <br>
+                <a id="btn_donate_alipay" class="btn_donate_alipay" href="javascript:;" title="切换到微信">切换到微信</a>
+            </div>
+
+            <div id="donate_button_wechat" class="donate_bar center hidden">
+                <br>
+                <a id="btn_donate_wechat" class="btn_donate_wechat" href="javascript:;" title="切换到支付宝">切换到支付宝</a>
+            </div>
+
+        
+
+            <script type="text/javascript">
+                document.getElementById('btn_donate').onclick = function(){
+                    $('#donate_board').addClass('hidden');
+                    $('#donate_guide_wechat').removeClass('hidden');
+                    $('#donate_button_wechat').removeClass('hidden');
+                }
+            </script>
+
+            <script type="text/javascript">
+                document.getElementById('btn_donate_alipay').onclick = function(){
+                    $('#donate_guide_alipay').addClass('hidden');
+                    $('#donate_button_alipay').addClass('hidden');
+                    $('#donate_guide_wechat').removeClass('hidden');
+                    $('#donate_button_wechat').removeClass('hidden');
+                }
+            </script>
+
+            <script type="text/javascript">
+                document.getElementById('btn_donate_wechat').onclick = function(){
+                    $('#donate_guide_wechat').addClass('hidden');
+                    $('#donate_button_wechat').addClass('hidden');
+                    $('#donate_guide_alipay').removeClass('hidden');
+                    $('#donate_button_alipay').removeClass('hidden');
+                }
+            </script>
+
+            
+        </div>
+
+        <div class="donateText" style="line-height:120%;"><br>“ 万物皆有时，比如你我相遇 ”</div>
+        <br>
+            
+    
+
+
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/求职/">求职</a> <a class="tag tag--primary tag--small t-link" href="/tags/面试/">面试</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/15/DesignPatterns/"
+                    data-tooltip="开发岗面试问题总结：设计模式"
+                    aria-label="上一篇: 开发岗面试问题总结：设计模式"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/12/Welcome/"
+                    data-tooltip="Welcome To Liuyee&#39;s Blog"
+                    aria-label="下一篇: Welcome To Liuyee&#39;s Blog"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/08/15/DevelopingInterview/"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=/2019/08/15/DevelopingInterview/"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitment"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                
+<div id="gitment"></div>
+
+<!-- Gitment评论插件通用代码 -->
+
+<link rel="stylesheet" href='assets/js/gitment.css'>
+<script src='assets/js/gitment.js'></script>
+
+<script>
+var gitment = new Gitment({
+  owner: 'liuyihust',
+  repo: '',
+  oauth: {
+    client_id: '4d67b0b86332dbac9f61',
+    client_secret:'59b0670047644cff4d5740c6e239f758ade18049',
+  },
+})
+gitment.render('git')
+</script>
+
+<!-- Gitment代码结束 -->
+            
+        
+    </div>
+
+    
+
+</article>
+
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <i class="fas fa-user-clock"></i>
+    <span id="timeDate">0</span><span id="times">0</span>
+    <script>
+        var now = new Date();
+        function createtime() {
+            var grt= new Date("04/01/2018 00:00:00");//此处修改你的建站时间或者网站上线时间
+            now.setTime(now.getTime()+250);
+            days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+            hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+            if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+            mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+            seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+            snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+            document.getElementById("timeDate").innerHTML = "Blog Age: "+dnum+" days ";
+            document.getElementById("times").innerHTML = hnum + " h " + mnum + " m " + snum + " s";
+        }
+        setInterval("createtime()",250);
+	</script>
+
+    <br>
+
+    <span class="copyrights">
+        Copyrights &copy; 2020 Liu Yi. All Rights Reserved.
+    </span>
+
+
+</footer>
+
+
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/15/DesignPatterns/"
+                    data-tooltip="开发岗面试问题总结：设计模式"
+                    aria-label="上一篇: 开发岗面试问题总结：设计模式"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/12/Welcome/"
+                    data-tooltip="Welcome To Liuyee&#39;s Blog"
+                    aria-label="下一篇: Welcome To Liuyee&#39;s Blog"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/08/15/DevelopingInterview/"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=/2019/08/15/DevelopingInterview/"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitment"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=/2019/08/15/DevelopingInterview/"
+                        aria-label="分享到 Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=/2019/08/15/DevelopingInterview/"
+                        aria-label="分享到 Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/portrait.gif" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Liu Yi</h4>
+        
+            <div id="about-card-bio"><p>无趣的人生，有趣地生活。<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=245 height=52 align="middle" src="//music.163.com/outchain/player?type=2&id=26294503&auto=1&height=32"></iframe></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>学生</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                湖北武汉
+            </div>
+        
+    </div>
+</div>
+        
+            <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-times"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="/assets/images/logo-algolia-nebula-blue-full.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    />
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">没有找到文章</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/21/randomNumber/"
+                            aria-label=": Random Number Generator"
+                        >
+                            <img class="media-image" src="/2018/04/21/randomNumber/random.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/21/randomNumber/"
+                            aria-label=": Random Number Generator"
+                        >
+                            <h3 class="media-heading">Random Number Generator</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2018年4月21日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>C++编程时经常要用到随机数，那么到底有哪些随机数产生器或函数呢？我这里来做个小结。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/22/Japanese-1/"
+                            aria-label=": 日语中的数字与时间"
+                        >
+                            <img class="media-image" src="/2018/04/22/Japanese-1/japan.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/22/Japanese-1/"
+                            aria-label=": 日语中的数字与时间"
+                        >
+                            <h3 class="media-heading">日语中的数字与时间</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2018年4月22日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>日语中的数字与时间常见表示。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/25/Japanese-2/"
+                            aria-label=": 日语中的动词变形"
+                        >
+                            <img class="media-image" src="/2018/04/25/Japanese-2/maomi.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/25/Japanese-2/"
+                            aria-label=": 日语中的动词变形"
+                        >
+                            <h3 class="media-heading">日语中的动词变形</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2018年4月25日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>学过日语的人都知道，日语中的动词是需要变形的，所以我这里简单来总结一下日语中的动词变形！</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/15/setup-package/"
+                            aria-label=": 程序打包（Setup使用技巧）"
+                        >
+                            <img class="media-image" src="/2019/01/15/setup-package/pakage.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/15/setup-package/"
+                            aria-label=": 程序打包（Setup使用技巧）"
+                        >
+                            <h3 class="media-heading">程序打包（Setup使用技巧）</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年1月15日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>常用打包软件Setup的使用技巧。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/20/vs-skills/"
+                            aria-label=": VS使用技巧"
+                        >
+                            <img class="media-image" src="/2019/01/20/vs-skills/vs.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/20/vs-skills/"
+                            aria-label=": VS使用技巧"
+                        >
+                            <h3 class="media-heading">VS使用技巧</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年1月20日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>VS基础…</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/02/28/tf-version-problem/"
+                            aria-label=": 安装Tensorflow版本不匹配问题及解决"
+                        >
+                            <img class="media-image" src="/2019/02/28/tf-version-problem/tensorflow.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/02/28/tf-version-problem/"
+                            aria-label=": 安装Tensorflow版本不匹配问题及解决"
+                        >
+                            <h3 class="media-heading">安装Tensorflow版本不匹配问题及解决</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年2月28日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>安装Tensorflow时踩过的坑…</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/09/themeConfig/"
+                            aria-label=": 博客瞎折腾——tranquilpeak主题"
+                        >
+                            <img class="media-image" src="/2019/08/09/themeConfig/cat.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/09/themeConfig/"
+                            aria-label=": 博客瞎折腾——tranquilpeak主题"
+                        >
+                            <h3 class="media-heading">博客瞎折腾——tranquilpeak主题</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月9日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather">The article has been encrypted, please enter your password to view.<br></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/11/linux-files/"
+                            aria-label=": linux文件和目录"
+                        >
+                            <img class="media-image" src="/2019/08/11/linux-files/newtux.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/11/linux-files/"
+                            aria-label=": linux文件和目录"
+                        >
+                            <h3 class="media-heading">linux文件和目录</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月11日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Linux学习笔记：文件和目录</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/12/Welcome/"
+                            aria-label=": Welcome To Liuyee&#39;s Blog"
+                        >
+                            <img class="media-image" src="/2019/08/12/Welcome/deer.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/12/Welcome/"
+                            aria-label=": Welcome To Liuyee&#39;s Blog"
+                        >
+                            <h3 class="media-heading">Welcome To Liuyee&#39;s Blog</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月12日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Don’t aim for success if you want it, just stick to what you love and believe in, and it will come naturally.</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/15/DevelopingInterview/"
+                            aria-label=": 开发岗面试问题总结：C/C++语言"
+                        >
+                            <img class="media-image" src="/2019/08/15/DevelopingInterview/thumbnail.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/15/DevelopingInterview/"
+                            aria-label=": 开发岗面试问题总结：C/C++语言"
+                        >
+                            <h3 class="media-heading">开发岗面试问题总结：C/C++语言</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月15日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>开发岗面试问题总结之C/C++语言</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="没有找到文章"
+                data-message-one="找到 1 篇文章"
+                data-message-other="找到 {n} 篇文章">
+                找到 23 篇文章
+            </p>
+        </div>
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+
+
+    
+        <script src="/assets/js/gitment.js"></script>
+        <script type="text/javascript">
+          (function() {
+            new Gitment({
+              id: '/2019/08/15/DevelopingInterview/',
+              owner: 'liuyihust',
+              repo: 'BlogComments',
+              oauth: {
+                client_id: '4d67b0b86332dbac9f61',
+                client_secret: '59b0670047644cff4d5740c6e239f758ade18049'
+              }
+            }).render('gitment')
+          })()
+        </script>
+    
+
+
+
+    <script src="/assets/js/moment-with-locales.js"></script>
+    <script src="/assets/js/algoliasearch.js"></script>
+    <script>
+      var algoliaClient = algoliasearch('SCS7H6XC2V', '3c07d7df305177e5342667b398d803ef');
+      var algoliaIndex = algoliaClient.initIndex('tranquilpeak');
+    </script>
+
+
+
+        <!-- 点击特效 -->
+        
+            <script async src="/assets/js/text.js"></script>
+        
+    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":400,"vOffset":-80},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.9,"opacityOnHover":0.1},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

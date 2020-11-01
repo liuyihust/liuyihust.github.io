@@ -1,0 +1,1483 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Liuyee&#39;s Blog">
+    <title>开发岗面试问题总结：计算机网络 - Liuyee&#39;s Blog</title>
+    <meta name="author" content="Liu Yi">
+    
+        <meta name="keywords" content="开发,面试,求职,计算机网络">
+    
+    
+        <link rel="icon" href="/assets/images/favicon.ico">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liu Yi","sameAs":["https://github.com/liuyihust","mailto:liuyihust@foxmail.com"],"image":"portrait.gif"},"articleBody":"\n\n\n\n\n题目\nTCP的模型，状态转移\nHTTP和HTTPS的区别，HTTPS有什么特点，带来的好处和坏处，怎么实现的？答案 \nTCP 讲了一遍，讲 Segment 中的每个字段是如何为 TCP 面向连接、可靠的流式服务提供支持的\nTCP怎么保证可靠性，以及画一下建立连接和断开连接的过程，发了什么？答案 \n讲讲TCP为什么是三次握手，四次挥手？答案 \n讲讲浏览器输入地址后发生的全过程．（每一个细节都讲）答案 \nhttp请求报文和应答报文的格式（三块）\nhttp返回码。答案 \nip地址有什么用，ip地址和mac地址。答案 \nOSI七层模型和TCP/IP四层模型，每层列举2个协议。答案\nDNS\n拥塞控制。答案\nUDP模拟TCP\n客户端向服务器发3个包，基于TCP和UDP的服务器会收到几个？\n介绍time_wait状态\nTCP/IP 数据链路层的交互过程，传递到IP层怎么知道报文该给哪个应用程序，再问：它怎么区分UDP报文还是TCP报文？答案\n滑动窗口\nTCP传输对包的大小有限制吗？\n现在我要传输一个1M的数据包，tcp如何传输？\nHTTP1.0与HTTP2.0\nTCP和UDP各自的优势，知道哪些使用UDP协议的成功案例。答案\nTCP和UDP各用了底层什么协议\n单个UDP报文最大容量\nTCP粘包怎么处理\n如果网络延迟很高，但是又没有发生丢包，利用tcp会使吞吐量下降，该如何解决呢\nsocket编程中服务端和客户端分别用到哪些函数？答案\n\n参考答案\n\n\n\nHTTP和HTTPS的区别：\nHTTP是以明文的方式在网络中进行传输数据，而HTTPS协议传输的数据则是经过TLS加密过的，因而具有更高的安全性；\nHTTPS在经过TCP的三次握手后，还要进行SSL的handshake，协商加密使用的对称加密密钥；\nHTTPS需要服务器端申请证书，且浏览器端安装对应的根证书；\nHTTP的端口是80，而HTTPS的端口是443。\n\n\nHTTPS的优点：\n在数据传输过程中使用密钥进行加密，所以安全性更高；\n通过认证用户和服务器，因而可以确保数据发送到正确的用户和服务器。\n\n\nHTTPS的缺点：\n握手阶段延时较高：由于在进行HTTPS会话之前，还需要进行SSL握手，因此HTTPS握手阶段延时增加；\n部署成本高：一方面需要使用证书来验证自身的安全性，需要购买CA证书；另一方面，由于采用HTTPS协议需要加解密计算，占用CPU资源较多，需要的服务器配置或数目较高。返回原题\n\n\n\n\n\n\n\n\n\n序列号、确认应答、超时重传：\n数据到达接收方，接收方需要发回一个确认应答，表示已经收到该数据段。并且确认序号会说明它下次要接收的数据序列号。如果发送方迟迟未收到确认应答，那么可能是发送的数据丢失，也可能是确认应答丢失，这时发送方会在等待大约2倍RTT（报文往返时间）后进行重传。\n\n\n窗口控制与快重传：\nTCP会利用窗口控制来提高传输速度，即在一个窗口大小内，不用一定得等到确认应答后才能发送下一个数据，窗口大小就是无需等待确认而可以继续发送数据段的最大值。\n使用窗口控制，如果某数据段丢失，则接收方会持续发送该数据段的序列号的应答，如果发送方连续收到三次该应答，则立刻进行重发。\n\n\n拥塞控制：\n为了防止发送数据过多，造成网络拥塞。\n慢开始、拥塞避免、快重传等返回原题\n\n\n\n\n\n\n\n\n\n三次握手：\n过程：C–&gt;SYN–&gt;S；S–&gt;SYN/ACK–&gt;C；C–&gt;ACK–&gt;S。\n原因：可以防止已经失效的连接请求报文突然又传递到服务器端造成服务器资源浪费的情况发生。以及确保连接的可靠性。\n例子：客户端发出了一个连接请求的SYN，但由于网络阻塞，该报文滞留在某节点了。然后超过一定时长后，客户端又重新发出了一个SYN，并与服务器建立连接、传输数据，最后再关闭连接。这时，滞留在某节点的SYN突然又传递到了服务器端，如果只有二次握手，服务器端会误以为这是客户端新建立的连接请求，于是发送一个SYN给客户端，并在服务器创建socket套接字，一直等待客户端传送数据。但由于客户端没有连接服务器的需求，会直接丢弃SYN，此时服务器会一直等待客户端发送数据，而造成资源浪费。\n\n\n四次挥手：\n过程：C–&gt;FIN–&gt;S；S–&gt;ACK–&gt;C；S–&gt;FIN–&gt;C；C–&gt;ACK–&gt;S。\n原因：关闭连接时，仅代表关闭方没有数据要发送给另一方了，并不代表另一方没有数据要发送给关闭方，所以此时不能关闭socket套接字，需要等所有数据发送完之后才能发送FIN给关闭方。返回原题\n\n\n\n\n\n\n\n\n\n将URL解析为IP地址，解析域名需要用到DNS协议；\n主机依次通过查询本地hosts文件、DNS解析器缓存、本地的DNS服务器、根域名服务器。\n根域名服务器查询分为两种，一种是递归查询，一种是迭代查询。\n如果是递归查询，此根域名服务器不断向上转发请求，直至得到最终结果，并将解析结果返回给本地DNS服务器，本地DNS服务器再将其返回给浏览器，查询完成；\n如果是迭代查询，本地服务器向根域名服务器发送查询请求。根域名服务器告知该域名的一级域名服务器，然后本地服务器给该一级域名服务器发送查询请求。然后以此类推，直至查询到该域名的IP地址。\n是基于UDP的，因此会用到UDP协议；\n\n\n得到IP地址后，浏览器打开TCP连接（默认端口为80），并向Web服务器发送http请求，因此要用到HTTP协议；\n应用层：浏览器发送HTTP请求报文；\n传输层：切分长数据，并确保可靠性；\n网络层：进行路由\n数据链路层：传输数据\n物理层：物理传输比特\n\n\n若页面发生跳转，服务器以一个重定向响应，然后转到第iv步，否则转到第v步；\n浏览器跟随重定向，再次发送HTTP请求；\n服务器处理请求，并发回HTML源码；\n服务器经过物理层、数据链路层、网络层、传输层、应用层解析请求报文，并返回HTML源码\n\n\n浏览器接受请求的页面源码，并开始渲染HTML；\n浏览器发送嵌入到HTML中的对象请求；\n浏览器进一步发送异步（Ajax）请求；\n浏览器关闭TCP连接。返回原题\n\n\n\n\n\n\n\nHTTP的状态码由三位数字组成，第一个十进制数定义了状态码的类型：\n\n\n\n分类\n分类描述\n\n\n\n1**\n信息，服务器收到请求，需要请求者继续执行操作\n\n\n2**\n成功，操作被成功接收并处理\n\n\n3**\n重定向，需要进一步的操作以完成请求\n\n\n4**\n客户端错误，请求包含语法错误或无法完成请求\n\n\n5**\n服务端错误，服务器在处理请求的过程中发生了错误\n\n\n\n常见的HTTP状态码：\n\n200：请求成功\n301：资源（网页等）被永久地转移到其它URL\n404：请求的资源（网页等）不存在\n500：内部服务器错误返回原题\n\n\n\n\n\n\n\n\n\nIP地址：IP协议提供的一种统一的地址格式，为互联网的每一个网络和每一台主机分配一个逻辑地址，以此来屏蔽物理地址的差异；\nMAC地址：硬件地址，用于定义网络设备的位置，由数据链路层负责。返回原题\n\n\n\n\n\n\n\nOSI七层模型：\n物理层：通过媒介传输比特，确定机械和电气规范。主要设备有网卡、中继器等；主要协议有IEE802.3、CLOCK、RJ45等。\n数据链路层：将比特组装成帧和点到点的传输。主要设备有网桥、交换机等；主要协议有MAC、VLAN、PPP协议等。\n网络层：负责数据包从源到宿的传递以及网际互联。主要设备有路由器等；主要协议有IP、ARP、TCMP。\n传输层：提供端到端的可靠报文传递和错误恢复。主要协议有TCP、UDP等。\n会话层：建立、管理和终止会话，传输单位是SPDU(Session Protocol Data Unit)。主要协议有RPC、NFS等。\n表示层：对数据进行翻译、加密和压缩，传输单位是PPDU(Presentation ~)。主要协议有JPEG、ASCII等。\n应用层：允许访问OSI环境的手段，传输单位为APDU(Application ~)。主要协议有HTTP、FTP、DNS等。\n\n\nTCP/IP四层模型：\n网络接口层：MAC、VLAN\n网络层：IP、ICMP\n传输层：TCP、IP\n应用层：HTTP、DNS、FTP返回原题\n\n\n\n\n\n\n\n\n\n拥塞控制是为了防止过多的数据注入网络，使得网络中的路由器或链路过载。流量控制是点对点的通信量控制，而拥塞控制是全局的网络流量整体性的控制。发送双方都有一个拥塞窗口——cwnd（Congestion Window）；\ncwnd的大小取决于网络的拥塞程度，并且动态地在变化。\n发送方让自己发送窗口大小等于拥塞窗口，但考虑到接收方的接收能力，一般而言发送窗口小于拥塞窗口；\n几种算法：\n慢开始：最开始发送方的拥塞窗口为1，逐渐增大拥塞窗口和发送窗口。每经过一个传输轮次，拥塞窗口加倍，如果其超过慢开始的门限，则使用拥塞避免算法，防止拥塞窗口过大；\n拥塞避免：每经过一次往返时间RTT，拥塞窗口增长1。在慢开始和拥塞避免中，如果发现网络拥塞，就把慢开始中的门限值减小到之前的一半，并设置cwnd为1，重新慢开始；\n快重传：接收方接收到一个失序的报文段后就立即发出重复确认，发送方只要连续收到三个重复确认就立即重传；\n快恢复：当发送方连续收到了三个重复确认后（说明当前网络没有拥塞），就将慢开始门限减半，并将当前的cwnd设置为慢开始门限，并且采用拥塞避免算法。\n\n\n什么时候开始减慢增长速度：\n采用慢开始和拥塞避免算法的时候：\n一旦cwnd超过慢开始门限，就采用拥塞避免算法，减慢增长速度；\n一旦发生丢包，就重新进行慢开始，减慢增长速度。\n\n\n采用快恢复和快重传的时候：\n一旦cwnd超过慢开始门限，就采用拥塞避免算法，减慢增长速度；\n一旦发送方连续收到了三个重复确认，就采用拥塞避免算法，减慢增长速度。返回原题\n\n\n\n\n\n\n\n\n\n\n\nTCP/IP数据链路层的交互过程：\n网络层等到数据链路层用MAC地址作为通信目标，数据包到达网络等准备往数据链路层发的时候，首先会去自己的ARP缓存表（存储着IP-MAC关系）中查找目标IP的MAC地址，如果查到了，就将该MAC地址组装到链路层数据包的包头；如果没找到，会发起一个广播：who is IP XXX tell IP XXX，所有收到的广播的机器看看这个IP是否是自己的，如果是自己的，则以单拨的形式将自己的MAC地址回复给请求的机器。\n\n\n传递到IP层如何知道该给哪个应用程序：\n根据端口号区分。\n\n\n如何区分是UDP报文还是TCP报文：\n看IP数据段的协议标识字段，6是TCP，17是UDP。返回原题\n\n\n\n\n\n\n\n\n\n二者区别：\n连接：TCP是面向连接的传输层协议，而UDP无连接；\n服务对象：TCP是端到端的两端间服务，即一条TCP连接只能有两个端点；而UDP支持一对一、一对多、多对一、多对多的通信；\n可靠性：TCP是可靠交付，无差错、不丢失、不重复、按序到达；而UDP尽最大努力交付，不保证可靠交付；\n拥塞控制、流量控制：TCP有拥塞控制和流量控制，保证传输数据的安全性；而UDP没有这些，网络拥塞不会影响源主机的发送效率；\n报文长度：TCP是动态报文长度，即根据接收方的窗口大小以及网络拥塞状态来决定的；而EDP面向报文，不合并、不拆分，保留上面传下来报文的边界；\n首部开销：TCP首部开销大，占20个字节；而UDP首部开销小，只有8个字节（源端口、目的端口、数据长度、检验和）\n\n\n各自适用场景：\nUDP：视频传输、实时通信等；\nTCP：文件传输、发送邮件、重要状态的更新等。返回原题\n\n\n\n\n\n\n\n\n\n基于TCP的socket：\n\n服务器端程序：\n创建一个套接字，用函数socket();\n绑定IP地址、端口号到套接字，用函数bind();\n设置允许最大的连接数，用函数listen();\n接收客户端的连接，用函数accept();\n收发数据，用函数send()和recv()，或read()或write();\n关闭网络连接，用close()。\n\n\n客户端程序：\n创建一个套接字，用函数socket();\n设置要连接的对方的IP和端口属性；\n连接服务器，用函数connect();\n收发数据，用函数send()和recv()，或read()和write();\n关闭网络连接，用close()。\n\n\n\n\n基于UDP的socket：\n\n服务器端程序：\n\n建立套接字文件描述符，使用函数socket()，创建一个套接字文件描述符；\n设置服务器地址和监听端口，初始化要绑定的网络地址结构；\n绑定监听端口，使用bind()函数，将套接字文件描述符和一个地址类型变量进行绑定；\n接收客户端的数据，使用recvfrom();\n向客户端发送数据，使用sendto();\n关闭套接字，使用close释放资源；\n\n\n客户端程序：\n\n建立套接字文件描述符，socket();\n设置服务器端口和地址，struct sockaddr;\n向服务器发送数据，sendto();\n接收服务器的数据，recvfrom();\n关闭套接字，close()。返回原题\n\n\n\n\n\n\n","dateCreated":"2019-08-15T22:26:37+08:00","dateModified":"2019-08-22T22:44:53+08:00","datePublished":"2019-08-15T22:26:37+08:00","description":"开发岗面试问题总结之计算机网络","headline":"开发岗面试问题总结：计算机网络","image":["thumbnail.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/2019/08/15/networks/"},"publisher":{"@type":"Organization","name":"Liu Yi","sameAs":["https://github.com/liuyihust","mailto:liuyihust@foxmail.com"],"image":"portrait.gif","logo":{"@type":"ImageObject","url":"portrait.gif"}},"url":"/2019/08/15/networks/","keywords":"求职, 面试","thumbnailUrl":"thumbnail.png"}</script>
+    <meta name="description" content="开发岗面试问题总结之计算机网络">
+<meta name="keywords" content="开发,面试,求职,计算机网络">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="开发岗面试问题总结：计算机网络">
+<meta property="og:url" content="/2019/08/15/networks/index.html">
+<meta property="og:site_name" content="Liuyee&#39;s Blog">
+<meta property="og:description" content="开发岗面试问题总结之计算机网络">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-08-22T14:44:53.847Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="开发岗面试问题总结：计算机网络">
+<meta name="twitter:description" content="开发岗面试问题总结之计算机网络">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="/assets/images/portrait.gif"/>
+    
+    
+        <meta property="og:image" content="/2019/08/15/networks/thumbnail.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="/2019/08/15/networks/thumbnail.png"/>
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/all.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+
+    
+    <script type="text/javascript">
+	    var _hmt = _hmt || [];
+	    (function() {
+	      var hm = document.createElement("script");
+	      hm.src = "//hm.baidu.com/hm.js?9090c30aa810eb2d002253f0d0f5bbea";
+	      var s = document.getElementsByTagName("script")[0];
+	      s.parentNode.insertBefore(hm, s);
+	    })();
+    </script>
+
+
+    
+        
+            <link rel="stylesheet" href="/assets/css/gitment.css">
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/ "
+            aria-label=""
+        >
+            Liuyee&#39;s Blog
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="打开链接: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/portrait.gif" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="阅读有关作者的更多信息"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/portrait.gif" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Liu Yi</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>无趣的人生，有趣地生活。<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=245 height=52 align="middle" src="//music.163.com/outchain/player?type=2&id=26294503&auto=1&height=32"></iframe></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="https://github.com/liuyihust"
+                            title="GitHub"
+                        >
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="mailto:liuyihust@foxmail.com"
+                            title="邮箱"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">邮箱</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title">
+            开发岗面试问题总结：计算机网络
+        </h1>
+    
+    
+        <div class="post-meta">
+    
+
+    <time datetime="2019-08-15T22:26:37+08:00">
+	
+		    8月 15, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Job-Hunting/">Job Hunting</a>
+
+
+    
+
+    <br>
+    <i class="fas fa-file-word"></i>
+    <font>本文字数:</font>
+    <span class="post-count">3.8k</span>
+    <span class="post-meta-divider">|</span>
+
+    <i class="far fa-clock"></i>
+    <font>建议阅读时长:</font>
+    <span class="post-count">13</span>
+    <font> min</font>
+
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+
+
+
+
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><ol>
+<li><span id="Q04-1"></span>TCP的模型，状态转移</li>
+<li><span id="Q04-2"></span>HTTP和HTTPS的区别，HTTPS有什么特点，带来的好处和坏处，怎么实现的？<a href="#A04-2">答案</a> </li>
+<li><span id="Q04-3"></span>TCP 讲了一遍，讲 Segment 中的每个字段是如何为 TCP 面向连接、可靠的流式服务提供支持的</li>
+<li><span id="Q04-4"></span>TCP怎么保证可靠性，以及画一下建立连接和断开连接的过程，发了什么？<a href="#A04-4">答案</a> </li>
+<li><span id="Q04-5"></span>讲讲TCP为什么是三次握手，四次挥手？<a href="#A04-5">答案</a> </li>
+<li><span id="Q04-6"></span>讲讲浏览器输入地址后发生的全过程．（每一个细节都讲）<a href="#A04-6">答案</a> </li>
+<li><span id="Q04-7"></span>http请求报文和应答报文的格式（三块）</li>
+<li><span id="Q04-8"></span>http返回码。<a href="#A04-8">答案</a> </li>
+<li><span id="Q04-9"></span>ip地址有什么用，ip地址和mac地址。<a href="#A04-9">答案</a> </li>
+<li><span id="Q04-10"></span>OSI七层模型和TCP/IP四层模型，每层列举2个协议。<a href="#A04-10">答案</a></li>
+<li><span id="Q04-11"></span>DNS</li>
+<li><span id="Q04-12"></span>拥塞控制。<a href="#A04-12">答案</a></li>
+<li><span id="Q04-13"></span>UDP模拟TCP</li>
+<li><span id="Q04-14"></span>客户端向服务器发3个包，基于TCP和UDP的服务器会收到几个？</li>
+<li><span id="Q04-15"></span>介绍time_wait状态</li>
+<li><span id="Q04-16"></span>TCP/IP 数据链路层的交互过程，传递到IP层怎么知道报文该给哪个应用程序，再问：它怎么区分UDP报文还是TCP报文？<a href="#A04-16">答案</a></li>
+<li><span id="Q04-17"></span><span id="Q04-2"></span><span id="Q04-2"></span>滑动窗口</li>
+<li><span id="Q04-18"></span><span id="Q04-2"></span>TCP传输对包的大小有限制吗？</li>
+<li><span id="Q04-19"></span>现在我要传输一个1M的数据包，tcp如何传输？</li>
+<li><span id="Q04-20"></span>HTTP1.0与HTTP2.0</li>
+<li><span id="Q04-21"></span>TCP和UDP各自的优势，知道哪些使用UDP协议的成功案例。<a href="#A04-21">答案</a></li>
+<li><span id="Q04-22"></span>TCP和UDP各用了底层什么协议</li>
+<li><span id="Q04-23"></span>单个UDP报文最大容量</li>
+<li><span id="Q04-24"></span>TCP粘包怎么处理</li>
+<li><span id="Q04-25"></span>如果网络延迟很高，但是又没有发生丢包，利用tcp会使吞吐量下降，该如何解决呢</li>
+<li><span id="Q04-26"></span>socket编程中服务端和客户端分别用到哪些函数？<a href="#A04-26">答案</a></li>
+</ol>
+<h2 id="参考答案"><a href="#参考答案" class="headerlink" title="参考答案"></a>参考答案</h2><ol start="2">
+<li><span id="A04-2">
+
+<ul>
+<li>HTTP和HTTPS的区别：<ul>
+<li>HTTP是以明文的方式在网络中进行传输数据，而HTTPS协议传输的数据则是经过TLS加密过的，因而具有更高的安全性；</li>
+<li>HTTPS在经过TCP的三次握手后，还要进行SSL的handshake，协商加密使用的对称加密密钥；</li>
+<li>HTTPS需要服务器端申请证书，且浏览器端安装对应的根证书；</li>
+<li>HTTP的端口是80，而HTTPS的端口是443。</li>
+</ul>
+</li>
+<li>HTTPS的优点：<ul>
+<li>在数据传输过程中使用密钥进行加密，所以安全性更高；</li>
+<li>通过认证用户和服务器，因而可以确保数据发送到正确的用户和服务器。</li>
+</ul>
+</li>
+<li>HTTPS的缺点：<ul>
+<li>握手阶段延时较高：由于在进行HTTPS会话之前，还需要进行SSL握手，因此HTTPS握手阶段延时增加；</li>
+<li>部署成本高：一方面需要使用证书来验证自身的安全性，需要购买CA证书；另一方面，由于采用HTTPS协议需要加解密计算，占用CPU资源较多，需要的服务器配置或数目较高。<br><a href="#Q04-2">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="4">
+<li><span id="A04-4">
+
+<ul>
+<li>序列号、确认应答、超时重传：<ul>
+<li>数据到达接收方，接收方需要发回一个确认应答，表示已经收到该数据段。并且确认序号会说明它下次要接收的数据序列号。如果发送方迟迟未收到确认应答，那么可能是发送的数据丢失，也可能是确认应答丢失，这时发送方会在等待大约2倍RTT（报文往返时间）后进行重传。</li>
+</ul>
+</li>
+<li>窗口控制与快重传：<ul>
+<li>TCP会利用窗口控制来提高传输速度，即在一个窗口大小内，不用一定得等到确认应答后才能发送下一个数据，窗口大小就是无需等待确认而可以继续发送数据段的最大值。</li>
+<li>使用窗口控制，如果某数据段丢失，则接收方会持续发送该数据段的序列号的应答，如果发送方连续收到三次该应答，则立刻进行重发。</li>
+</ul>
+</li>
+<li>拥塞控制：<ul>
+<li>为了防止发送数据过多，造成网络拥塞。</li>
+<li>慢开始、拥塞避免、快重传等<br><a href="#Q04-4">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="5">
+<li><span id="A04-5">
+
+<ul>
+<li>三次握手：<ul>
+<li>过程：C–&gt;SYN–&gt;S；S–&gt;SYN/ACK–&gt;C；C–&gt;ACK–&gt;S。</li>
+<li>原因：可以防止已经失效的连接请求报文突然又传递到服务器端造成服务器资源浪费的情况发生。以及确保连接的可靠性。</li>
+<li>例子：客户端发出了一个连接请求的SYN，但由于网络阻塞，该报文滞留在某节点了。然后超过一定时长后，客户端又重新发出了一个SYN，并与服务器建立连接、传输数据，最后再关闭连接。这时，滞留在某节点的SYN突然又传递到了服务器端，如果只有二次握手，服务器端会误以为这是客户端新建立的连接请求，于是发送一个SYN给客户端，并在服务器创建socket套接字，一直等待客户端传送数据。但由于客户端没有连接服务器的需求，会直接丢弃SYN，此时服务器会一直等待客户端发送数据，而造成资源浪费。</li>
+</ul>
+</li>
+<li>四次挥手：<ul>
+<li>过程：C–&gt;FIN–&gt;S；S–&gt;ACK–&gt;C；S–&gt;FIN–&gt;C；C–&gt;ACK–&gt;S。</li>
+<li>原因：关闭连接时，仅代表关闭方没有数据要发送给另一方了，并不代表另一方没有数据要发送给关闭方，所以此时不能关闭socket套接字，需要等所有数据发送完之后才能发送FIN给关闭方。<br><a href="#Q04-5">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="6">
+<li><span id="A04-6">
+
+<ol>
+<li>将URL解析为IP地址，解析域名需要用到DNS协议；<ul>
+<li>主机依次通过查询本地hosts文件、DNS解析器缓存、本地的DNS服务器、根域名服务器。</li>
+<li>根域名服务器查询分为两种，一种是递归查询，一种是迭代查询。</li>
+<li>如果是递归查询，此根域名服务器不断向上转发请求，直至得到最终结果，并将解析结果返回给本地DNS服务器，本地DNS服务器再将其返回给浏览器，查询完成；</li>
+<li>如果是迭代查询，本地服务器向根域名服务器发送查询请求。根域名服务器告知该域名的一级域名服务器，然后本地服务器给该一级域名服务器发送查询请求。然后以此类推，直至查询到该域名的IP地址。</li>
+<li>是基于UDP的，因此会用到UDP协议；</li>
+</ul>
+</li>
+<li>得到IP地址后，浏览器打开TCP连接（默认端口为80），并向Web服务器发送http请求，因此要用到HTTP协议；<ul>
+<li>应用层：浏览器发送HTTP请求报文；</li>
+<li>传输层：切分长数据，并确保可靠性；</li>
+<li>网络层：进行路由</li>
+<li>数据链路层：传输数据</li>
+<li>物理层：物理传输比特</li>
+</ul>
+</li>
+<li>若页面发生跳转，服务器以一个重定向响应，然后转到第iv步，否则转到第v步；</li>
+<li>浏览器跟随重定向，再次发送HTTP请求；</li>
+<li>服务器处理请求，并发回HTML源码；<ul>
+<li>服务器经过物理层、数据链路层、网络层、传输层、应用层解析请求报文，并返回HTML源码</li>
+</ul>
+</li>
+<li>浏览器接受请求的页面源码，并开始渲染HTML；</li>
+<li>浏览器发送嵌入到HTML中的对象请求；</li>
+<li>浏览器进一步发送异步（Ajax）请求；</li>
+<li>浏览器关闭TCP连接。<br><a href="#Q04-6">返回原题</a></li>
+</ol>
+</span></li>
+</ol>
+<ol start="8">
+<li><span id="A04-8">
+
+<ul>
+<li><p>HTTP的状态码由三位数字组成，第一个十进制数定义了状态码的类型：</p>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>分类描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1**</td>
+<td>信息，服务器收到请求，需要请求者继续执行操作</td>
+</tr>
+<tr>
+<td>2**</td>
+<td>成功，操作被成功接收并处理</td>
+</tr>
+<tr>
+<td>3**</td>
+<td>重定向，需要进一步的操作以完成请求</td>
+</tr>
+<tr>
+<td>4**</td>
+<td>客户端错误，请求包含语法错误或无法完成请求</td>
+</tr>
+<tr>
+<td>5**</td>
+<td>服务端错误，服务器在处理请求的过程中发生了错误</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>常见的HTTP状态码：</p>
+<ul>
+<li>200：请求成功</li>
+<li>301：资源（网页等）被永久地转移到其它URL</li>
+<li>404：请求的资源（网页等）不存在</li>
+<li>500：内部服务器错误<br><a href="#Q04-8">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="9">
+<li><span id="A04-9">
+
+<ul>
+<li>IP地址：IP协议提供的一种统一的地址格式，为互联网的每一个网络和每一台主机分配一个逻辑地址，以此来屏蔽物理地址的差异；</li>
+<li>MAC地址：硬件地址，用于定义网络设备的位置，由数据链路层负责。<br><a href="#Q04-9">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="10">
+<li><span id="A04-10">
+
+<ul>
+<li>OSI七层模型：<ul>
+<li>物理层：通过媒介传输比特，确定机械和电气规范。主要设备有网卡、中继器等；主要协议有IEE802.3、CLOCK、RJ45等。</li>
+<li>数据链路层：将比特组装成帧和点到点的传输。主要设备有网桥、交换机等；主要协议有MAC、VLAN、PPP协议等。</li>
+<li>网络层：负责数据包从源到宿的传递以及网际互联。主要设备有路由器等；主要协议有IP、ARP、TCMP。</li>
+<li>传输层：提供端到端的可靠报文传递和错误恢复。主要协议有TCP、UDP等。</li>
+<li>会话层：建立、管理和终止会话，传输单位是SPDU(Session Protocol Data Unit)。主要协议有RPC、NFS等。</li>
+<li>表示层：对数据进行翻译、加密和压缩，传输单位是PPDU(Presentation ~)。主要协议有JPEG、ASCII等。</li>
+<li>应用层：允许访问OSI环境的手段，传输单位为APDU(Application ~)。主要协议有HTTP、FTP、DNS等。</li>
+</ul>
+</li>
+<li>TCP/IP四层模型：<ul>
+<li>网络接口层：MAC、VLAN</li>
+<li>网络层：IP、ICMP</li>
+<li>传输层：TCP、IP</li>
+<li>应用层：HTTP、DNS、FTP<br><a href="#Q04-10">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="12">
+<li><span id="A04-12">
+
+<ul>
+<li>拥塞控制是为了防止过多的数据注入网络，使得网络中的路由器或链路过载。流量控制是点对点的通信量控制，而拥塞控制是全局的网络流量整体性的控制。发送双方都有一个拥塞窗口——cwnd（Congestion Window）；</li>
+<li>cwnd的大小取决于网络的拥塞程度，并且动态地在变化。</li>
+<li>发送方让自己发送窗口大小等于拥塞窗口，但考虑到接收方的接收能力，一般而言发送窗口小于拥塞窗口；</li>
+<li>几种算法：<ul>
+<li>慢开始：最开始发送方的拥塞窗口为1，逐渐增大拥塞窗口和发送窗口。每经过一个传输轮次，拥塞窗口加倍，如果其超过慢开始的门限，则使用拥塞避免算法，防止拥塞窗口过大；</li>
+<li>拥塞避免：每经过一次往返时间RTT，拥塞窗口增长1。在慢开始和拥塞避免中，如果发现网络拥塞，就把慢开始中的门限值减小到之前的一半，并设置cwnd为1，重新慢开始；</li>
+<li>快重传：接收方接收到一个失序的报文段后就立即发出重复确认，发送方只要连续收到三个重复确认就立即重传；</li>
+<li>快恢复：当发送方连续收到了三个重复确认后（说明当前网络没有拥塞），就将慢开始门限减半，并将当前的cwnd设置为慢开始门限，并且采用拥塞避免算法。</li>
+</ul>
+</li>
+<li>什么时候开始减慢增长速度：<ul>
+<li>采用慢开始和拥塞避免算法的时候：<ul>
+<li>一旦cwnd超过慢开始门限，就采用拥塞避免算法，减慢增长速度；</li>
+<li>一旦发生丢包，就重新进行慢开始，减慢增长速度。</li>
+</ul>
+</li>
+<li>采用快恢复和快重传的时候：<ul>
+<li>一旦cwnd超过慢开始门限，就采用拥塞避免算法，减慢增长速度；</li>
+<li>一旦发送方连续收到了三个重复确认，就采用拥塞避免算法，减慢增长速度。<br><a href="#Q04-12">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="16">
+<li><span id="A04-16">
+
+<ul>
+<li>TCP/IP数据链路层的交互过程：<ul>
+<li>网络层等到数据链路层用MAC地址作为通信目标，数据包到达网络等准备往数据链路层发的时候，首先会去自己的ARP缓存表（存储着IP-MAC关系）中查找目标IP的MAC地址，如果查到了，就将该MAC地址组装到链路层数据包的包头；如果没找到，会发起一个广播：who is IP XXX tell IP XXX，所有收到的广播的机器看看这个IP是否是自己的，如果是自己的，则以单拨的形式将自己的MAC地址回复给请求的机器。</li>
+</ul>
+</li>
+<li>传递到IP层如何知道该给哪个应用程序：<ul>
+<li>根据端口号区分。</li>
+</ul>
+</li>
+<li>如何区分是UDP报文还是TCP报文：<ul>
+<li>看IP数据段的协议标识字段，6是TCP，17是UDP。<br><a href="#Q04-16">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="21">
+<li><span id="A04-21">
+
+<ul>
+<li>二者区别：<ul>
+<li>连接：TCP是面向连接的传输层协议，而UDP无连接；</li>
+<li>服务对象：TCP是端到端的两端间服务，即一条TCP连接只能有两个端点；而UDP支持一对一、一对多、多对一、多对多的通信；</li>
+<li>可靠性：TCP是可靠交付，无差错、不丢失、不重复、按序到达；而UDP尽最大努力交付，不保证可靠交付；</li>
+<li>拥塞控制、流量控制：TCP有拥塞控制和流量控制，保证传输数据的安全性；而UDP没有这些，网络拥塞不会影响源主机的发送效率；</li>
+<li>报文长度：TCP是动态报文长度，即根据接收方的窗口大小以及网络拥塞状态来决定的；而EDP面向报文，不合并、不拆分，保留上面传下来报文的边界；</li>
+<li>首部开销：TCP首部开销大，占20个字节；而UDP首部开销小，只有8个字节（源端口、目的端口、数据长度、检验和）</li>
+</ul>
+</li>
+<li>各自适用场景：<ul>
+<li>UDP：视频传输、实时通信等；</li>
+<li>TCP：文件传输、发送邮件、重要状态的更新等。<br><a href="#Q04-21">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="26">
+<li><span id="A04-16">
+
+<ul>
+<li><p>基于TCP的socket：</p>
+<ul>
+<li>服务器端程序：<ol>
+<li>创建一个套接字，用函数socket();</li>
+<li>绑定IP地址、端口号到套接字，用函数bind();</li>
+<li>设置允许最大的连接数，用函数listen();</li>
+<li>接收客户端的连接，用函数accept();</li>
+<li>收发数据，用函数send()和recv()，或read()或write();</li>
+<li>关闭网络连接，用close()。</li>
+</ol>
+</li>
+<li>客户端程序：<ol>
+<li>创建一个套接字，用函数socket();</li>
+<li>设置要连接的对方的IP和端口属性；</li>
+<li>连接服务器，用函数connect();</li>
+<li>收发数据，用函数send()和recv()，或read()和write();</li>
+<li>关闭网络连接，用close()。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>基于UDP的socket：</p>
+<ul>
+<li><p>服务器端程序：</p>
+<ol>
+<li>建立套接字文件描述符，使用函数socket()，创建一个套接字文件描述符；</li>
+<li>设置服务器地址和监听端口，初始化要绑定的网络地址结构；</li>
+<li>绑定监听端口，使用bind()函数，将套接字文件描述符和一个地址类型变量进行绑定；</li>
+<li>接收客户端的数据，使用recvfrom();</li>
+<li>向客户端发送数据，使用sendto();</li>
+<li>关闭套接字，使用close释放资源；</li>
+</ol>
+</li>
+<li><p>客户端程序：</p>
+<ol>
+<li>建立套接字文件描述符，socket();</li>
+<li>设置服务器端口和地址，struct sockaddr;</li>
+<li>向服务器发送数据，sendto();</li>
+<li>接收服务器的数据，recvfrom();</li>
+<li>关闭套接字，close()。<br><a href="#Q04-26">返回原题</a></li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+            
+
+
+            <!-- 添加的部分 -->
+            <!-- copyright -->
+            
+            <!-- copyright -->
+        </div>
+    </div>
+
+
+    <!-- 打赏 -->
+    
+        <br>
+        <br>
+        <div class ="post-donate">
+            <div id="donate_board" class="donate_bar center">
+                <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+                <br>
+            </div>
+            <div id="donate_guide_alipay" class="donate_bar center hidden" >
+                <!-- 支付宝打赏图案 -->
+                <h1 align="center"
+style="color:#019fe8; font-size:17px; line-height:2%;">支付宝扫一扫
+                    <i class="fas fa-hand-point-down"></i>
+                </h1>
+                <img src="../../../../assets/images/alipay.png" alt="支付宝打赏">
+            </div>
+
+            <div id="donate_guide_wechat" class="donate_bar center hidden" >
+                <!-- 微信打赏图案 -->
+                <h1 align="center"
+style="color:#1AAD19; font-size:17px; line-height:2%;">微信扫一扫
+                    <i class="fas fa-hand-point-down"></i>
+                </h1>
+                <img src="../../../../assets/images/wechat.png" alt="微信打赏">
+                
+            </div>
+
+            <div id="donate_button_alipay" class="donate_bar center hidden">
+                <br>
+                <a id="btn_donate_alipay" class="btn_donate_alipay" href="javascript:;" title="切换到微信">切换到微信</a>
+            </div>
+
+            <div id="donate_button_wechat" class="donate_bar center hidden">
+                <br>
+                <a id="btn_donate_wechat" class="btn_donate_wechat" href="javascript:;" title="切换到支付宝">切换到支付宝</a>
+            </div>
+
+        
+
+            <script type="text/javascript">
+                document.getElementById('btn_donate').onclick = function(){
+                    $('#donate_board').addClass('hidden');
+                    $('#donate_guide_wechat').removeClass('hidden');
+                    $('#donate_button_wechat').removeClass('hidden');
+                }
+            </script>
+
+            <script type="text/javascript">
+                document.getElementById('btn_donate_alipay').onclick = function(){
+                    $('#donate_guide_alipay').addClass('hidden');
+                    $('#donate_button_alipay').addClass('hidden');
+                    $('#donate_guide_wechat').removeClass('hidden');
+                    $('#donate_button_wechat').removeClass('hidden');
+                }
+            </script>
+
+            <script type="text/javascript">
+                document.getElementById('btn_donate_wechat').onclick = function(){
+                    $('#donate_guide_wechat').addClass('hidden');
+                    $('#donate_button_wechat').addClass('hidden');
+                    $('#donate_guide_alipay').removeClass('hidden');
+                    $('#donate_button_alipay').removeClass('hidden');
+                }
+            </script>
+
+            
+        </div>
+
+        <div class="donateText" style="line-height:120%;"><br>“ 万物皆有时，比如你我相遇 ”</div>
+        <br>
+            
+    
+
+
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/求职/">求职</a> <a class="tag tag--primary tag--small t-link" href="/tags/面试/">面试</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/15/operationSystems/"
+                    data-tooltip="开发岗面试问题总结：操作系统"
+                    aria-label="上一篇: 开发岗面试问题总结：操作系统"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/15/dataStructure/"
+                    data-tooltip="开发岗面试问题总结：数据结构"
+                    aria-label="下一篇: 开发岗面试问题总结：数据结构"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/08/15/networks/"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=/2019/08/15/networks/"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitment"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                
+<div id="gitment"></div>
+
+<!-- Gitment评论插件通用代码 -->
+
+<link rel="stylesheet" href='assets/js/gitment.css'>
+<script src='assets/js/gitment.js'></script>
+
+<script>
+var gitment = new Gitment({
+  owner: 'liuyihust',
+  repo: '',
+  oauth: {
+    client_id: '4d67b0b86332dbac9f61',
+    client_secret:'59b0670047644cff4d5740c6e239f758ade18049',
+  },
+})
+gitment.render('git')
+</script>
+
+<!-- Gitment代码结束 -->
+            
+        
+    </div>
+
+    
+
+</article>
+
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <i class="fas fa-user-clock"></i>
+    <span id="timeDate">0</span><span id="times">0</span>
+    <script>
+        var now = new Date();
+        function createtime() {
+            var grt= new Date("04/01/2018 00:00:00");//此处修改你的建站时间或者网站上线时间
+            now.setTime(now.getTime()+250);
+            days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+            hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+            if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+            mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+            seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+            snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+            document.getElementById("timeDate").innerHTML = "Blog Age: "+dnum+" days ";
+            document.getElementById("times").innerHTML = hnum + " h " + mnum + " m " + snum + " s";
+        }
+        setInterval("createtime()",250);
+	</script>
+
+    <br>
+
+    <span class="copyrights">
+        Copyrights &copy; 2020 Liu Yi. All Rights Reserved.
+    </span>
+
+
+</footer>
+
+
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/15/operationSystems/"
+                    data-tooltip="开发岗面试问题总结：操作系统"
+                    aria-label="上一篇: 开发岗面试问题总结：操作系统"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/15/dataStructure/"
+                    data-tooltip="开发岗面试问题总结：数据结构"
+                    aria-label="下一篇: 开发岗面试问题总结：数据结构"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/08/15/networks/"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=/2019/08/15/networks/"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitment"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=/2019/08/15/networks/"
+                        aria-label="分享到 Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=/2019/08/15/networks/"
+                        aria-label="分享到 Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/portrait.gif" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Liu Yi</h4>
+        
+            <div id="about-card-bio"><p>无趣的人生，有趣地生活。<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=245 height=52 align="middle" src="//music.163.com/outchain/player?type=2&id=26294503&auto=1&height=32"></iframe></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>学生</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                湖北武汉
+            </div>
+        
+    </div>
+</div>
+        
+            <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-times"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="/assets/images/logo-algolia-nebula-blue-full.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    />
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">没有找到文章</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/21/randomNumber/"
+                            aria-label=": Random Number Generator"
+                        >
+                            <img class="media-image" src="/2018/04/21/randomNumber/random.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/21/randomNumber/"
+                            aria-label=": Random Number Generator"
+                        >
+                            <h3 class="media-heading">Random Number Generator</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2018年4月21日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>C++编程时经常要用到随机数，那么到底有哪些随机数产生器或函数呢？我这里来做个小结。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/22/Japanese-1/"
+                            aria-label=": 日语中的数字与时间"
+                        >
+                            <img class="media-image" src="/2018/04/22/Japanese-1/japan.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/22/Japanese-1/"
+                            aria-label=": 日语中的数字与时间"
+                        >
+                            <h3 class="media-heading">日语中的数字与时间</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2018年4月22日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>日语中的数字与时间常见表示。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/25/Japanese-2/"
+                            aria-label=": 日语中的动词变形"
+                        >
+                            <img class="media-image" src="/2018/04/25/Japanese-2/maomi.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/25/Japanese-2/"
+                            aria-label=": 日语中的动词变形"
+                        >
+                            <h3 class="media-heading">日语中的动词变形</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2018年4月25日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>学过日语的人都知道，日语中的动词是需要变形的，所以我这里简单来总结一下日语中的动词变形！</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/15/setup-package/"
+                            aria-label=": 程序打包（Setup使用技巧）"
+                        >
+                            <img class="media-image" src="/2019/01/15/setup-package/pakage.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/15/setup-package/"
+                            aria-label=": 程序打包（Setup使用技巧）"
+                        >
+                            <h3 class="media-heading">程序打包（Setup使用技巧）</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年1月15日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>常用打包软件Setup的使用技巧。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/20/vs-skills/"
+                            aria-label=": VS使用技巧"
+                        >
+                            <img class="media-image" src="/2019/01/20/vs-skills/vs.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/20/vs-skills/"
+                            aria-label=": VS使用技巧"
+                        >
+                            <h3 class="media-heading">VS使用技巧</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年1月20日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>VS基础…</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/02/28/tf-version-problem/"
+                            aria-label=": 安装Tensorflow版本不匹配问题及解决"
+                        >
+                            <img class="media-image" src="/2019/02/28/tf-version-problem/tensorflow.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/02/28/tf-version-problem/"
+                            aria-label=": 安装Tensorflow版本不匹配问题及解决"
+                        >
+                            <h3 class="media-heading">安装Tensorflow版本不匹配问题及解决</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年2月28日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>安装Tensorflow时踩过的坑…</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/09/themeConfig/"
+                            aria-label=": 博客瞎折腾——tranquilpeak主题"
+                        >
+                            <img class="media-image" src="/2019/08/09/themeConfig/cat.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/09/themeConfig/"
+                            aria-label=": 博客瞎折腾——tranquilpeak主题"
+                        >
+                            <h3 class="media-heading">博客瞎折腾——tranquilpeak主题</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月9日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather">The article has been encrypted, please enter your password to view.<br></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/11/linux-files/"
+                            aria-label=": linux文件和目录"
+                        >
+                            <img class="media-image" src="/2019/08/11/linux-files/newtux.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/11/linux-files/"
+                            aria-label=": linux文件和目录"
+                        >
+                            <h3 class="media-heading">linux文件和目录</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月11日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Linux学习笔记：文件和目录</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/12/Welcome/"
+                            aria-label=": Welcome To Liuyee&#39;s Blog"
+                        >
+                            <img class="media-image" src="/2019/08/12/Welcome/deer.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/12/Welcome/"
+                            aria-label=": Welcome To Liuyee&#39;s Blog"
+                        >
+                            <h3 class="media-heading">Welcome To Liuyee&#39;s Blog</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月12日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Don’t aim for success if you want it, just stick to what you love and believe in, and it will come naturally.</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/15/DevelopingInterview/"
+                            aria-label=": 开发岗面试问题总结：C/C++语言"
+                        >
+                            <img class="media-image" src="/2019/08/15/DevelopingInterview/thumbnail.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/15/DevelopingInterview/"
+                            aria-label=": 开发岗面试问题总结：C/C++语言"
+                        >
+                            <h3 class="media-heading">开发岗面试问题总结：C/C++语言</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月15日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>开发岗面试问题总结之C/C++语言</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="没有找到文章"
+                data-message-one="找到 1 篇文章"
+                data-message-other="找到 {n} 篇文章">
+                找到 23 篇文章
+            </p>
+        </div>
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+
+
+    
+        <script src="/assets/js/gitment.js"></script>
+        <script type="text/javascript">
+          (function() {
+            new Gitment({
+              id: '/2019/08/15/networks/',
+              owner: 'liuyihust',
+              repo: 'BlogComments',
+              oauth: {
+                client_id: '4d67b0b86332dbac9f61',
+                client_secret: '59b0670047644cff4d5740c6e239f758ade18049'
+              }
+            }).render('gitment')
+          })()
+        </script>
+    
+
+
+
+    <script src="/assets/js/moment-with-locales.js"></script>
+    <script src="/assets/js/algoliasearch.js"></script>
+    <script>
+      var algoliaClient = algoliasearch('SCS7H6XC2V', '3c07d7df305177e5342667b398d803ef');
+      var algoliaIndex = algoliaClient.initIndex('tranquilpeak');
+    </script>
+
+
+
+        <!-- 点击特效 -->
+        
+            <script async src="/assets/js/text.js"></script>
+        
+    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":400,"vOffset":-80},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.9,"opacityOnHover":0.1},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,0 +1,1250 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Liuyee&#39;s Blog">
+    <title>2019京东校招笔试题 - Liuyee&#39;s Blog</title>
+    <meta name="author" content="Liu Yi">
+    
+        <meta name="keywords" content="求职,笔试,工作,job,京东">
+    
+    
+        <link rel="icon" href="/assets/images/favicon.ico">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liu Yi","sameAs":["https://github.com/liuyihust","mailto:liuyihust@foxmail.com"],"image":"portrait.gif"},"articleBody":"\n\n\n\n\n\n第一题题目描述合唱队的N名学生站成一排，且从左到右编号为1到N，其中编号为i的学生身高为Hi。现在将这些学生分成若干组（同一组的学生编号连续），并让每组学生从左到右按身高从低到高进行排列，使得最后所有学生同样满足从左到右身高从低到高（中间位置可以等高），那么最多能将这些学生分成多少组？\n\n\n输入描述第一行包含一个整数N，1&lt;=N&lt;=105。第二行包含N个空格隔开的整数H1到HN，1&lt;=Hi&lt;=109。\n\n\n\n输出描述输出能分组的最多组数\n\n\n\n分析\n思路：先整体排序，然后再用滑动窗口对遍历排好序的序列和原始序列，对二者窗口内的集合进行比较，若两集合数据一样，则计数加1；否则窗口继续扩大。\n\n123456789101112131415161718192021222324252627282930313233343536373839404142int getMaxTeams(const vector&lt;int&gt;&amp; H) &#123;    vector&lt;int&gt; sortedH;    sortedH.assign(H.begin(), H.end());    sort(sortedH.begin(), sortedH.end());        int cnt = 0;    unoreder_map&lt;int, int&gt; map;    for (int i = 0; i &lt; H.size(); ++i) &#123;        int a = H[i];        int b = sortedH[i];                if (map.find(a) != map.end())            ++map[a];        else            map[a] = 1;                if (map.find(b) != map.end())            --map[b];        else            map[b] = -1;                    if (map.find(a) != map.end() &amp;&amp; map[a] == 0)            map.erase(a);        if (map.find(b) != map.end() &amp;&amp; map[b] == 0)            map.erase(b);                if (map.size() == 0)            ++cnt;    &#125;    return cnt;&#125;int main() &#123;    int N;    while (cin &gt;&gt; N) &#123;        vector&lt;int&gt; H(N);        for (int i = 0; i &lt; N; ++i)            cin &gt;&gt; H[i];                cout &lt;&lt; getMaxTeams(H) &lt;&lt; endl;    &#125;&#125;\n\n\n第二题题目描述某校在积极推行无人监考制度，但是总有学生是不自觉的，如果将两个很熟的异性朋友放在同一个考场里，他们就会交流甚至作弊。因此一个考场中不能允许两个很熟的异性朋友存在，学校希望通过搬出一部分学生的方法来改善这一问题。但是又因为教室数量有限，因此希望一个教室中容下的学生尽可能多，即需要搬出教室的学生数量尽可能少。请你输出搬出教室人数最少、且字典序最小的方案。\n\n\n\n输入描述输出第一行有两个整数n和m，分别表示有n个男生和n个女生，有m个朋友关系。（1&lt;=n&lt;=500，1&lt;=m&lt;=100000）接下来m行，每行有两个整数，x和y，表示第x号男生和第y号女生是朋友。男生的编号均为[1,n]，女生的编号为[n+1,2n]。\n\n\n输出描述输出第一行包含一个整数a，表示最少需要搬出教室的人数。输出第二行有a个整数，即a个需要搬出教室的人的编号，要求人数最少，且字典序最小。\n\n\n\n分析\n思路：本质是二分图最小顶点覆盖问题（即最大匹配问题，Konig定理）。详见【补充知识点】\n\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107// 判断二分图中x和y是否有连接bool isConnected(const multimap&lt;int, int&gt;&amp; edge, int x, int y) &#123;    auto beg = edge.lower_bound(x);    auto end = edge.upper_bound(x);    for (auto it = beg; it != end; ++it) &#123;        if (it-&gt;second == y)            return true;    &#125;    return false;&#125;int augmentPath(const int&amp; n, const multimap&lt;int, int&gt;&amp; edge, unordered_map&lt;int, int&gt;&amp; Mx, unordered_map&lt;int, int&gt;&amp; My, int IDx, set&lt;int&gt;&amp; visited) &#123;    // 考虑Y中所有顶点    for (int IDy = n + 1; IDy &lt;= 2 * n; ++IDy) &#123;        // 如果Y中顶点IDy与X中顶点IDx有连接，且没有访问过        if (isConnected(edge, IDx, IDy) &amp;&amp; visited.find(IDy) == visited.end()) &#123;            // 记录下该点已经被访问过了            visited.emplace(IDy);            // 条件1：如果IDy没有匹配，则直接将IDy匹配给IDx；            // 条件2：如果IDy匹配过了，则从IDy之前匹配过的IDx出发，找到一条增广路，但是这里已经记录IDy被访问过了。            // 如果第一个条件成立，则不会发生递归调用            if (My.find(IDy) == My.end() || augmentPath(n, edge, Mx, My, My[IDy], visited)) &#123;                Mx[IDx] = IDy;                My[IDy] = IDx;                return 1;            &#125;        &#125;    &#125;    return 0;&#125;int maxMatching(const int&amp; n, const multimap&lt;int, int&gt;&amp; edge, unordered_map&lt;int, int&gt;&amp; Mx, unordered_map&lt;int, int&gt;&amp; My) &#123;    set&lt;int&gt; visited;    int res = 0;    // 考虑X中所有顶点    for (int IDx = 1; IDx &lt;= n; ++IDx) &#123;        // 从X中没有匹配的点出发寻找增广路        if (Mx.find(IDx) == Mx.end()) &#123;            // visited记录DFS算法中顶点是否访问过            res += augmentPath(n, edge, Mx, My, IDx, visited);        &#125;    &#125;    return res;&#125;// 由最大匹配问题转化成最小顶点覆盖问题，利用konig定理set&lt;int&gt; getMinVertexCover(const int&amp; n, const multimap&lt;int, int&gt;&amp; edge, unordered_map&lt;int, int&gt;&amp; Mx, unordered_map&lt;int, int&gt;&amp; My) &#123;    stack&lt;int&gt; nonMatchedX; // 保存X中未匹配的点    set&lt;int&gt; visited;     set&lt;int&gt; ret;    for (int IDx = 1; IDx &lt;= n; ++IDx) &#123;        ret.emplace(IDx);        if (Mx.find(IDx) == Mx.end())            nonMatchedX.push(IDx);    &#125;    while (!nonMatchedX.empty()) &#123;        int x = nonMatchedX.top();        nonMatchedX.pop();        visited.emplace(x);        ret.erase(x);        // 遍历Y中的顶点IDy        for (int IDy = n + 1; IDy &lt;= 2 * n; ++IDy) &#123;            // 如果x和IDy有连接，且IDy没有被访问过，则导入            if (isConnected(edge, x, IDy) &amp;&amp; visited.find(IDy) == visited.end()) &#123;                visited.emplace(IDy);                ret.emplace(IDy);                if (visited.find(My[IDy]) == visited.end())                    nonMatchedX.push(My[IDy]);            &#125;        &#125;    &#125;    return ret;&#125;int main() &#123;    int n, m;    while (cin &gt;&gt; n &gt;&gt; m) &#123;        //vector&lt;pair&lt;int, int&gt; &gt; edge;        multimap&lt;int, int&gt; edge;        int p1, p2;        for (int i = 0; i &lt; m; ++i) &#123;            cin &gt;&gt; p1 &gt;&gt; p2;            edge.emplace(p1, p2);        &#125;        unordered_map&lt;int, int&gt; Mx; // 保存X中已经匹配的节点以及匹配到的Y中的节点        unordered_map&lt;int, int&gt; My; // 保存Y中已经匹配的节点以及匹配到的X中的节点                cout &lt;&lt; maxMatching(n, edge, Mx, My) &lt;&lt; endl;                set&lt;int&gt; res; // 保存需要搬出教室的人的编号        res = getMinVertexCover(n, edge, Mx, My);        for (auto it = res.begin(); it != res.end(); ++it)            cout &lt;&lt; *it &lt;&lt; ' ';    &#125;&#125;\n\n补充知识点参考：二分图的最大匹配、完美匹配和匈牙利算法\n二分图定义：简单来说，图中的点可以分为两组，并且使得所有边都跨越组的边界，这样的图就是一个二分图。\n等价定义：不含有奇数条边的环的图。\n匹配匹配(Matching)：在图论中，一个匹配是是一个边的集合。其中任意两条边都没有公共顶点。\n最大匹配(Maximum Matching)：一个图所有匹配中，所含匹配边数最多的匹配，称为这个图的最大匹配。\n完美匹配(Perfect Matching)：如果一个图的某个匹配中，所有顶点都是匹配点，那么它就是一个完美匹配。\n匈牙利算法（Hungarian Algorithm）求解最大匹配问题的一个算法。\n交替路：从一个未匹配点出发，依次经过非匹配边、匹配边、非匹配边…形成的路径叫交替路。\n增广路：从一个未匹配点出发，走交替路，如果途经另一个未匹配点（出发的点不算），则这条交替路称为增广路（Augmenting Path）。\n增广路的特点：非匹配边比匹配边多一条。因此，只要把增广路中的匹配边和非匹配边的身份交换即可使图中匹配边数目比原来多了1条。由于中间的匹配节点不存在其他相连的匹配边，所以这样做不会破坏匹配的性质。\n匈牙利树：一般由BFS构造。从一个未匹配点出发运行BFS（唯一的限制是必须走交替路），直至不能再扩展为止。\n匈牙利算法要点：\n\n从左边第1个顶点开始，挑选未匹配点进行搜索，寻找增广路。  \n如果经过一个未匹配点，说明寻找成功，更新路径信息，匹配边数+1，停止搜索；\n如果一直没有增广路，则不再从这个顶点开始搜索。\n\n\n由于找到增广路后需要沿着路径更新匹配，所以我们需要一个结构来记录路径上的点。DFS版本通过函数调用隐式地使用一个栈，而BFS版本使用prev数组。\n\n几个定理：\n\n定理1：最大匹配数 = 最小点覆盖数（Konig定理）\n定理2：最大匹配数 = 最大独立数\n定理3：最小路径覆盖数 = 顶点数 - 最大匹配数\n\nKonig定理参考：【learning】二分图最大匹配的König定理\n已知一个二分图的最大匹配数为m。\n定理阐释：\n按照如下方式给这堆点打上标记：\n\n以右边部分所没有匹配到的点为起点，按交替路的方式遍历下去，直至不能继续走下去了；\n给沿途的点全部打上标记。\n\n将右边没有标记的点和左边有标记的点组成一个点集，这个点集便是最小点覆盖点集。\n\n\n\n标记时交替路性质：对于一条在交替路上的边(u, v)，必定满足：\n\nu,v均为标号点；\n若该边为匹配边，则遍历时先走到u，再走到v，即方向为从左至右；\n若该边为非匹配边，则遍历时先走到v再走到u，即方向从右至左。\n\n为何这是一个点覆盖？首先可以把边分成两类，一类是在某条交替路上的边，一类不在。\n\n对于在交替路上的边，显然可以通过选取左边部分打上标记的点来覆盖掉。\n而对于不在交替路上且没有被覆盖到的边，它在右边部分的端点一定是没有标记的。\n\n点覆盖的大小为何等于m？\n\n由于是交替路，并且起点在右边，所以左边的被标记的点的个数必定和交替路中匹配边的个数相等。\n非交替路上的且没有覆盖到的边的右端点肯定连到的是未标记的右边的点，而右边每个未被标记的点必定会连且只会连出一条匹配边。\n两者相加为得到m。\n\nm为何是最小点覆盖？覆盖m条匹配边最少都要m个点，所以覆盖点显然无法小于这个值。","dateCreated":"2019-08-24T22:37:09+08:00","dateModified":"2019-08-26T22:59:33+08:00","datePublished":"2019-08-24T22:37:09+08:00","description":"2019京东校招笔试题编程题的C++解法及解析。","headline":"2019京东校招笔试题","image":["thumbnail.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"/2019/08/24/jingdong/"},"publisher":{"@type":"Organization","name":"Liu Yi","sameAs":["https://github.com/liuyihust","mailto:liuyihust@foxmail.com"],"image":"portrait.gif","logo":{"@type":"ImageObject","url":"portrait.gif"}},"url":"/2019/08/24/jingdong/","keywords":"求职, 笔试","thumbnailUrl":"thumbnail.jpg"}</script>
+    <meta name="description" content="2019京东校招笔试题编程题的C++解法及解析。">
+<meta name="keywords" content="求职,笔试,工作,job,京东">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="2019京东校招笔试题">
+<meta property="og:url" content="/2019/08/24/jingdong/index.html">
+<meta property="og:site_name" content="Liuyee&#39;s Blog">
+<meta property="og:description" content="2019京东校招笔试题编程题的C++解法及解析。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-08-26T14:59:33.642Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2019京东校招笔试题">
+<meta name="twitter:description" content="2019京东校招笔试题编程题的C++解法及解析。">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="/assets/images/portrait.gif"/>
+    
+    
+        <meta property="og:image" content="/2019/08/24/jingdong/thumbnail.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="/2019/08/24/jingdong/thumbnail.jpg"/>
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/all.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+
+    
+    <script type="text/javascript">
+	    var _hmt = _hmt || [];
+	    (function() {
+	      var hm = document.createElement("script");
+	      hm.src = "//hm.baidu.com/hm.js?9090c30aa810eb2d002253f0d0f5bbea";
+	      var s = document.getElementsByTagName("script")[0];
+	      s.parentNode.insertBefore(hm, s);
+	    })();
+    </script>
+
+
+    
+        
+            <link rel="stylesheet" href="/assets/css/gitment.css">
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/ "
+            aria-label=""
+        >
+            Liuyee&#39;s Blog
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="打开链接: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/portrait.gif" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="阅读有关作者的更多信息"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/portrait.gif" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Liu Yi</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>无趣的人生，有趣地生活。<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=245 height=52 align="middle" src="//music.163.com/outchain/player?type=2&id=26294503&auto=1&height=32"></iframe></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="https://github.com/liuyihust"
+                            title="GitHub"
+                        >
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="mailto:liuyihust@foxmail.com"
+                            title="邮箱"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">邮箱</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title">
+            2019京东校招笔试题
+        </h1>
+    
+    
+        <div class="post-meta">
+    
+
+    <time datetime="2019-08-24T22:37:09+08:00">
+	
+		    8月 24, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Job-Hunting/">Job Hunting</a>
+
+
+    
+
+    <br>
+    <i class="fas fa-file-word"></i>
+    <font>本文字数:</font>
+    <span class="post-count">2.6k</span>
+    <span class="post-meta-divider">|</span>
+
+    <i class="far fa-clock"></i>
+    <font>建议阅读时长:</font>
+    <span class="post-count">10</span>
+    <font> min</font>
+
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+
+
+<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#第一题"><span class="toc-text">第一题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#题目描述"><span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输入描述"><span class="toc-text">输入描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输出描述"><span class="toc-text">输出描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分析"><span class="toc-text">分析</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第二题"><span class="toc-text">第二题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#题目描述-1"><span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输入描述-1"><span class="toc-text">输入描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输出描述-1"><span class="toc-text">输出描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分析-1"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#补充知识点"><span class="toc-text">补充知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#二分图"><span class="toc-text">二分图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#匹配"><span class="toc-text">匹配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#匈牙利算法（Hungarian-Algorithm）"><span class="toc-text">匈牙利算法（Hungarian Algorithm）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Konig定理"><span class="toc-text">Konig定理</span></a></li></ol></li></ol></li></ol>
+
+
+<h1 id="第一题"><a href="#第一题" class="headerlink" title="第一题"></a>第一题</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><div class="alert info no-icon"><p>合唱队的N名学生站成一排，且从左到右编号为1到N，其中编号为i的学生身高为H<sub>i</sub>。现在将这些学生分成若干组（同一组的学生编号连续），并让每组学生从左到右按身高从低到高进行排列，使得最后所有学生同样满足从左到右身高从低到高（中间位置可以等高），那么最多能将这些学生分成多少组？</p>
+</div>
+
+<h2 id="输入描述"><a href="#输入描述" class="headerlink" title="输入描述"></a>输入描述</h2><div class="alert info no-icon"><p>第一行包含一个整数N，1&lt;=N&lt;=10<sup>5</sup>。<br>第二行包含N个空格隔开的整数H<sub>1</sub>到H<sub>N</sub>，1&lt;=H<sub>i</sub>&lt;=10<sup>9</sup>。</p>
+</div>
+
+
+<h2 id="输出描述"><a href="#输出描述" class="headerlink" title="输出描述"></a>输出描述</h2><div class="alert info no-icon"><p>输出能分组的最多组数</p>
+</div>
+
+
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><ul>
+<li>思路：先整体排序，然后再用滑动窗口对遍历排好序的序列和原始序列，对二者窗口内的集合进行比较，若两集合数据一样，则计数加1；否则窗口继续扩大。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getMaxTeams</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; H)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; sortedH;</span><br><span class="line">    sortedH.assign(H.begin(), H.end());</span><br><span class="line">    sort(sortedH.begin(), sortedH.end());</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    unoreder_map&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; <span class="built_in">map</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; H.size(); ++i) &#123;</span><br><span class="line">        <span class="keyword">int</span> a = H[i];</span><br><span class="line">        <span class="keyword">int</span> b = sortedH[i];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">map</span>.find(a) != <span class="built_in">map</span>.end())</span><br><span class="line">            ++<span class="built_in">map</span>[a];</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="built_in">map</span>[a] = <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">map</span>.find(b) != <span class="built_in">map</span>.end())</span><br><span class="line">            --<span class="built_in">map</span>[b];</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="built_in">map</span>[b] = <span class="number">-1</span>;</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">map</span>.find(a) != <span class="built_in">map</span>.end() &amp;&amp; <span class="built_in">map</span>[a] == <span class="number">0</span>)</span><br><span class="line">            <span class="built_in">map</span>.erase(a);</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">map</span>.find(b) != <span class="built_in">map</span>.end() &amp;&amp; <span class="built_in">map</span>[b] == <span class="number">0</span>)</span><br><span class="line">            <span class="built_in">map</span>.erase(b);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">map</span>.size() == <span class="number">0</span>)</span><br><span class="line">            ++cnt;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> cnt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">cin</span> &gt;&gt; N) &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; H(N);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i)</span><br><span class="line">            <span class="built_in">cin</span> &gt;&gt; H[i];</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; getMaxTeams(H) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="第二题"><a href="#第二题" class="headerlink" title="第二题"></a>第二题</h1><h2 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h2><div class="alert info no-icon"><p>某校在积极推行无人监考制度，但是总有学生是不自觉的，如果将两个很熟的异性朋友放在同一个考场里，他们就会交流甚至作弊。因此一个考场中不能允许两个很熟的异性朋友存在，学校希望通过搬出一部分学生的方法来改善这一问题。但是又因为教室数量有限，因此希望一个教室中容下的学生尽可能多，即需要搬出教室的学生数量尽可能少。请你输出搬出教室人数最少、且字典序最小的方案。</p>
+</div>
+
+
+<h2 id="输入描述-1"><a href="#输入描述-1" class="headerlink" title="输入描述"></a>输入描述</h2><div class="alert info no-icon"><p>输出第一行有两个整数n和m，分别表示有n个男生和n个女生，有m个朋友关系。（1&lt;=n&lt;=500，1&lt;=m&lt;=100000）接下来m行，每行有两个整数，x和y，表示第x号男生和第y号女生是朋友。男生的编号均为[1,n]，女生的编号为[n+1,2n]。</p>
+</div>
+
+<h2 id="输出描述-1"><a href="#输出描述-1" class="headerlink" title="输出描述"></a>输出描述</h2><div class="alert info no-icon"><p>输出第一行包含一个整数a，表示最少需要搬出教室的人数。<br>输出第二行有a个整数，即a个需要搬出教室的人的编号，要求人数最少，且字典序最小。</p>
+</div>
+
+
+<h2 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h2><ul>
+<li>思路：本质是二分图最小顶点覆盖问题（即最大匹配问题，Konig定理）。详见【补充知识点】</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 判断二分图中x和y是否有连接</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isConnected</span><span class="params">(<span class="keyword">const</span> <span class="built_in">multimap</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;&amp; edge, <span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> beg = edge.lower_bound(x);</span><br><span class="line">    <span class="keyword">auto</span> end = edge.upper_bound(x);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> it = beg; it != end; ++it) &#123;</span><br><span class="line">        <span class="keyword">if</span> (it-&gt;second == y)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">augmentPath</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span>&amp; n, <span class="keyword">const</span> <span class="built_in">multimap</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;&amp; edge, <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;&amp; Mx, <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;&amp; My, <span class="keyword">int</span> IDx, <span class="built_in">set</span>&lt;<span class="keyword">int</span>&gt;&amp; visited)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 考虑Y中所有顶点</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> IDy = n + <span class="number">1</span>; IDy &lt;= <span class="number">2</span> * n; ++IDy) &#123;</span><br><span class="line">        <span class="comment">// 如果Y中顶点IDy与X中顶点IDx有连接，且没有访问过</span></span><br><span class="line">        <span class="keyword">if</span> (isConnected(edge, IDx, IDy) &amp;&amp; visited.find(IDy) == visited.end()) &#123;</span><br><span class="line">            <span class="comment">// 记录下该点已经被访问过了</span></span><br><span class="line">            visited.emplace(IDy);</span><br><span class="line">            <span class="comment">// 条件1：如果IDy没有匹配，则直接将IDy匹配给IDx；</span></span><br><span class="line">            <span class="comment">// 条件2：如果IDy匹配过了，则从IDy之前匹配过的IDx出发，找到一条增广路，但是这里已经记录IDy被访问过了。</span></span><br><span class="line">            <span class="comment">// 如果第一个条件成立，则不会发生递归调用</span></span><br><span class="line">            <span class="keyword">if</span> (My.find(IDy) == My.end() || augmentPath(n, edge, Mx, My, My[IDy], visited)) &#123;</span><br><span class="line">                Mx[IDx] = IDy;</span><br><span class="line">                My[IDy] = IDx;</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxMatching</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span>&amp; n, <span class="keyword">const</span> <span class="built_in">multimap</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;&amp; edge, <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;&amp; Mx, <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;&amp; My)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">set</span>&lt;<span class="keyword">int</span>&gt; visited;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 考虑X中所有顶点</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> IDx = <span class="number">1</span>; IDx &lt;= n; ++IDx) &#123;</span><br><span class="line">        <span class="comment">// 从X中没有匹配的点出发寻找增广路</span></span><br><span class="line">        <span class="keyword">if</span> (Mx.find(IDx) == Mx.end()) &#123;</span><br><span class="line">            <span class="comment">// visited记录DFS算法中顶点是否访问过</span></span><br><span class="line">            res += augmentPath(n, edge, Mx, My, IDx, visited);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 由最大匹配问题转化成最小顶点覆盖问题，利用konig定理</span></span><br><span class="line"><span class="built_in">set</span>&lt;<span class="keyword">int</span>&gt; getMinVertexCover(<span class="keyword">const</span> <span class="keyword">int</span>&amp; n, <span class="keyword">const</span> <span class="built_in">multimap</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;&amp; edge, <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;&amp; Mx, <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;&amp; My) &#123;</span><br><span class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; nonMatchedX; <span class="comment">// 保存X中未匹配的点</span></span><br><span class="line">    <span class="built_in">set</span>&lt;<span class="keyword">int</span>&gt; visited; </span><br><span class="line">    <span class="built_in">set</span>&lt;<span class="keyword">int</span>&gt; ret;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> IDx = <span class="number">1</span>; IDx &lt;= n; ++IDx) &#123;</span><br><span class="line">        ret.emplace(IDx);</span><br><span class="line">        <span class="keyword">if</span> (Mx.find(IDx) == Mx.end())</span><br><span class="line">            nonMatchedX.push(IDx);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (!nonMatchedX.empty()) &#123;</span><br><span class="line">        <span class="keyword">int</span> x = nonMatchedX.top();</span><br><span class="line">        nonMatchedX.pop();</span><br><span class="line"></span><br><span class="line">        visited.emplace(x);</span><br><span class="line">        ret.erase(x);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 遍历Y中的顶点IDy</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> IDy = n + <span class="number">1</span>; IDy &lt;= <span class="number">2</span> * n; ++IDy) &#123;</span><br><span class="line">            <span class="comment">// 如果x和IDy有连接，且IDy没有被访问过，则导入</span></span><br><span class="line">            <span class="keyword">if</span> (isConnected(edge, x, IDy) &amp;&amp; visited.find(IDy) == visited.end()) &#123;</span><br><span class="line">                visited.emplace(IDy);</span><br><span class="line">                ret.emplace(IDy);</span><br><span class="line">                <span class="keyword">if</span> (visited.find(My[IDy]) == visited.end())</span><br><span class="line">                    nonMatchedX.push(My[IDy]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n, m;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">cin</span> &gt;&gt; n &gt;&gt; m) &#123;</span><br><span class="line">        <span class="comment">//vector&lt;pair&lt;int, int&gt; &gt; edge;</span></span><br><span class="line">        <span class="built_in">multimap</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; edge;</span><br><span class="line">        <span class="keyword">int</span> p1, p2;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; ++i) &#123;</span><br><span class="line">            <span class="built_in">cin</span> &gt;&gt; p1 &gt;&gt; p2;</span><br><span class="line">            edge.emplace(p1, p2);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; Mx; <span class="comment">// 保存X中已经匹配的节点以及匹配到的Y中的节点</span></span><br><span class="line">        <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; My; <span class="comment">// 保存Y中已经匹配的节点以及匹配到的X中的节点</span></span><br><span class="line">        </span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; maxMatching(n, edge, Mx, My) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">set</span>&lt;<span class="keyword">int</span>&gt; res; <span class="comment">// 保存需要搬出教室的人的编号</span></span><br><span class="line">        res = getMinVertexCover(n, edge, Mx, My);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> it = res.begin(); it != res.end(); ++it)</span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; *it &lt;&lt; <span class="string">' '</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="补充知识点"><a href="#补充知识点" class="headerlink" title="补充知识点"></a>补充知识点</h2><p>参考：<a href="https://www.renfei.org/blog/bipartite-matching.html" target="_blank" rel="noopener">二分图的最大匹配、完美匹配和匈牙利算法</a></p>
+<h3 id="二分图"><a href="#二分图" class="headerlink" title="二分图"></a>二分图</h3><p>定义：简单来说，图中的点可以分为两组，并且使得所有边都跨越组的边界，这样的图就是一个二分图。</p>
+<p>等价定义：不含有奇数条边的环的图。</p>
+<h3 id="匹配"><a href="#匹配" class="headerlink" title="匹配"></a>匹配</h3><p><strong>匹配(Matching)</strong>：在图论中，一个匹配是是一个边的集合。其中任意两条边都没有公共顶点。</p>
+<p><strong>最大匹配(Maximum Matching)</strong>：一个图所有匹配中，所含匹配边数最多的匹配，称为这个图的最大匹配。</p>
+<p><strong>完美匹配(Perfect Matching)</strong>：如果一个图的某个匹配中，所有顶点都是匹配点，那么它就是一个完美匹配。</p>
+<h3 id="匈牙利算法（Hungarian-Algorithm）"><a href="#匈牙利算法（Hungarian-Algorithm）" class="headerlink" title="匈牙利算法（Hungarian Algorithm）"></a>匈牙利算法（Hungarian Algorithm）</h3><p>求解最大匹配问题的一个算法。</p>
+<p><strong>交替路</strong>：从一个未匹配点出发，依次经过非匹配边、匹配边、非匹配边…形成的路径叫交替路。</p>
+<p><strong>增广路</strong>：从一个未匹配点出发，走交替路，如果途经另一个未匹配点（出发的点不算），则这条交替路称为增广路（Augmenting Path）。</p>
+<p>增广路的特点：非匹配边比匹配边多一条。因此，只要把增广路中的匹配边和非匹配边的身份交换即可使图中匹配边数目比原来多了1条。由于中间的匹配节点不存在其他相连的匹配边，所以这样做不会破坏匹配的性质。</p>
+<p><strong>匈牙利树</strong>：一般由BFS构造。从一个未匹配点出发运行BFS（唯一的限制是必须走交替路），直至不能再扩展为止。</p>
+<p><strong>匈牙利算法要点</strong>：</p>
+<ul>
+<li>从左边第1个顶点开始，挑选未匹配点进行搜索，寻找增广路。  <ul>
+<li>如果经过一个未匹配点，说明寻找成功，更新路径信息，匹配边数+1，停止搜索；</li>
+<li>如果一直没有增广路，则不再从这个顶点开始搜索。</li>
+</ul>
+</li>
+<li>由于找到增广路后需要沿着路径更新匹配，所以我们需要一个结构来记录路径上的点。DFS版本通过函数调用隐式地使用一个栈，而BFS版本使用prev数组。</li>
+</ul>
+<p><strong>几个定理</strong>：</p>
+<ul>
+<li>定理1：最大匹配数 = 最小点覆盖数（Konig定理）</li>
+<li>定理2：最大匹配数 = 最大独立数</li>
+<li>定理3：最小路径覆盖数 = 顶点数 - 最大匹配数</li>
+</ul>
+<h3 id="Konig定理"><a href="#Konig定理" class="headerlink" title="Konig定理"></a>Konig定理</h3><p>参考：<a href="https://www.cnblogs.com/yoyoball/p/7632871.html" target="_blank" rel="noopener">【learning】二分图最大匹配的König定理</a></p>
+<p>已知一个二分图的最大匹配数为m。</p>
+<p><strong>定理阐释</strong>：</p>
+<div class="alert info no-icon"><p>按照如下方式给这堆点打上标记：</p>
+<ul>
+<li>以右边部分所没有匹配到的点为起点，按交替路的方式遍历下去，直至不能继续走下去了；</li>
+<li>给沿途的点全部打上标记。</li>
+</ul>
+<p>将<span class="highlight-text" style="background-color:#ffff00;">右边没有标记的点</span>和<span class="highlight-text" style="background-color:#ffff00;">左边有标记的点</span>组成一个点集，这个点集便是最小点覆盖点集。</p>
+</div>
+
+
+<p><strong>标记时交替路性质</strong>：<br>对于一条在交替路上的边(u, v)，必定满足：</p>
+<ol>
+<li>u,v均为标号点；</li>
+<li>若该边为匹配边，则遍历时先走到u，再走到v，即方向为从左至右；</li>
+<li>若该边为非匹配边，则遍历时先走到v再走到u，即方向从右至左。</li>
+</ol>
+<p><strong>为何这是一个点覆盖？</strong><br>首先可以把边分成两类，一类是在某条交替路上的边，一类不在。</p>
+<ul>
+<li>对于在交替路上的边，显然可以通过选取左边部分打上标记的点来覆盖掉。</li>
+<li>而对于不在交替路上且没有被覆盖到的边，它在右边部分的端点一定是没有标记的。</li>
+</ul>
+<p><strong>点覆盖的大小为何等于m？</strong></p>
+<ol>
+<li>由于是交替路，并且起点在右边，所以左边的被标记的点的个数必定和交替路中匹配边的个数相等。</li>
+<li>非交替路上的且没有覆盖到的边的右端点肯定连到的是未标记的右边的点，而右边每个未被标记的点必定会连且只会连出一条匹配边。</li>
+<li>两者相加为得到m。</li>
+</ol>
+<p><strong>m为何是最小点覆盖？</strong><br>覆盖m条匹配边最少都要m个点，所以覆盖点显然无法小于这个值。</p>
+            
+
+
+            <!-- 添加的部分 -->
+            <!-- copyright -->
+            
+            <!-- copyright -->
+        </div>
+    </div>
+
+
+    <!-- 打赏 -->
+    
+        <br>
+        <br>
+        <div class ="post-donate">
+            <div id="donate_board" class="donate_bar center">
+                <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+                <br>
+            </div>
+            <div id="donate_guide_alipay" class="donate_bar center hidden" >
+                <!-- 支付宝打赏图案 -->
+                <h1 align="center"
+style="color:#019fe8; font-size:17px; line-height:2%;">支付宝扫一扫
+                    <i class="fas fa-hand-point-down"></i>
+                </h1>
+                <img src="../../../../assets/images/alipay.png" alt="支付宝打赏">
+            </div>
+
+            <div id="donate_guide_wechat" class="donate_bar center hidden" >
+                <!-- 微信打赏图案 -->
+                <h1 align="center"
+style="color:#1AAD19; font-size:17px; line-height:2%;">微信扫一扫
+                    <i class="fas fa-hand-point-down"></i>
+                </h1>
+                <img src="../../../../assets/images/wechat.png" alt="微信打赏">
+                
+            </div>
+
+            <div id="donate_button_alipay" class="donate_bar center hidden">
+                <br>
+                <a id="btn_donate_alipay" class="btn_donate_alipay" href="javascript:;" title="切换到微信">切换到微信</a>
+            </div>
+
+            <div id="donate_button_wechat" class="donate_bar center hidden">
+                <br>
+                <a id="btn_donate_wechat" class="btn_donate_wechat" href="javascript:;" title="切换到支付宝">切换到支付宝</a>
+            </div>
+
+        
+
+            <script type="text/javascript">
+                document.getElementById('btn_donate').onclick = function(){
+                    $('#donate_board').addClass('hidden');
+                    $('#donate_guide_wechat').removeClass('hidden');
+                    $('#donate_button_wechat').removeClass('hidden');
+                }
+            </script>
+
+            <script type="text/javascript">
+                document.getElementById('btn_donate_alipay').onclick = function(){
+                    $('#donate_guide_alipay').addClass('hidden');
+                    $('#donate_button_alipay').addClass('hidden');
+                    $('#donate_guide_wechat').removeClass('hidden');
+                    $('#donate_button_wechat').removeClass('hidden');
+                }
+            </script>
+
+            <script type="text/javascript">
+                document.getElementById('btn_donate_wechat').onclick = function(){
+                    $('#donate_guide_wechat').addClass('hidden');
+                    $('#donate_button_wechat').addClass('hidden');
+                    $('#donate_guide_alipay').removeClass('hidden');
+                    $('#donate_button_alipay').removeClass('hidden');
+                }
+            </script>
+
+            
+        </div>
+
+        <div class="donateText" style="line-height:120%;"><br>“ 万物皆有时，比如你我相遇 ”</div>
+        <br>
+            
+    
+
+
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/求职/">求职</a> <a class="tag tag--primary tag--small t-link" href="/tags/笔试/">笔试</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/30/shunfeng/"
+                    data-tooltip="2019顺丰科技校招笔试题"
+                    aria-label="上一篇: 2019顺丰科技校招笔试题"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/24/shopee/"
+                    data-tooltip="2019shopee校招笔试题"
+                    aria-label="下一篇: 2019shopee校招笔试题"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/08/24/jingdong/"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=/2019/08/24/jingdong/"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitment"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                
+<div id="gitment"></div>
+
+<!-- Gitment评论插件通用代码 -->
+
+<link rel="stylesheet" href='assets/js/gitment.css'>
+<script src='assets/js/gitment.js'></script>
+
+<script>
+var gitment = new Gitment({
+  owner: 'liuyihust',
+  repo: '',
+  oauth: {
+    client_id: '4d67b0b86332dbac9f61',
+    client_secret:'59b0670047644cff4d5740c6e239f758ade18049',
+  },
+})
+gitment.render('git')
+</script>
+
+<!-- Gitment代码结束 -->
+            
+        
+    </div>
+
+    
+
+</article>
+
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <i class="fas fa-user-clock"></i>
+    <span id="timeDate">0</span><span id="times">0</span>
+    <script>
+        var now = new Date();
+        function createtime() {
+            var grt= new Date("04/01/2018 00:00:00");//此处修改你的建站时间或者网站上线时间
+            now.setTime(now.getTime()+250);
+            days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+            hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+            if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+            mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+            seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+            snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+            document.getElementById("timeDate").innerHTML = "Blog Age: "+dnum+" days ";
+            document.getElementById("times").innerHTML = hnum + " h " + mnum + " m " + snum + " s";
+        }
+        setInterval("createtime()",250);
+	</script>
+
+    <br>
+
+    <span class="copyrights">
+        Copyrights &copy; 2020 Liu Yi. All Rights Reserved.
+    </span>
+
+
+</footer>
+
+
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/30/shunfeng/"
+                    data-tooltip="2019顺丰科技校招笔试题"
+                    aria-label="上一篇: 2019顺丰科技校招笔试题"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/24/shopee/"
+                    data-tooltip="2019shopee校招笔试题"
+                    aria-label="下一篇: 2019shopee校招笔试题"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/08/24/jingdong/"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=/2019/08/24/jingdong/"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitment"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=/2019/08/24/jingdong/"
+                        aria-label="分享到 Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=/2019/08/24/jingdong/"
+                        aria-label="分享到 Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/portrait.gif" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Liu Yi</h4>
+        
+            <div id="about-card-bio"><p>无趣的人生，有趣地生活。<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=245 height=52 align="middle" src="//music.163.com/outchain/player?type=2&id=26294503&auto=1&height=32"></iframe></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>学生</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                湖北武汉
+            </div>
+        
+    </div>
+</div>
+        
+            <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-times"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="/assets/images/logo-algolia-nebula-blue-full.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    />
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">没有找到文章</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/21/randomNumber/"
+                            aria-label=": Random Number Generator"
+                        >
+                            <img class="media-image" src="/2018/04/21/randomNumber/random.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/21/randomNumber/"
+                            aria-label=": Random Number Generator"
+                        >
+                            <h3 class="media-heading">Random Number Generator</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2018年4月21日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>C++编程时经常要用到随机数，那么到底有哪些随机数产生器或函数呢？我这里来做个小结。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/22/Japanese-1/"
+                            aria-label=": 日语中的数字与时间"
+                        >
+                            <img class="media-image" src="/2018/04/22/Japanese-1/japan.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/22/Japanese-1/"
+                            aria-label=": 日语中的数字与时间"
+                        >
+                            <h3 class="media-heading">日语中的数字与时间</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2018年4月22日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>日语中的数字与时间常见表示。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/25/Japanese-2/"
+                            aria-label=": 日语中的动词变形"
+                        >
+                            <img class="media-image" src="/2018/04/25/Japanese-2/maomi.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/25/Japanese-2/"
+                            aria-label=": 日语中的动词变形"
+                        >
+                            <h3 class="media-heading">日语中的动词变形</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2018年4月25日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>学过日语的人都知道，日语中的动词是需要变形的，所以我这里简单来总结一下日语中的动词变形！</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/15/setup-package/"
+                            aria-label=": 程序打包（Setup使用技巧）"
+                        >
+                            <img class="media-image" src="/2019/01/15/setup-package/pakage.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/15/setup-package/"
+                            aria-label=": 程序打包（Setup使用技巧）"
+                        >
+                            <h3 class="media-heading">程序打包（Setup使用技巧）</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年1月15日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>常用打包软件Setup的使用技巧。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/20/vs-skills/"
+                            aria-label=": VS使用技巧"
+                        >
+                            <img class="media-image" src="/2019/01/20/vs-skills/vs.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/20/vs-skills/"
+                            aria-label=": VS使用技巧"
+                        >
+                            <h3 class="media-heading">VS使用技巧</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年1月20日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>VS基础…</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/02/28/tf-version-problem/"
+                            aria-label=": 安装Tensorflow版本不匹配问题及解决"
+                        >
+                            <img class="media-image" src="/2019/02/28/tf-version-problem/tensorflow.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/02/28/tf-version-problem/"
+                            aria-label=": 安装Tensorflow版本不匹配问题及解决"
+                        >
+                            <h3 class="media-heading">安装Tensorflow版本不匹配问题及解决</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年2月28日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>安装Tensorflow时踩过的坑…</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/09/themeConfig/"
+                            aria-label=": 博客瞎折腾——tranquilpeak主题"
+                        >
+                            <img class="media-image" src="/2019/08/09/themeConfig/cat.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/09/themeConfig/"
+                            aria-label=": 博客瞎折腾——tranquilpeak主题"
+                        >
+                            <h3 class="media-heading">博客瞎折腾——tranquilpeak主题</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月9日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather">The article has been encrypted, please enter your password to view.<br></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/11/linux-files/"
+                            aria-label=": linux文件和目录"
+                        >
+                            <img class="media-image" src="/2019/08/11/linux-files/newtux.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/11/linux-files/"
+                            aria-label=": linux文件和目录"
+                        >
+                            <h3 class="media-heading">linux文件和目录</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月11日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Linux学习笔记：文件和目录</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/12/Welcome/"
+                            aria-label=": Welcome To Liuyee&#39;s Blog"
+                        >
+                            <img class="media-image" src="/2019/08/12/Welcome/deer.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/12/Welcome/"
+                            aria-label=": Welcome To Liuyee&#39;s Blog"
+                        >
+                            <h3 class="media-heading">Welcome To Liuyee&#39;s Blog</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月12日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Don’t aim for success if you want it, just stick to what you love and believe in, and it will come naturally.</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/15/DevelopingInterview/"
+                            aria-label=": 开发岗面试问题总结：C/C++语言"
+                        >
+                            <img class="media-image" src="/2019/08/15/DevelopingInterview/thumbnail.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/15/DevelopingInterview/"
+                            aria-label=": 开发岗面试问题总结：C/C++语言"
+                        >
+                            <h3 class="media-heading">开发岗面试问题总结：C/C++语言</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月15日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>开发岗面试问题总结之C/C++语言</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="没有找到文章"
+                data-message-one="找到 1 篇文章"
+                data-message-other="找到 {n} 篇文章">
+                找到 23 篇文章
+            </p>
+        </div>
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+
+
+    
+        <script src="/assets/js/gitment.js"></script>
+        <script type="text/javascript">
+          (function() {
+            new Gitment({
+              id: '/2019/08/24/jingdong/',
+              owner: 'liuyihust',
+              repo: 'BlogComments',
+              oauth: {
+                client_id: '4d67b0b86332dbac9f61',
+                client_secret: '59b0670047644cff4d5740c6e239f758ade18049'
+              }
+            }).render('gitment')
+          })()
+        </script>
+    
+
+
+
+    <script src="/assets/js/moment-with-locales.js"></script>
+    <script src="/assets/js/algoliasearch.js"></script>
+    <script>
+      var algoliaClient = algoliasearch('SCS7H6XC2V', '3c07d7df305177e5342667b398d803ef');
+      var algoliaIndex = algoliaClient.initIndex('tranquilpeak');
+    </script>
+
+
+
+        <!-- 点击特效 -->
+        
+            <script async src="/assets/js/text.js"></script>
+        
+    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":400,"vOffset":-80},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.9,"opacityOnHover":0.1},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

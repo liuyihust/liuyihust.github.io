@@ -1,0 +1,1294 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Liuyee&#39;s Blog">
+    <title>开发岗面试问题总结：手撕代码 - Liuyee&#39;s Blog</title>
+    <meta name="author" content="Liu Yi">
+    
+        <meta name="keywords" content="开发,面试,求职,手撕代码,算法">
+    
+    
+        <link rel="icon" href="/assets/images/favicon.ico">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liu Yi","sameAs":["https://github.com/liuyihust","mailto:liuyihust@foxmail.com"],"image":"portrait.gif"},"articleBody":"\n\n\n\n\n\n\n手撕代码\n给定一个数字数组，建立哈夫曼树，返回哈夫曼树的头指针\n最长公共连续子序列\n手写一个排序算法吧，要不就快排吧\n去掉字符串中的空格空格\n最长回文字符串\n链表合并\n[0, n), n个数，范围[0, n-1], 求是否有重复方法\n求第k大的数的方法以及各自的复杂度\n当有相同元素时，求第k大的元素的方法（类似快排，手撕）\n给你一个数组，再给你几对数，这几对数只能够同时出现或者不同时出现，求拿出k个数的可能性（true or false）（手撕，dfs标号+dp）\n实现一个买票系统：实现买票，退票，检票。给一个小时，手撕，文件流+map搞一下就行了，API之类的可以百度。\n数据流，如何获取中位数，复杂度\n一到一百万的素数，怎么快速求\n有一堆数，再给你很多对数，每对数都在同一个组，求一共有多少组数\n有很多蜡烛，每根蜡烛1个小时，求15分钟怎么计时\n十六进制转十进制\n1/x + 1/y = 1/n求最小的n，使得对数超过1000\n如何求前100大的数\n栈实现队列，队列实现栈\n手撕：求一个集合的所有子集，递归实现，非递归实现\n去除包含4的数字，求一个数字是第几个数，比如5是第四个数（数位dp）\n有一个楼梯，一共有n层，可以走a步，也可以走b步，问最高能走到哪里？（dp,O(n)）。增加一个条件，有一次条件可以回退一半，比如本来在第8层，可以有一次机会直接到第4层。(两次dp，O(n))\n一个数组，里面大多数都是成对的，只有两个数没有成对，求这两个数（异或搞一下，把数组分成两组）\n求一个栈的pop序是否合法。\nint to string，string to int。\n反转链表\n大数相乘\nchar *s1, const char *s2，删除s1中s2出现过的字符\n删除单项链表中重复的节点 (1 2 2 3 3 9) -&gt; (1 2 3 9)\n求二叉树的深度\n单链表判环\n判断一个数是不是回文数\n求一个数组的最长连续子序列\n有两个链表，怎么求交点？\n一万个数，求前100大的数\n假设有一个排好序的数组，数字都是两个两个出现的，只有一个是单独出现的，求这个数\n链表翻转（递归，非递归）\n判断一颗树是不是二叉搜索树\n给出1000000条数据，每次请求查询时怎么最快，要想好多种方法红黑树，hash然后一直问有没有其他的\n之字形打印二叉树\n两个有序数组求交集\n无序数组求交集 hash\n二分查找中位数 复杂度分析\nmemcpy 函数  怎么实现的，有没有比memcpy更快的\n判断一个点是不是在三角形内\n求每一个元素右边第一个最大元素\n单调栈解法，分析O(N)\n出一个连续数组，找出一个连续子集中所有元素中最小元乘以加和最大值\n求一个非递减数组中，绝对值不同的个数 O(N ) O(1)空间\n字符串翻转\n叙述一下洗牌算法\n怎么判断一个数是二的倍数，怎么求一个数中有几个1\n手写strcpy函数\n已知最大数为M的递增子序列求所有和为s的子集合 \n两个大的数据集装入的数据是无重复的，求交集 \nkmp\n多重背包，0/1背包\n字符串转double的代码\n写点代码写了构造函数、复制构造、复制操作、移动构造、移动操作。\n二叉排序树的插入、删除，删除没写完\n给定前序遍历ABC后序遍历CBA，求中序遍历是什么，画出来两种情况\n前序、中序和后续遍历，递归和非递归\n50 亿个整数中， 找一个确定的数？  有内存限制， 并且无序\n给你一个字符串，找出第一个不重复的字符，如“abbbabcd”，则第一个不重复就是c\n给你两个球，100层楼，每个球在一定高度扔下去会碎，怎么用最少的次数给判断是几层楼能把求摔碎？\nn个整数的无序数组，找到每个元素后面比它大的第一个数，要求时间复杂度为O(N)，在面试官提醒下写出来了，用栈+栈底指针\n讲述一下堆排序\n归并排序\n给定一个链表，输入n，删除从结尾开始的第 n 个节点\n给定一个数组，删除数组连续重复的元素，生成一个新数组\n给定一个无序数列，输出该序列中出现频率前 k 多的数\n八数码问题\n求两个链表的交点；(tips：①判环，②求环的入口，③如果两个链表都有环，判断入口是否相同，共5种拓扑结构)\n二维平面有n个点，求一条直线，使最多的点落在该直线上，三维呢？\n不同排序各有优势让我实现一个通用排序库，\n快排与归并的优劣势\n给两个字符串A,B，判断B是否是A的子序列\n.给两个字符串A,B,找到在B中所有字母在A中出现的下标\n给一个字符串A，N次询问，每次问字符串B是否是A的子序列\n一个有环的单链表，如何找到环结点\n给一个字符串，将字符串中的单词从后向前翻转，手写代码\nA[50]50个数,B[49]49个数，数字取值范围[0,49]，找出A中多出来的一个数字\n一个平面，100个点，求一条直线，经过的点最多，给个思路就行\n给你一个50亿的整数让你找出中位数. \n最大连续子数组的和\n1、给1亿个数，求字典序第K（k&lt;1亿）大的数（字典树）\n2、链表拆分，翻转，合并  如 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;6  变为1-&gt;6-&gt;2-&gt;5-&gt;4-&gt;3 \n树转单链表（前序）\n旋转数组查找\n求后面第一个比当前数大的数\n数组两两元素求异或，求最大的异或值（01字典树）\nn个有序链表，合并成一个\n字符串A,B，在A中删除B中出现过的字符\n二叉树知道后序中序求前序遍历\n100万数据找top k，判断一个数是不是2的幂，两个单链表有公共节点，找出第一个。\n一颗二叉搜索树，找出树中的第k大节点\n将字符串转化为整型\n给你两个有序数组，找中位数\nm个有序数组合并后输出前K个数\n二叉树的最小公共结点\nm个有序数组合并后输出第k个数（二分）\n手写代码，计算一个整数二进制中0的个数。\n有一支股票，知道每天的价格，本金一定，只准买卖一次，问如何做到收益最大。\n给定几个互不相同的数字组成的一个字符串，输出同样由这几个数字组成的，字典序恰好比它大1的字符串。\n(s,n)表示字符串s反复出现n次；s-&gt;t表示s去掉若干字符之后能成为t；给定S1与S2，求最大的m使得S1-&gt;(S2,m)\n给定一些正整数(1,3,4,5,7)，输入一个n，输出最少用多少个给定的数能加出n来。\n一个整数序列，A和B两个人轮流取数，每次只能取最左的数或最右的数，两个人都想使自己的和尽可能大，问给定序列以后A和B能取到的和各是多少。\n给定字符串s，输出第一个满足：在s中恰好出现3次的字母。保证存在这样的字母且字符串都是小写字母组成。\n手撕代码，二叉树两个节点最长路径\n两个有序数组合并，n个有序数组合并\nint数组求最大子串和、二维、三维、四维呢\n\n其他算法题\n有一户家庭，生了两个娃，其中一个是女孩，另外一个是女孩的概率\n一副扑克牌，怎么实现随机打乱？\n假设有两个数组，各有十万数量级的整数，如何求交集？\n个人项目的benchmark性能测试结果如何\n有100个弹珠，双方轮流拿，每个人只能拿1~5个，无法拿的人输，必胜解法。\n求char a数组中有的元素和char b数组中没有的元素，放到char c数组。这里我忘记把char字符转成unsigned char类型。\nwindows消息机制知道吗？系统怎么知道   。。MFC消息机制\n1000瓶水有1瓶水有毒，老鼠喝一滴就会死，但是需要一周毒发，请问最少需要多少老鼠多少时间才能找到那瓶有毒的水。答案是10只老鼠1周，解法是十进制转二进制\n桶中取球排列组合问题\n40亿个QQ号，4GB的空间，O(1)的时间，这个时候新来了一个QQ号，判断这个QQ号是否存在\n个非常拥堵的路口，让你分析拥挤原因，并且提供解决方案\n高德地图是怎么知道高速路哪里堵车了，并且还能标记出来准确的路段？ 提出你的设想.\n如果让你统计出这个城市当中的交通信息，比如说那几个路口每天多少车左转，多少车右转，你怎么做？\nMFC消息怎么定义 x 太久没写忘记了，就记得个声明和绑定函数\n做个数学题吧，一副扑克牌取5张，出现顺子的概率，大小王能任意当成什么牌\n8个球找重量不一样的一个怎么称 \n36匹马6个跑道无秒表选前三，最少跑几轮\n","dateCreated":"2019-08-15T22:51:09+08:00","dateModified":"2019-08-22T22:54:41+08:00","datePublished":"2019-08-15T22:51:09+08:00","description":"开发岗面试问题总结之手撕代码","headline":"开发岗面试问题总结：手撕代码","image":["thumbnail.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/2019/08/15/handCode/"},"publisher":{"@type":"Organization","name":"Liu Yi","sameAs":["https://github.com/liuyihust","mailto:liuyihust@foxmail.com"],"image":"portrait.gif","logo":{"@type":"ImageObject","url":"portrait.gif"}},"url":"/2019/08/15/handCode/","keywords":"求职, 面试","thumbnailUrl":"thumbnail.png"}</script>
+    <meta name="description" content="开发岗面试问题总结之手撕代码">
+<meta name="keywords" content="开发,面试,求职,手撕代码,算法">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="开发岗面试问题总结：手撕代码">
+<meta property="og:url" content="/2019/08/15/handCode/index.html">
+<meta property="og:site_name" content="Liuyee&#39;s Blog">
+<meta property="og:description" content="开发岗面试问题总结之手撕代码">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-08-22T14:54:41.583Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="开发岗面试问题总结：手撕代码">
+<meta name="twitter:description" content="开发岗面试问题总结之手撕代码">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="/assets/images/portrait.gif"/>
+    
+    
+        <meta property="og:image" content="/2019/08/15/handCode/thumbnail.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="/2019/08/15/handCode/thumbnail.png"/>
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/all.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+
+    
+    <script type="text/javascript">
+	    var _hmt = _hmt || [];
+	    (function() {
+	      var hm = document.createElement("script");
+	      hm.src = "//hm.baidu.com/hm.js?9090c30aa810eb2d002253f0d0f5bbea";
+	      var s = document.getElementsByTagName("script")[0];
+	      s.parentNode.insertBefore(hm, s);
+	    })();
+    </script>
+
+
+    
+        
+            <link rel="stylesheet" href="/assets/css/gitment.css">
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/ "
+            aria-label=""
+        >
+            Liuyee&#39;s Blog
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="打开链接: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/portrait.gif" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="阅读有关作者的更多信息"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/portrait.gif" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Liu Yi</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>无趣的人生，有趣地生活。<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=245 height=52 align="middle" src="//music.163.com/outchain/player?type=2&id=26294503&auto=1&height=32"></iframe></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="https://github.com/liuyihust"
+                            title="GitHub"
+                        >
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="mailto:liuyihust@foxmail.com"
+                            title="邮箱"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">邮箱</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title">
+            开发岗面试问题总结：手撕代码
+        </h1>
+    
+    
+        <div class="post-meta">
+    
+
+    <time datetime="2019-08-15T22:51:09+08:00">
+	
+		    8月 15, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Job-Hunting/">Job Hunting</a>
+
+
+    
+
+    <br>
+    <i class="fas fa-file-word"></i>
+    <font>本文字数:</font>
+    <span class="post-count">2.6k</span>
+    <span class="post-meta-divider">|</span>
+
+    <i class="far fa-clock"></i>
+    <font>建议阅读时长:</font>
+    <span class="post-count">9</span>
+    <font> min</font>
+
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+
+
+<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#手撕代码"><span class="toc-text">手撕代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他算法题"><span class="toc-text">其他算法题</span></a></li></ol>
+
+
+
+<h2 id="手撕代码"><a href="#手撕代码" class="headerlink" title="手撕代码"></a>手撕代码</h2><ol>
+<li><span id="Q03-1"></span>给定一个数字数组，建立哈夫曼树，返回哈夫曼树的头指针</li>
+<li>最长公共连续子序列</li>
+<li>手写一个排序算法吧，要不就快排吧</li>
+<li>去掉字符串中的空格空格</li>
+<li>最长回文字符串</li>
+<li>链表合并</li>
+<li>[0, n), n个数，范围[0, n-1], 求是否有重复方法</li>
+<li>求第k大的数的方法以及各自的复杂度</li>
+<li>当有相同元素时，求第k大的元素的方法（类似快排，手撕）</li>
+<li>给你一个数组，再给你几对数，这几对数只能够同时出现或者不同时出现，求拿出k个数的可能性（true or false）（手撕，dfs标号+dp）</li>
+<li>实现一个买票系统：实现买票，退票，检票。给一个小时，手撕，文件流+map搞一下就行了，API之类的可以百度。</li>
+<li>数据流，如何获取中位数，复杂度</li>
+<li>一到一百万的素数，怎么快速求</li>
+<li>有一堆数，再给你很多对数，每对数都在同一个组，求一共有多少组数</li>
+<li>有很多蜡烛，每根蜡烛1个小时，求15分钟怎么计时</li>
+<li>十六进制转十进制</li>
+<li>1/x + 1/y = 1/n<br>求最小的n，使得对数超过1000</li>
+<li>如何求前100大的数</li>
+<li>栈实现队列，队列实现栈</li>
+<li>手撕：求一个集合的所有子集，递归实现，非递归实现</li>
+<li>去除包含4的数字，求一个数字是第几个数，比如5是第四个数（数位dp）</li>
+<li>有一个楼梯，一共有n层，可以走a步，也可以走b步，问最高能走到哪里？（dp,O(n)）。增加一个条件，有一次条件可以回退一半，比如本来在第8层，可以有一次机会直接到第4层。(两次dp，O(n))</li>
+<li>一个数组，里面大多数都是成对的，只有两个数没有成对，求这两个数（异或搞一下，把数组分成两组）</li>
+<li>求一个栈的pop序是否合法。</li>
+<li>int to string，string to int。</li>
+<li>反转链表</li>
+<li>大数相乘</li>
+<li>char *s1, const char *s2，删除s1中s2出现过的字符</li>
+<li>删除单项链表中重复的节点 (1 2 2 3 3 9) -&gt; (1 2 3 9)</li>
+<li>求二叉树的深度</li>
+<li>单链表判环</li>
+<li>判断一个数是不是回文数</li>
+<li>求一个数组的最长连续子序列</li>
+<li>有两个链表，怎么求交点？</li>
+<li>一万个数，求前100大的数</li>
+<li>假设有一个排好序的数组，数字都是两个两个出现的，只有一个是单独出现的，求这个数</li>
+<li>链表翻转（递归，非递归）</li>
+<li>判断一颗树是不是二叉搜索树</li>
+<li>给出1000000条数据，每次请求查询时怎么最快，要想好多种方法红黑树，hash然后一直问有没有其他的</li>
+<li>之字形打印二叉树</li>
+<li>两个有序数组求交集</li>
+<li>无序数组求交集 hash</li>
+<li>二分查找中位数 复杂度分析</li>
+<li>memcpy 函数  怎么实现的，有没有比memcpy更快的</li>
+<li>判断一个点是不是在三角形内</li>
+<li>求每一个元素右边第一个最大元素</li>
+<li>单调栈解法，分析O(N)</li>
+<li>出一个连续数组，找出一个连续子集中所有元素中最小元乘以加和最大值</li>
+<li>求一个非递减数组中，绝对值不同的个数 O(N ) O(1)空间</li>
+<li>字符串翻转</li>
+<li>叙述一下洗牌算法</li>
+<li>怎么判断一个数是二的倍数，怎么求一个数中有几个1</li>
+<li>手写strcpy函数</li>
+<li>已知最大数为M的递增子序列求所有和为s的子集合 </li>
+<li>两个大的数据集装入的数据是无重复的，求交集 </li>
+<li>kmp</li>
+<li>多重背包，0/1背包</li>
+<li>字符串转double的代码</li>
+<li>写点代码写了构造函数、复制构造、复制操作、移动构造、移动操作。</li>
+<li>二叉排序树的插入、删除，删除没写完</li>
+<li>给定前序遍历ABC后序遍历CBA，求中序遍历是什么，画出来两种情况</li>
+<li>前序、中序和后续遍历，递归和非递归</li>
+<li>50 亿个整数中， 找一个确定的数？  有内存限制， 并且无序</li>
+<li>给你一个字符串，找出第一个不重复的字符，如“abbbabcd”，则第一个不重复就是c</li>
+<li>给你两个球，100层楼，每个球在一定高度扔下去会碎，怎么用最少的次数给判断是几层楼能把求摔碎？</li>
+<li>n个整数的无序数组，找到每个元素后面比它大的第一个数，要求时间复杂度为O(N)，在面试官提醒下写出来了，用栈+栈底指针</li>
+<li>讲述一下堆排序</li>
+<li>归并排序</li>
+<li>给定一个链表，输入n，删除从结尾开始的第 n 个节点</li>
+<li>给定一个数组，删除数组连续重复的元素，生成一个新数组</li>
+<li>给定一个无序数列，输出该序列中出现频率前 k 多的数</li>
+<li>八数码问题</li>
+<li>求两个链表的交点；(tips：①判环，②求环的入口，③如果两个链表都有环，判断入口是否相同，共5种拓扑结构)</li>
+<li>二维平面有n个点，求一条直线，使最多的点落在该直线上，三维呢？</li>
+<li>不同排序各有优势让我实现一个通用排序库，</li>
+<li>快排与归并的优劣势</li>
+<li>给两个字符串A,B，判断B是否是A的子序列</li>
+<li>.给两个字符串A,B,找到在B中所有字母在A中出现的下标</li>
+<li>给一个字符串A，N次询问，每次问字符串B是否是A的子序列</li>
+<li>一个有环的单链表，如何找到环结点</li>
+<li>给一个字符串，将字符串中的单词从后向前翻转，手写代码</li>
+<li>A[50]50个数,B[49]49个数，数字取值范围[0,49]，找出A中多出来的一个数字</li>
+<li>一个平面，100个点，求一条直线，经过的点最多，给个思路就行</li>
+<li>给你一个50亿的整数让你找出中位数. </li>
+<li>最大连续子数组的和</li>
+<li>1、给1亿个数，求字典序第K（k&lt;1亿）大的数（字典树）</li>
+<li>2、链表拆分，翻转，合并  如 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;6  变为1-&gt;6-&gt;2-&gt;5-&gt;4-&gt;3 </li>
+<li>树转单链表（前序）</li>
+<li>旋转数组查找</li>
+<li>求后面第一个比当前数大的数</li>
+<li>数组两两元素求异或，求最大的异或值（01字典树）</li>
+<li>n个有序链表，合并成一个</li>
+<li>字符串A,B，在A中删除B中出现过的字符</li>
+<li>二叉树知道后序中序求前序遍历</li>
+<li>100万数据找top k，判断一个数是不是2的幂，两个单链表有公共节点，找出第一个。</li>
+<li>一颗二叉搜索树，找出树中的第k大节点</li>
+<li>将字符串转化为整型</li>
+<li>给你两个有序数组，找中位数</li>
+<li>m个有序数组合并后输出前K个数</li>
+<li>二叉树的最小公共结点</li>
+<li>m个有序数组合并后输出第k个数（二分）</li>
+<li>手写代码，计算一个整数二进制中0的个数。</li>
+<li>有一支股票，知道每天的价格，本金一定，只准买卖一次，问如何做到收益最大。</li>
+<li>给定几个互不相同的数字组成的一个字符串，输出同样由这几个数字组成的，字典序恰好比它大1的字符串。</li>
+<li>(s,n)表示字符串s反复出现n次；s-&gt;t表示s去掉若干字符之后能成为t；给定S1与S2，求最大的m使得S1-&gt;(S2,m)</li>
+<li>给定一些正整数(1,3,4,5,7)，输入一个n，输出最少用多少个给定的数能加出n来。</li>
+<li>一个整数序列，A和B两个人轮流取数，每次只能取最左的数或最右的数，两个人都想使自己的和尽可能大，问给定序列以后A和B能取到的和各是多少。</li>
+<li>给定字符串s，输出第一个满足：在s中恰好出现3次的字母。保证存在这样的字母且字符串都是小写字母组成。</li>
+<li>手撕代码，二叉树两个节点最长路径</li>
+<li>两个有序数组合并，n个有序数组合并</li>
+<li>int数组求最大子串和、二维、三维、四维呢</li>
+</ol>
+<h2 id="其他算法题"><a href="#其他算法题" class="headerlink" title="其他算法题"></a>其他算法题</h2><ol>
+<li>有一户家庭，生了两个娃，其中一个是女孩，另外一个是女孩的概率</li>
+<li>一副扑克牌，怎么实现随机打乱？</li>
+<li>假设有两个数组，各有十万数量级的整数，如何求交集？</li>
+<li>个人项目的benchmark性能测试结果如何</li>
+<li>有100个弹珠，双方轮流拿，每个人只能拿1~5个，无法拿的人输，必胜解法。</li>
+<li>求char a数组中有的元素和char b数组中没有的元素，放到char c数组。这里我忘记把char字符转成unsigned char类型。</li>
+<li>windows消息机制知道吗？系统怎么知道   。。MFC消息机制</li>
+<li>1000瓶水有1瓶水有毒，老鼠喝一滴就会死，但是需要一周毒发，请问最少需要多少老鼠多少时间才能找到那瓶有毒的水。答案是10只老鼠1周，解法是十进制转二进制</li>
+<li>桶中取球排列组合问题</li>
+<li>40亿个QQ号，4GB的空间，O(1)的时间，这个时候新来了一个QQ号，判断这个QQ号是否存在</li>
+<li>个非常拥堵的路口，让你分析拥挤原因，并且提供解决方案</li>
+<li>高德地图是怎么知道高速路哪里堵车了，并且还能标记出来准确的路段？ 提出你的设想.</li>
+<li>如果让你统计出这个城市当中的交通信息，比如说那几个路口每天多少车左转，多少车右转，你怎么做？</li>
+<li>MFC消息怎么定义 x 太久没写忘记了，就记得个声明和绑定函数</li>
+<li>做个数学题吧，一副扑克牌取5张，出现顺子的概率，大小王能任意当成什么牌</li>
+<li>8个球找重量不一样的一个怎么称 </li>
+<li>36匹马6个跑道无秒表选前三，最少跑几轮</li>
+</ol>
+            
+
+
+            <!-- 添加的部分 -->
+            <!-- copyright -->
+            
+            <!-- copyright -->
+        </div>
+    </div>
+
+
+    <!-- 打赏 -->
+    
+        <br>
+        <br>
+        <div class ="post-donate">
+            <div id="donate_board" class="donate_bar center">
+                <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+                <br>
+            </div>
+            <div id="donate_guide_alipay" class="donate_bar center hidden" >
+                <!-- 支付宝打赏图案 -->
+                <h1 align="center"
+style="color:#019fe8; font-size:17px; line-height:2%;">支付宝扫一扫
+                    <i class="fas fa-hand-point-down"></i>
+                </h1>
+                <img src="../../../../assets/images/alipay.png" alt="支付宝打赏">
+            </div>
+
+            <div id="donate_guide_wechat" class="donate_bar center hidden" >
+                <!-- 微信打赏图案 -->
+                <h1 align="center"
+style="color:#1AAD19; font-size:17px; line-height:2%;">微信扫一扫
+                    <i class="fas fa-hand-point-down"></i>
+                </h1>
+                <img src="../../../../assets/images/wechat.png" alt="微信打赏">
+                
+            </div>
+
+            <div id="donate_button_alipay" class="donate_bar center hidden">
+                <br>
+                <a id="btn_donate_alipay" class="btn_donate_alipay" href="javascript:;" title="切换到微信">切换到微信</a>
+            </div>
+
+            <div id="donate_button_wechat" class="donate_bar center hidden">
+                <br>
+                <a id="btn_donate_wechat" class="btn_donate_wechat" href="javascript:;" title="切换到支付宝">切换到支付宝</a>
+            </div>
+
+        
+
+            <script type="text/javascript">
+                document.getElementById('btn_donate').onclick = function(){
+                    $('#donate_board').addClass('hidden');
+                    $('#donate_guide_wechat').removeClass('hidden');
+                    $('#donate_button_wechat').removeClass('hidden');
+                }
+            </script>
+
+            <script type="text/javascript">
+                document.getElementById('btn_donate_alipay').onclick = function(){
+                    $('#donate_guide_alipay').addClass('hidden');
+                    $('#donate_button_alipay').addClass('hidden');
+                    $('#donate_guide_wechat').removeClass('hidden');
+                    $('#donate_button_wechat').removeClass('hidden');
+                }
+            </script>
+
+            <script type="text/javascript">
+                document.getElementById('btn_donate_wechat').onclick = function(){
+                    $('#donate_guide_wechat').addClass('hidden');
+                    $('#donate_button_wechat').addClass('hidden');
+                    $('#donate_guide_alipay').removeClass('hidden');
+                    $('#donate_button_alipay').removeClass('hidden');
+                }
+            </script>
+
+            
+        </div>
+
+        <div class="donateText" style="line-height:120%;"><br>“ 万物皆有时，比如你我相遇 ”</div>
+        <br>
+            
+    
+
+
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/求职/">求职</a> <a class="tag tag--primary tag--small t-link" href="/tags/面试/">面试</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/16/pinduoduo/"
+                    data-tooltip="2019拼多多学霸批第二批笔试题"
+                    aria-label="上一篇: 2019拼多多学霸批第二批笔试题"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/15/operationSystems/"
+                    data-tooltip="开发岗面试问题总结：操作系统"
+                    aria-label="下一篇: 开发岗面试问题总结：操作系统"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/08/15/handCode/"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=/2019/08/15/handCode/"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitment"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                
+<div id="gitment"></div>
+
+<!-- Gitment评论插件通用代码 -->
+
+<link rel="stylesheet" href='assets/js/gitment.css'>
+<script src='assets/js/gitment.js'></script>
+
+<script>
+var gitment = new Gitment({
+  owner: 'liuyihust',
+  repo: '',
+  oauth: {
+    client_id: '4d67b0b86332dbac9f61',
+    client_secret:'59b0670047644cff4d5740c6e239f758ade18049',
+  },
+})
+gitment.render('git')
+</script>
+
+<!-- Gitment代码结束 -->
+            
+        
+    </div>
+
+    
+
+</article>
+
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <i class="fas fa-user-clock"></i>
+    <span id="timeDate">0</span><span id="times">0</span>
+    <script>
+        var now = new Date();
+        function createtime() {
+            var grt= new Date("04/01/2018 00:00:00");//此处修改你的建站时间或者网站上线时间
+            now.setTime(now.getTime()+250);
+            days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+            hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+            if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+            mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+            seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+            snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+            document.getElementById("timeDate").innerHTML = "Blog Age: "+dnum+" days ";
+            document.getElementById("times").innerHTML = hnum + " h " + mnum + " m " + snum + " s";
+        }
+        setInterval("createtime()",250);
+	</script>
+
+    <br>
+
+    <span class="copyrights">
+        Copyrights &copy; 2020 Liu Yi. All Rights Reserved.
+    </span>
+
+
+</footer>
+
+
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/16/pinduoduo/"
+                    data-tooltip="2019拼多多学霸批第二批笔试题"
+                    aria-label="上一篇: 2019拼多多学霸批第二批笔试题"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/15/operationSystems/"
+                    data-tooltip="开发岗面试问题总结：操作系统"
+                    aria-label="下一篇: 开发岗面试问题总结：操作系统"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/08/15/handCode/"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=/2019/08/15/handCode/"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitment"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=/2019/08/15/handCode/"
+                        aria-label="分享到 Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=/2019/08/15/handCode/"
+                        aria-label="分享到 Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/portrait.gif" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Liu Yi</h4>
+        
+            <div id="about-card-bio"><p>无趣的人生，有趣地生活。<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=245 height=52 align="middle" src="//music.163.com/outchain/player?type=2&id=26294503&auto=1&height=32"></iframe></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>学生</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                湖北武汉
+            </div>
+        
+    </div>
+</div>
+        
+            <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-times"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="/assets/images/logo-algolia-nebula-blue-full.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    />
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">没有找到文章</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/21/randomNumber/"
+                            aria-label=": Random Number Generator"
+                        >
+                            <img class="media-image" src="/2018/04/21/randomNumber/random.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/21/randomNumber/"
+                            aria-label=": Random Number Generator"
+                        >
+                            <h3 class="media-heading">Random Number Generator</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2018年4月21日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>C++编程时经常要用到随机数，那么到底有哪些随机数产生器或函数呢？我这里来做个小结。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/22/Japanese-1/"
+                            aria-label=": 日语中的数字与时间"
+                        >
+                            <img class="media-image" src="/2018/04/22/Japanese-1/japan.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/22/Japanese-1/"
+                            aria-label=": 日语中的数字与时间"
+                        >
+                            <h3 class="media-heading">日语中的数字与时间</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2018年4月22日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>日语中的数字与时间常见表示。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/25/Japanese-2/"
+                            aria-label=": 日语中的动词变形"
+                        >
+                            <img class="media-image" src="/2018/04/25/Japanese-2/maomi.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/25/Japanese-2/"
+                            aria-label=": 日语中的动词变形"
+                        >
+                            <h3 class="media-heading">日语中的动词变形</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2018年4月25日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>学过日语的人都知道，日语中的动词是需要变形的，所以我这里简单来总结一下日语中的动词变形！</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/15/setup-package/"
+                            aria-label=": 程序打包（Setup使用技巧）"
+                        >
+                            <img class="media-image" src="/2019/01/15/setup-package/pakage.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/15/setup-package/"
+                            aria-label=": 程序打包（Setup使用技巧）"
+                        >
+                            <h3 class="media-heading">程序打包（Setup使用技巧）</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年1月15日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>常用打包软件Setup的使用技巧。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/20/vs-skills/"
+                            aria-label=": VS使用技巧"
+                        >
+                            <img class="media-image" src="/2019/01/20/vs-skills/vs.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/20/vs-skills/"
+                            aria-label=": VS使用技巧"
+                        >
+                            <h3 class="media-heading">VS使用技巧</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年1月20日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>VS基础…</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/02/28/tf-version-problem/"
+                            aria-label=": 安装Tensorflow版本不匹配问题及解决"
+                        >
+                            <img class="media-image" src="/2019/02/28/tf-version-problem/tensorflow.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/02/28/tf-version-problem/"
+                            aria-label=": 安装Tensorflow版本不匹配问题及解决"
+                        >
+                            <h3 class="media-heading">安装Tensorflow版本不匹配问题及解决</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年2月28日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>安装Tensorflow时踩过的坑…</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/09/themeConfig/"
+                            aria-label=": 博客瞎折腾——tranquilpeak主题"
+                        >
+                            <img class="media-image" src="/2019/08/09/themeConfig/cat.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/09/themeConfig/"
+                            aria-label=": 博客瞎折腾——tranquilpeak主题"
+                        >
+                            <h3 class="media-heading">博客瞎折腾——tranquilpeak主题</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月9日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather">The article has been encrypted, please enter your password to view.<br></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/11/linux-files/"
+                            aria-label=": linux文件和目录"
+                        >
+                            <img class="media-image" src="/2019/08/11/linux-files/newtux.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/11/linux-files/"
+                            aria-label=": linux文件和目录"
+                        >
+                            <h3 class="media-heading">linux文件和目录</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月11日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Linux学习笔记：文件和目录</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/12/Welcome/"
+                            aria-label=": Welcome To Liuyee&#39;s Blog"
+                        >
+                            <img class="media-image" src="/2019/08/12/Welcome/deer.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/12/Welcome/"
+                            aria-label=": Welcome To Liuyee&#39;s Blog"
+                        >
+                            <h3 class="media-heading">Welcome To Liuyee&#39;s Blog</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月12日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Don’t aim for success if you want it, just stick to what you love and believe in, and it will come naturally.</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/15/DevelopingInterview/"
+                            aria-label=": 开发岗面试问题总结：C/C++语言"
+                        >
+                            <img class="media-image" src="/2019/08/15/DevelopingInterview/thumbnail.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/15/DevelopingInterview/"
+                            aria-label=": 开发岗面试问题总结：C/C++语言"
+                        >
+                            <h3 class="media-heading">开发岗面试问题总结：C/C++语言</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月15日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>开发岗面试问题总结之C/C++语言</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="没有找到文章"
+                data-message-one="找到 1 篇文章"
+                data-message-other="找到 {n} 篇文章">
+                找到 23 篇文章
+            </p>
+        </div>
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+
+
+    
+        <script src="/assets/js/gitment.js"></script>
+        <script type="text/javascript">
+          (function() {
+            new Gitment({
+              id: '/2019/08/15/handCode/',
+              owner: 'liuyihust',
+              repo: 'BlogComments',
+              oauth: {
+                client_id: '4d67b0b86332dbac9f61',
+                client_secret: '59b0670047644cff4d5740c6e239f758ade18049'
+              }
+            }).render('gitment')
+          })()
+        </script>
+    
+
+
+
+    <script src="/assets/js/moment-with-locales.js"></script>
+    <script src="/assets/js/algoliasearch.js"></script>
+    <script>
+      var algoliaClient = algoliasearch('SCS7H6XC2V', '3c07d7df305177e5342667b398d803ef');
+      var algoliaIndex = algoliaClient.initIndex('tranquilpeak');
+    </script>
+
+
+
+        <!-- 点击特效 -->
+        
+            <script async src="/assets/js/text.js"></script>
+        
+    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":400,"vOffset":-80},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.9,"opacityOnHover":0.1},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

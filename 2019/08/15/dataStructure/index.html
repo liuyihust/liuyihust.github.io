@@ -1,0 +1,1612 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Liuyee&#39;s Blog">
+    <title>开发岗面试问题总结：数据结构 - Liuyee&#39;s Blog</title>
+    <meta name="author" content="Liu Yi">
+    
+        <meta name="keywords" content="开发,面试,求职,数据结构">
+    
+    
+        <link rel="icon" href="/assets/images/favicon.ico">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liu Yi","sameAs":["https://github.com/liuyihust","mailto:liuyihust@foxmail.com"],"image":"portrait.gif"},"articleBody":"\n\n\n题目\nhash表的实现，包括STL中的哈希桶长度常数。答案\nhash表如何rehash，怎么处理其中保存的资源。答案\n哈希表的桶个数为什么是质数，合数有何不妥？答案\nmap和set有什么区别，怎么实现的。答案\n如何判断一个图是否连通。答案\n如何用一个1立方米的方块占满这个小教室。\n大区间求和。答案\n大文本如何排序\n最优二叉树、排序二叉树、哈夫曼树。答案\nmap用的是红黑树，和AVL树的区别？答案 \nmap插入和删除需要注意什么？答案 \nB+树，存储方式。答案 \nset底层为什么用红黑树实现？答案 \nmap底层为什么用红黑树实现？\n各种排序空间复杂度和时间复杂度，稳定程度。答案\nhashtable是什么，重复元素怎么办，字符串当作hash值如何处理\nhash用在什么地方？\nvector，手写扩容代码。答案 \nmap和unordered_map怎么实现的以及优缺点。答案 \nvector和deque的底层实现有什么区别。答案\nemplace_back的实现。答案\n迭代器什么时候会失效。答案\n介绍迭代器失效。push_back会导致迭代器失效吗。答案 \n快排算法最差情况推导公式。答案\n小根堆特点。答案\n增量为5的希尔排序\n一致性哈希是如何实现的（单调性、平衡性）。答案\n单链表和双向链表了解吗，说一下性能的比较？答案\n描述怎么初始化堆。答案\n描述怎么合并两个堆。答案\nmap和hashmap的区别，查找的时间复杂度分别是多少？答案\n\n参考答案\n \n\n\n哈希表又称散列表，是根据关键码值直接访问的数据结构。即通过把关键码值映射表中一个位置来访问记录，以加快查找的速度。哈希表的实现主要解决两个问题，构造哈希函数和处理哈希冲突。\n构造哈希函数：\n哈希函数对不同的输出值得到一个固定长度的消息摘要。理想的哈希函数对于不同的输入应该产生不同的结构，同时散列结果应当具有同一性（输出值尽量均匀）和雪崩效应（微小的输入值变化使得输出值发生巨大的变化）；\n构造哈希函数主要包括直接地址法、平方取中法、除留余数法等。\n\n\n冲突解决：\n现实中的哈希函数不是完美的，当两个不同的输入值对应一个输出值时，就会产生碰撞，这个时候需要解决冲突。\n常见解决冲突的办法有：开放定址法、链地址法、建立公共溢出区等。\nSTL中使用的链地址法：为每个Hash值建立一个单链表，当发生冲突时，将记录插入到链表中。\n虽然链地址法并不要求哈希桶长度必须为质数，但STL仍然以质数来设计哈希桶长度，并且将28个质数（逐渐呈现大约两倍的关系）计算好，以备随时访问，同时提供一个函数，用于查询在这28个质数中，“最接近某数并大于某数”的质数。返回原题\n\n\n\n\n\n\n \n\n\n负载因子：哈希表的size/初始化时桶的数量；\nrehash：当hash表中的负载因子达到负载极限的时候，hash表会自动成倍的增加容量（桶的数量），并将原有的对象重新分配并加入新的桶内。返回原题\n\n\n\n\n \n\n\n可以最大程度地减少冲突概率，使得哈希后的分布更加均匀。如果使用合数，可能会造成很多数据分布集中在某些点上，从而影响哈希表效率。\n质数在一般情况下可以抵抗比较差的hash函数，但对于较好的hash函数，不必苛求桶的个数一定是质数。返回原题\n\n\n\n\n \n\n\n共同点：\nmap和set的数据结构相同，底层都是使用红黑树实现的；\n内部的元素都不可以重复；\n都会对其中的键值进行排序；\n不能通过迭代器来改变其键值，因为要保证键值的唯一性和元素的顺序。\n\n\n不同点：\n二者其中的iterator格式不一样，map使用的是pair这种键值/实值配对的数据，使用第一个元素来排序，而set直接使用键值作为元素，以键值来排序；返回原题\n\n\n\n\n\n\n \n\n\n使用Warshall算法，时间复杂度为O(v^3)；\n拓扑排序\n使用DFS（Deep First Search），用visit[]来标志数组，观察从一个点出发能否遍历图中所有的点。返回原题\n\n\n\n\n \n\n\n使用线段树：叶子节点存储输入的数组元素，每一个内部节点表示两个叶子节点的合并（即两个子节点的和）\n时间复杂度：构建O(n)，查询O(n)，更新O(log n)。返回原题\n\n\n\n\n \n\n\n最优二叉树（哈夫曼树）：带权路径长度最小的树。\n结点的带权路径长度：结点到树根之间的路径长度与该结点上权的乘积；\n树的带权路径长度（WPL）：树中所有叶结点的带权路径长度之和。\n特点：叶子上的权值均相同时，完全二叉树一定是最优二叉树；最优二叉树中，权越大的叶子结点离根越近；最优二叉树的形态不唯一，WPL最小；是严格的二叉树，没有度数为1的分支结点。\n\n\n哈夫曼算法基本思想：\n根据给定的n个权值w1，w2…wn构成n棵二叉树的森林F={T1, T2,…,Tn}，其中每棵二叉树Ti中都只有一个权值为wi的根结点，其左右子树均空；\n在森林F中选出两棵根结点权值最小的树，将这两棵树合并成一棵新树（增加一个新结点作为新树的根，并将所选的两棵树的根分别作为新根的左右孩子），将这两个孩子的权值之和作为新树根的权值；\n对新的森林F重复(2)，直到森林F中只剩下一棵树为止。\n\n\n排序二叉树：又称二叉搜索树，性质如下：\n若它的左子树不为空，则左子树上所有结点的值均小于它的根结点的值；\n若它的右子树不为空，则右子树上所有结点的值均大于它的根结点的值；\n它的左右子树也分别为二叉排序树。返回原题\n\n\n\n\n\n\n\n\n\n红黑树：红黑树是一种二叉查找树，每个节点增加一个存储位表示节点的颜色，非红即黑。通过对任何一条从根节点到叶子节点着色的方式的限制，红黑树确保没有一条路径的长度会大于其它任一路径长度的两倍。因此，红黑树是一种弱平衡二叉树，相对于AVL树来说，它的旋转次数少，所以对于查找、插入、删除操作较多的情况下，通常使用红黑树。\n性质：\n每个节点非黑即红；\n根节点是黑色的；\n每个叶子节点（NIL节点）都是黑色的；\n每个红节点的两个子节点都是黑色的；\n任一节点到所有叶子节点的路径上的黑色节点数目都相同。\n\n\nAVL树：红黑树是在AVL树的基础上提出来的。平衡二叉树又称为AVL树，是一种特殊的二叉排序树。其左右子树都是二叉平衡树，左右子树的高度差绝对值不超过1。\n红黑树相对AVL树的优点：\nAVL树是高度平衡的，其频繁的插入、删除，会引起频繁的rebalance，导致效率下降；红黑树不是高度平衡的，算是一种折中，插入最多二次旋转，删除最多三次旋转；\n红黑树的查找、删除、插入操作都是O(logn)，且性能稳定，所以STL中很多结构包括map、set的底层实现都是红黑树。返回原题\n\n\n\n\n\n\n \n\n\nmap的插入：\ninsert方法不能覆盖，如果键已经存在，则插入失败。数组方法插入不存在也会直接更新键对应的值；\n\n\nmap的删除：\nmap中删除元素时，只是当前迭代器失效。返回原题\n\n\n\n\n\n\n\n\n\n参考：平衡二叉树、B树、B+树、B*树 理解其中一种你就都明白了\nB树：B树属于多叉树，又名平衡多路查找树，常用于数据库索引技术中。\n排序方式：所有节点的关键字是按递增次序排列，并遵循左小右大原则；\n子节点数：非叶子节点的子节点数&gt;1，且&lt;=M，且M&gt;=3，空树除外。（M阶代表一个节点最多有多少个查找路径）\n关键字数：枝节点的关键字数量大于等于ceil(M/2)-1个且小于等于M-1个；\n所有叶子节点均在同一层，叶子结点除了包含关键字和关键字记录的指针外也有指向其子节点的指针，只不过其指针地址都为null。\n\n\nB+树：是B树的一个升级版，更充分地利用了节点的空间，让查询速度更加稳定，其速度完全接近于二分查找法。看图轻松理解数据结构与算法系列(B+树) \nB+树非叶子结点不保存关键字记录的指针，只进行数据索引，这样使得B+树每个非叶子结点所能保存的关键字大大增加；\nB+树叶子结点保存了父结点的所有关键字记录的指针，所有数据地址必须要到叶子节点才能获取到。所以每次数据查询的次数都一样；\nB+树叶子结点的关键字从小到大排列，左边结尾数据都会保存右边结点开始数据的指针；\n非叶子结点的子结点数=关键字数，也有非叶子结点的关键字数=子节点数-1。返回原题\n\n\n\n\n\n\n\n\n\n红黑树能以O(log n)的时间复杂度进行搜索、插入、删除捉住，旋转复杂度仅为O(1)，时间复杂度和AVL一样，但统计性能比AVL树更高；返回原题\n\n\n\n\n各种排序算法的时间、空间复杂度以及稳定性。\n\n\n\n\n排序算法\n最差时间复杂度\n平均时间复杂度\n空间复杂度\n稳定性\n\n\n\n冒泡法\nO(n^2)\nO(n^2)\nO(1)\n稳定\n\n\n选择排序法\nO(n^2)\nO(n^2)\nO(1)\n不稳定\n\n\n插入排序法\nO(n^2)\nO(n^2)\nO(1)\n稳定\n\n\n归并排序法\nO(nlog n)\nO(nlog n)\nO(n)\n稳定\n\n\n希尔排序法\nO(n^2)\nO(n^1.3)\nO(1)\n不稳定\n\n\n快速排序法\nO(n^2)\nO(nlog n)\nO(nlog n)\n不稳定\n\n\n堆排序法\nO(nlog n)\nO(nlog n)\nO(1)\n不稳定\n\n\n计数排序法\nO(n+k)\nO(n+k)\nO(n+k)\n稳定\n\n\n桶排序法\nO(n^2)\nO(n+k)\nO(n+k)\n稳定\n\n\n基数排序法\nO(n*k)\nO(n*k)\nO(n+k)\n稳定\n\n\n返回原题\n\n\n\n\n\n\n\n\n\n\n\n\n123456789101112131415161718192021else if (max_size() - size() &lt; _Count)    //可以申请的最大容量也不够用，抛出异常_THROW(length_error, \"vector&lt;T&gt; too long\");    _Xlen();else if (_Capacity &lt; size() + _Count)&#123;//空间不足，需要扩容       _Capacity = max_size() - _Capacity / 2 &lt; _Capacity        ? 0 : _Capacity + _Capacity / 2;    // 尝试扩容1.5倍    if (_Capacity &lt; size() + _Count)//扩容1.5倍后依然不够用，则容量等于当前数据个数加上新增数据个数        _Capacity = size() + _Count;    pointer _Newvec = this-&gt;_Alval.allocate(_Capacity);//申请新空间    pointer _Ptr = _Newvec;    _TRY_BEGIN        _Ptr = _Umove(_Myfirst, _VEC_ITER_BASE(_Where),            _Newvec);   //move原先的数据    _Ptr = _Ucopy(_First, _Last, _Ptr); //copy新增的数据到新内存之后    _Umove(_VEC_ITER_BASE(_Where), _Mylast, _Ptr);      _CATCH_ALL        _Destroy(_Newvec, _Ptr);    this-&gt;_Alval.deallocate(_Newvec, _Capacity);//释放原来申请的内存    _RERAISE;    _CATCH_END...\n\n返回原题\n\n\n\n\nmap：底层是用红黑树实现的，对map的查找、插入、删除等操作都是相当于对红黑树进行的操作。\n优点：有序性；红黑树的数据结构使得很多操作在O(log n)时间复杂度就能实现，效率很高；\n缺点：空间占用率很高。红黑树的每个节点都需要保存父结点、左右子结点以及红黑性质，使得每个节点都占用大量内存。\n\n\nunordered_map：的底层是哈希表，其元素的排列顺序是无序的。\n优点：由于底层是哈希表，因此查找速度非常快；\n缺点：哈希表的建立比较耗费时间。返回原题\n\n\n\n\n\n\n\n\n\nvector的底层实现是数组，是单向开口的连续空间，支持随机访问和尾部快速增删；\ndeque的底层实现是一个中央控制器和多个缓冲区，是双向开口的连续空间。支持随机访问和首尾快速增删。返回原题\n\n\n\n\n\n\n\nemplace_back：采用就地构造策略，直接将参数传给对象的构造函数，在容器中构造一个对象，从而实现0拷贝。与push_back相比，当传入左值时，省去了复制操作；当传入右值时，省去了移动操作。返回原题\n\n\n\n\n\n\n\nvector：\npush_back：一定会使end返回迭代器失效；当capacity前后有变化时，first返回的迭代器也会失效；\nerase/pop_back：会使删除元素及之后的所有迭代器均失效；erase会返回一个新的有效的迭代器。\n\n\ndeque：\n首尾插入元素不会使任何迭代器失效；\n在首尾删除元素只会使指向被删除元素的迭代器失效；\n在其他任何位置进行插入和删除将会使该容器元素的所有迭代器失效。\n\n\nlist/set/map：\n删除元素时，指向该删除节点的迭代器失效；返回原题\n\n\n\n\n\n\n\n\n\n迭代器失效：向容器内添加或删除元素的操作可能会使指向容器元素的迭代器失效，失效的迭代器将不指向任何元素。\npush_back：对于vector的push_back操作，end返回的迭代器会失效，first返回的迭代器只有当当前容器size小于容器的capacity时才不会失效，否则会失效。返回原题\n\n\n\n\n\n\n\n快排最差情况：已排好序；所有值相等（排好序的特殊情况）。\n在最差情况下，需要执行n-1次递归调用，且第i次划分需要经过n-i次比较才能找到第i个记录。所以比较次数为(n-1) + (n-2) + ... + 1 = n(n-1)/2，即最终时间复杂度为O(n^2)。返回原题\n\n\n\n\n\n\n\n小根堆特点：所有父结点的值比其左右子结点的值都要小；根结点的值最小；返回原题\n\n\n\n\n\n\n\n参考：理解 Consistent Hashing\n一致性哈希是一种特殊的哈希算法，哈希表槽位数（大小）的改变平均只需要对K/n个关键字重新映射，其中K是关键字的数量，n是槽位数量。而在传统哈希表中，删除或添加一个槽位几乎要对所有关键字进行重新映射；\n原理：\n将每个节点映射到数值空间[0, (2^32)-1]，映射的规则可为IP、hostname；\n将每个object映射到数值空间[0, (2^32)-1]；\n对于某个object，对于所有满足hash(node)&lt;=hash(object)的节点，选择hash(node)最大的节点存放object；如果没有满足上述条件的节点，选择hash(node)最小的节点存放该object。\n\n\n特点：当插入或删除时，仅有一个节点的部分object需要重哈希。\n平衡性：引入虚节点，虚节点实际上是物理节点的复制品，一个物理节点包含多个虚拟节点，我们将这些虚拟节点映射到数值空间[0, (2^32)-1]，对于某个object，计算出存放的虚拟节点，进而得出物理节点。虚节点越多及其位置分布越均匀，相应地，映射到物理节点的object数目也越均匀，从而提高了平衡性。返回原题\n\n\n\n\n\n\n\n与单链表相比，双向链表有如下特点：\n从任一节点出发，可以查找链表中的其他任意节点；\n既可以前向遍历，也可以后向遍历；\n每个指针域中都增加了一个存储指针的空间，降低了存储密度；\n可以在当前结点前或后插入、删除；返回原题\n\n\n\n\n\n\n\n\n\n参考：堆排序算法之初始堆建立总结\n首先根据序列构建一个完全二叉树；\n在完全二叉树的基础上，从最后一个非叶子结点开始调整：比较三个元素的大小（自己、左孩子、右孩子），分为三种情况：\n自己最大，不用调整；\n左孩子最大，交换该非叶子结点与其左孩子的值，并考察以左孩子为根的子树是否满足大顶堆的要求，不满足递归向下处理；\n右孩子最大，交换该非叶子结点与其右孩子的值，并考察以右孩子为根的子树是否满足大顶堆的要求，不满足递归向下处理；返回原题\n\n\n\n\n\n\n\n\n\n当两个堆元素数量相差较大时，选用启发时合并，即将较小的堆一个个插入较大的堆中，时间复杂度为O(nlog n)；\n当两个堆元素数量相关较小时，选用重新建堆法，全部拆散重排，时间复杂度为O(n1+n2)。返回原题\n\n\n\n\n\n\n\n区别：\n构造函数：hashmap需要hash函数，而map只需比较函数；\n存储结构：hashmap采用hash表存储，map一般采用红黑树实现。\n\n\n查找时间复杂度：\nhashmap：常数级别，为O(1)；\nmap：log(n)。返回原题\n\n\n\n\n","dateCreated":"2019-08-15T22:26:06+08:00","dateModified":"2019-08-22T22:33:21+08:00","datePublished":"2019-08-15T22:26:06+08:00","description":"开发岗面试问题总结之数据结构","headline":"开发岗面试问题总结：数据结构","image":["thumbnail.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/2019/08/15/dataStructure/"},"publisher":{"@type":"Organization","name":"Liu Yi","sameAs":["https://github.com/liuyihust","mailto:liuyihust@foxmail.com"],"image":"portrait.gif","logo":{"@type":"ImageObject","url":"portrait.gif"}},"url":"/2019/08/15/dataStructure/","keywords":"求职, 面试","thumbnailUrl":"thumbnail.png"}</script>
+    <meta name="description" content="开发岗面试问题总结之数据结构">
+<meta name="keywords" content="开发,面试,求职,数据结构">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="开发岗面试问题总结：数据结构">
+<meta property="og:url" content="/2019/08/15/dataStructure/index.html">
+<meta property="og:site_name" content="Liuyee&#39;s Blog">
+<meta property="og:description" content="开发岗面试问题总结之数据结构">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-08-22T14:33:21.296Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="开发岗面试问题总结：数据结构">
+<meta name="twitter:description" content="开发岗面试问题总结之数据结构">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="/assets/images/portrait.gif"/>
+    
+    
+        <meta property="og:image" content="/2019/08/15/dataStructure/thumbnail.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="/2019/08/15/dataStructure/thumbnail.png"/>
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/all.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+
+    
+    <script type="text/javascript">
+	    var _hmt = _hmt || [];
+	    (function() {
+	      var hm = document.createElement("script");
+	      hm.src = "//hm.baidu.com/hm.js?9090c30aa810eb2d002253f0d0f5bbea";
+	      var s = document.getElementsByTagName("script")[0];
+	      s.parentNode.insertBefore(hm, s);
+	    })();
+    </script>
+
+
+    
+        
+            <link rel="stylesheet" href="/assets/css/gitment.css">
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/ "
+            aria-label=""
+        >
+            Liuyee&#39;s Blog
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="打开链接: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/portrait.gif" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="阅读有关作者的更多信息"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/portrait.gif" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Liu Yi</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>无趣的人生，有趣地生活。<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=245 height=52 align="middle" src="//music.163.com/outchain/player?type=2&id=26294503&auto=1&height=32"></iframe></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="https://github.com/liuyihust"
+                            title="GitHub"
+                        >
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="mailto:liuyihust@foxmail.com"
+                            title="邮箱"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">邮箱</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title">
+            开发岗面试问题总结：数据结构
+        </h1>
+    
+    
+        <div class="post-meta">
+    
+
+    <time datetime="2019-08-15T22:26:06+08:00">
+	
+		    8月 15, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Job-Hunting/">Job Hunting</a>
+
+
+    
+
+    <br>
+    <i class="fas fa-file-word"></i>
+    <font>本文字数:</font>
+    <span class="post-count">4.5k</span>
+    <span class="post-meta-divider">|</span>
+
+    <i class="far fa-clock"></i>
+    <font>建议阅读时长:</font>
+    <span class="post-count">16</span>
+    <font> min</font>
+
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+
+
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><ol>
+<li><span id="Q02-1"></span>hash表的实现，包括STL中的哈希桶长度常数。<a href="#A02-1">答案</a></li>
+<li><span id="Q02-2"></span>hash表如何rehash，怎么处理其中保存的资源。<a href="#A02-2">答案</a></li>
+<li><span id="Q02-3"></span>哈希表的桶个数为什么是质数，合数有何不妥？<a href="#A02-3">答案</a></li>
+<li><span id="Q02-4"></span>map和set有什么区别，怎么实现的。<a href="#A02-4">答案</a></li>
+<li><span id="Q02-5"></span>如何判断一个图是否连通。<a href="#A02-5">答案</a></li>
+<li><span id="Q02-6"></span>如何用一个1立方米的方块占满这个小教室。</li>
+<li><span id="Q02-7"></span>大区间求和。<a href="#A02-7">答案</a></li>
+<li><span id="Q02-8"></span>大文本如何排序</li>
+<li><span id="Q02-9"></span>最优二叉树、排序二叉树、哈夫曼树。<a href="#A02-9">答案</a></li>
+<li><span id="Q02-10"></span>map用的是红黑树，和AVL树的区别？<a href="#A02-10">答案</a> </li>
+<li><span id="Q02-11"></span>map插入和删除需要注意什么？<a href="#A02-11">答案</a> </li>
+<li><span id="Q02-12"></span>B+树，存储方式。<a href="#A02-12">答案</a> </li>
+<li><span id="Q02-13"></span>set底层为什么用红黑树实现？<a href="#A02-13">答案</a> </li>
+<li><span id="Q02-14"></span>map底层为什么用红黑树实现？</li>
+<li><span id="Q02-15"></span>各种排序空间复杂度和时间复杂度，稳定程度。<a href="#A02-15">答案</a></li>
+<li><span id="Q02-16"></span>hashtable是什么，重复元素怎么办，字符串当作hash值如何处理</li>
+<li><span id="Q02-17"></span>hash用在什么地方？</li>
+<li><span id="Q02-18"></span>vector<int>，手写扩容代码。<a href="#A02-18">答案</a> </int></li>
+<li><span id="Q02-19"></span>map和unordered_map怎么实现的以及优缺点。<a href="#A02-19">答案</a> </li>
+<li><span id="Q02-20"></span>vector和deque的底层实现有什么区别。<a href="#A02-20">答案</a></li>
+<li><span id="Q02-21"></span>emplace_back的实现。<a href="#A02-21">答案</a></li>
+<li><span id="Q02-22"></span>迭代器什么时候会失效。<a href="#A02-22">答案</a></li>
+<li><span id="Q02-23"></span>介绍迭代器失效。push_back会导致迭代器失效吗。<a href="#A02-23">答案</a> </li>
+<li><span id="Q02-24"></span>快排算法最差情况推导公式。<a href="#A02-24">答案</a></li>
+<li><span id="Q02-25"></span>小根堆特点。<a href="#A02-25">答案</a></li>
+<li><span id="Q02-26"></span>增量为5的希尔排序</li>
+<li><span id="Q02-27"></span>一致性哈希是如何实现的（单调性、平衡性）。<a href="#A02-27">答案</a></li>
+<li><span id="Q02-28"></span>单链表和双向链表了解吗，说一下性能的比较？<a href="#A02-28">答案</a></li>
+<li><span id="Q02-29"></span>描述怎么初始化堆。<a href="#A02-29">答案</a></li>
+<li><span id="Q02-30"></span>描述怎么合并两个堆。<a href="#A02-30">答案</a></li>
+<li><span id="Q02-31"></span>map和hashmap的区别，查找的时间复杂度分别是多少？<a href="#A02-31">答案</a></li>
+</ol>
+<h2 id="参考答案"><a href="#参考答案" class="headerlink" title="参考答案"></a>参考答案</h2><ol>
+<li><span id="A02-1"> 
+
+<ul>
+<li>哈希表又称散列表，是根据关键码值直接访问的数据结构。即通过把关键码值映射表中一个位置来访问记录，以加快查找的速度。哈希表的实现主要解决两个问题，构造哈希函数和处理哈希冲突。</li>
+<li>构造哈希函数：<ul>
+<li>哈希函数对不同的输出值得到一个固定长度的消息摘要。理想的哈希函数对于不同的输入应该产生不同的结构，同时散列结果应当具有同一性（输出值尽量均匀）和雪崩效应（微小的输入值变化使得输出值发生巨大的变化）；</li>
+<li>构造哈希函数主要包括直接地址法、平方取中法、除留余数法等。</li>
+</ul>
+</li>
+<li>冲突解决：<ul>
+<li>现实中的哈希函数不是完美的，当两个不同的输入值对应一个输出值时，就会产生碰撞，这个时候需要解决冲突。</li>
+<li>常见解决冲突的办法有：开放定址法、链地址法、建立公共溢出区等。</li>
+<li>STL中使用的链地址法：为每个Hash值建立一个单链表，当发生冲突时，将记录插入到链表中。</li>
+<li>虽然链地址法并不要求哈希桶长度必须为质数，但STL仍然以质数来设计哈希桶长度，并且将28个质数（逐渐呈现大约两倍的关系）计算好，以备随时访问，同时提供一个函数，用于查询在这28个质数中，“最接近某数并大于某数”的质数。<br><a href="#Q02-1">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="2">
+<li><span id="A02-2"> 
+
+<ul>
+<li>负载因子：哈希表的size/初始化时桶的数量；</li>
+<li>rehash：当hash表中的负载因子达到负载极限的时候，hash表会自动成倍的增加容量（桶的数量），并将原有的对象重新分配并加入新的桶内。<br><a href="#Q02-2">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="3">
+<li><span id="A02-3"> 
+
+<ul>
+<li>可以最大程度地减少冲突概率，使得哈希后的分布更加均匀。如果使用合数，可能会造成很多数据分布集中在某些点上，从而影响哈希表效率。</li>
+<li>质数在一般情况下可以抵抗比较差的hash函数，但对于较好的hash函数，不必苛求桶的个数一定是质数。<br><a href="#Q02-3">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="4">
+<li><span id="A02-4"> 
+
+<ul>
+<li>共同点：<ul>
+<li>map和set的数据结构相同，底层都是使用红黑树实现的；</li>
+<li>内部的元素都不可以重复；</li>
+<li>都会对其中的键值进行排序；</li>
+<li>不能通过迭代器来改变其键值，因为要保证键值的唯一性和元素的顺序。</li>
+</ul>
+</li>
+<li>不同点：<ul>
+<li>二者其中的iterator格式不一样，map使用的是pair这种键值/实值配对的数据，使用第一个元素来排序，而set直接使用键值作为元素，以键值来排序；<br><a href="#Q02-4">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="5">
+<li><span id="A02-5"> 
+
+<ul>
+<li>使用Warshall算法，时间复杂度为O(v^3)；</li>
+<li>拓扑排序</li>
+<li>使用DFS（Deep First Search），用visit[]来标志数组，观察从一个点出发能否遍历图中所有的点。<br><a href="#Q02-5">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="7">
+<li><span id="A02-7"> 
+
+<ul>
+<li>使用线段树：叶子节点存储输入的数组元素，每一个内部节点表示两个叶子节点的合并（即两个子节点的和）</li>
+<li>时间复杂度：构建O(n)，查询O(n)，更新O(log n)。<br><a href="#Q02-7">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="9">
+<li><span id="A02-9"> 
+
+<ul>
+<li>最优二叉树（哈夫曼树）：带权路径长度最小的树。<ul>
+<li>结点的带权路径长度：结点到树根之间的路径长度与该结点上权的乘积；</li>
+<li>树的带权路径长度（WPL）：树中所有叶结点的带权路径长度之和。</li>
+<li>特点：叶子上的权值均相同时，完全二叉树一定是最优二叉树；最优二叉树中，权越大的叶子结点离根越近；最优二叉树的形态不唯一，WPL最小；是严格的二叉树，没有度数为1的分支结点。</li>
+</ul>
+</li>
+<li>哈夫曼算法基本思想：<ul>
+<li>根据给定的n个权值w1，w2…wn构成n棵二叉树的森林F={T1, T2,…,Tn}，其中每棵二叉树Ti中都只有一个权值为wi的根结点，其左右子树均空；</li>
+<li>在森林F中选出两棵根结点权值最小的树，将这两棵树合并成一棵新树（增加一个新结点作为新树的根，并将所选的两棵树的根分别作为新根的左右孩子），将这两个孩子的权值之和作为新树根的权值；</li>
+<li>对新的森林F重复(2)，直到森林F中只剩下一棵树为止。</li>
+</ul>
+</li>
+<li>排序二叉树：又称二叉搜索树，性质如下：<ul>
+<li>若它的左子树不为空，则左子树上所有结点的值均小于它的根结点的值；</li>
+<li>若它的右子树不为空，则右子树上所有结点的值均大于它的根结点的值；</li>
+<li>它的左右子树也分别为二叉排序树。<br><a href="#Q02-9">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="10">
+<li><span id="A02-10">
+
+<ul>
+<li>红黑树：红黑树是一种二叉查找树，每个节点增加一个存储位表示节点的颜色，非红即黑。通过对任何一条从根节点到叶子节点着色的方式的限制，红黑树确保没有一条路径的长度会大于其它任一路径长度的两倍。因此，红黑树是一种弱平衡二叉树，相对于AVL树来说，它的旋转次数少，所以对于查找、插入、删除操作较多的情况下，通常使用红黑树。</li>
+<li>性质：<ul>
+<li>每个节点非黑即红；</li>
+<li>根节点是黑色的；</li>
+<li>每个叶子节点（NIL节点）都是黑色的；</li>
+<li>每个红节点的两个子节点都是黑色的；</li>
+<li>任一节点到所有叶子节点的路径上的黑色节点数目都相同。</li>
+</ul>
+</li>
+<li>AVL树：红黑树是在AVL树的基础上提出来的。平衡二叉树又称为AVL树，是一种特殊的二叉排序树。其左右子树都是二叉平衡树，左右子树的高度差绝对值不超过1。</li>
+<li>红黑树相对AVL树的优点：<ul>
+<li>AVL树是高度平衡的，其频繁的插入、删除，会引起频繁的rebalance，导致效率下降；红黑树不是高度平衡的，算是一种折中，插入最多二次旋转，删除最多三次旋转；</li>
+<li>红黑树的查找、删除、插入操作都是O(logn)，且性能稳定，所以STL中很多结构包括map、set的底层实现都是红黑树。<br><a href="#Q02-10">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="11">
+<li><span id="A02-11"> 
+
+<ul>
+<li>map的插入：<ul>
+<li>insert方法不能覆盖，如果键已经存在，则插入失败。数组方法插入不存在也会直接更新键对应的值；</li>
+</ul>
+</li>
+<li>map的删除：<ul>
+<li>map中删除元素时，只是当前迭代器失效。<br><a href="#Q02-11">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="12">
+<li><span id="A02-12">
+
+<ul>
+<li>参考：<a href="https://zhuanlan.zhihu.com/p/27700617" target="_blank" rel="noopener">平衡二叉树、B树、B+树、B*树 理解其中一种你就都明白了</a></li>
+<li>B树：B树属于多叉树，又名平衡多路查找树，常用于数据库索引技术中。<ul>
+<li>排序方式：所有节点的关键字是按递增次序排列，并遵循左小右大原则；</li>
+<li>子节点数：非叶子节点的子节点数&gt;1，且&lt;=M，且M&gt;=3，空树除外。（M阶代表一个节点最多有多少个查找路径）</li>
+<li>关键字数：枝节点的关键字数量大于等于ceil(M/2)-1个且小于等于M-1个；</li>
+<li>所有叶子节点均在同一层，叶子结点除了包含关键字和关键字记录的指针外也有指向其子节点的指针，只不过其指针地址都为null。</li>
+</ul>
+</li>
+<li>B+树：是B树的一个升级版，更充分地利用了节点的空间，让查询速度更加稳定，其速度完全接近于二分查找法。<a href="https://juejin.im/post/5b9073f9f265da0acd209624" target="_blank" rel="noopener">看图轻松理解数据结构与算法系列(B+树) </a><ul>
+<li>B+树非叶子结点不保存关键字记录的指针，只进行数据索引，这样使得B+树每个非叶子结点所能保存的关键字大大增加；</li>
+<li>B+树叶子结点保存了父结点的所有关键字记录的指针，所有数据地址必须要到叶子节点才能获取到。所以每次数据查询的次数都一样；</li>
+<li>B+树叶子结点的关键字从小到大排列，左边结尾数据都会保存右边结点开始数据的指针；</li>
+<li>非叶子结点的子结点数=关键字数，也有非叶子结点的关键字数=子节点数-1。<br><a href="#Q02-12">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="13">
+<li><span id="A02-13">
+
+<ul>
+<li>红黑树能以O(log n)的时间复杂度进行搜索、插入、删除捉住，旋转复杂度仅为O(1)，时间复杂度和AVL一样，但统计性能比AVL树更高；<br><a href="#Q02-13">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="15">
+<li><span id="A02-15">各种排序算法的时间、空间复杂度以及稳定性。</span></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center">排序算法</th>
+<th align="center">最差时间复杂度</th>
+<th align="center">平均时间复杂度</th>
+<th align="center">空间复杂度</th>
+<th align="center">稳定性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">冒泡法</td>
+<td align="center">O(n^2)</td>
+<td align="center">O(n^2)</td>
+<td align="center">O(1)</td>
+<td align="center">稳定</td>
+</tr>
+<tr>
+<td align="center">选择排序法</td>
+<td align="center">O(n^2)</td>
+<td align="center">O(n^2)</td>
+<td align="center">O(1)</td>
+<td align="center">不稳定</td>
+</tr>
+<tr>
+<td align="center">插入排序法</td>
+<td align="center">O(n^2)</td>
+<td align="center">O(n^2)</td>
+<td align="center">O(1)</td>
+<td align="center">稳定</td>
+</tr>
+<tr>
+<td align="center">归并排序法</td>
+<td align="center">O(nlog n)</td>
+<td align="center">O(nlog n)</td>
+<td align="center">O(n)</td>
+<td align="center">稳定</td>
+</tr>
+<tr>
+<td align="center">希尔排序法</td>
+<td align="center">O(n^2)</td>
+<td align="center">O(n^1.3)</td>
+<td align="center">O(1)</td>
+<td align="center">不稳定</td>
+</tr>
+<tr>
+<td align="center">快速排序法</td>
+<td align="center">O(n^2)</td>
+<td align="center">O(nlog n)</td>
+<td align="center">O(nlog n)</td>
+<td align="center">不稳定</td>
+</tr>
+<tr>
+<td align="center">堆排序法</td>
+<td align="center">O(nlog n)</td>
+<td align="center">O(nlog n)</td>
+<td align="center">O(1)</td>
+<td align="center">不稳定</td>
+</tr>
+<tr>
+<td align="center">计数排序法</td>
+<td align="center">O(n+k)</td>
+<td align="center">O(n+k)</td>
+<td align="center">O(n+k)</td>
+<td align="center">稳定</td>
+</tr>
+<tr>
+<td align="center">桶排序法</td>
+<td align="center">O(n^2)</td>
+<td align="center">O(n+k)</td>
+<td align="center">O(n+k)</td>
+<td align="center">稳定</td>
+</tr>
+<tr>
+<td align="center">基数排序法</td>
+<td align="center">O(n*k)</td>
+<td align="center">O(n*k)</td>
+<td align="center">O(n+k)</td>
+<td align="center">稳定</td>
+</tr>
+<tr>
+<td align="center"><a href="#Q02-15">返回原题</a></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<ol start="18">
+<li><span id="A02-18">
+
+
+</span></li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (max_size() - size() &lt; _Count)</span><br><span class="line">    <span class="comment">//可以申请的最大容量也不够用，抛出异常_THROW(length_error, "vector&lt;T&gt; too long");</span></span><br><span class="line">    _Xlen();</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (_Capacity &lt; size() + _Count)&#123;<span class="comment">//空间不足，需要扩容   </span></span><br><span class="line">    _Capacity = max_size() - _Capacity / <span class="number">2</span> &lt; _Capacity</span><br><span class="line">        ? <span class="number">0</span> : _Capacity + _Capacity / <span class="number">2</span>;    <span class="comment">// 尝试扩容1.5倍</span></span><br><span class="line">    <span class="keyword">if</span> (_Capacity &lt; size() + _Count)<span class="comment">//扩容1.5倍后依然不够用，则容量等于当前数据个数加上新增数据个数</span></span><br><span class="line">        _Capacity = size() + _Count;</span><br><span class="line">    pointer _Newvec = <span class="keyword">this</span>-&gt;_Alval.allocate(_Capacity);<span class="comment">//申请新空间</span></span><br><span class="line">    pointer _Ptr = _Newvec;</span><br><span class="line">    _TRY_BEGIN</span><br><span class="line">        _Ptr = _Umove(_Myfirst, _VEC_ITER_BASE(_Where),</span><br><span class="line">            _Newvec);   <span class="comment">//move原先的数据</span></span><br><span class="line">    _Ptr = _Ucopy(_First, _Last, _Ptr); <span class="comment">//copy新增的数据到新内存之后</span></span><br><span class="line">    _Umove(_VEC_ITER_BASE(_Where), _Mylast, _Ptr);  </span><br><span class="line">    _CATCH_ALL</span><br><span class="line">        _Destroy(_Newvec, _Ptr);</span><br><span class="line">    <span class="keyword">this</span>-&gt;_Alval.deallocate(_Newvec, _Capacity);<span class="comment">//释放原来申请的内存</span></span><br><span class="line">    _RERAISE;</span><br><span class="line">    _CATCH_END</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p><a href="#Q02-18">返回原题</a></p>
+<ol start="19">
+<li><span id="A02-19">
+
+<ul>
+<li>map：底层是用红黑树实现的，对map的查找、插入、删除等操作都是相当于对红黑树进行的操作。<ul>
+<li>优点：有序性；红黑树的数据结构使得很多操作在O(log n)时间复杂度就能实现，效率很高；</li>
+<li>缺点：空间占用率很高。红黑树的每个节点都需要保存父结点、左右子结点以及红黑性质，使得每个节点都占用大量内存。</li>
+</ul>
+</li>
+<li>unordered_map：的底层是哈希表，其元素的排列顺序是无序的。<ul>
+<li>优点：由于底层是哈希表，因此查找速度非常快；</li>
+<li>缺点：哈希表的建立比较耗费时间。<br><a href="#Q02-19">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="20">
+<li><span id="A02-20">
+
+<ul>
+<li>vector的底层实现是数组，是单向开口的连续空间，支持随机访问和尾部快速增删；</li>
+<li>deque的底层实现是一个中央控制器和多个缓冲区，是双向开口的连续空间。支持随机访问和首尾快速增删。<br><a href="#Q02-20">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="21">
+<li><span id="A02-21">
+
+<ul>
+<li>emplace_back：采用就地构造策略，直接将参数传给对象的构造函数，在容器中构造一个对象，从而实现0拷贝。与push_back相比，当传入左值时，省去了复制操作；当传入右值时，省去了移动操作。<br><a href="#Q02-21">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="22">
+<li><span id="A02-22">
+
+<ul>
+<li>vector：<ul>
+<li>push_back：一定会使end返回迭代器失效；当capacity前后有变化时，first返回的迭代器也会失效；</li>
+<li>erase/pop_back：会使删除元素及之后的所有迭代器均失效；erase会返回一个新的有效的迭代器。</li>
+</ul>
+</li>
+<li>deque：<ul>
+<li>首尾插入元素<strong>不会</strong>使任何迭代器失效；</li>
+<li>在首尾删除元素只会使指向被删除元素的迭代器失效；</li>
+<li>在其他任何位置进行插入和删除将会使该容器元素的所有迭代器失效。</li>
+</ul>
+</li>
+<li>list/set/map：<ul>
+<li>删除元素时，指向该删除节点的迭代器失效；<br><a href="#Q02-22">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="23">
+<li><span id="A02-23">
+
+<ul>
+<li>迭代器失效：向容器内添加或删除元素的操作可能会使指向容器元素的迭代器失效，失效的迭代器将不指向任何元素。</li>
+<li>push_back：对于vector的push_back操作，end返回的迭代器会失效，first返回的迭代器只有当当前容器size小于容器的capacity时才不会失效，否则会失效。<br><a href="#Q02-23">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="24">
+<li><span id="A02-24">
+
+<ul>
+<li>快排最差情况：已排好序；所有值相等（排好序的特殊情况）。</li>
+<li>在最差情况下，需要执行n-1次递归调用，且第i次划分需要经过n-i次比较才能找到第i个记录。所以比较次数为<code>(n-1) + (n-2) + ... + 1 = n(n-1)/2</code>，即最终时间复杂度为O(n^2)。<br><a href="#Q02-24">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="25">
+<li><span id="A02-25">
+
+<ul>
+<li>小根堆特点：所有父结点的值比其左右子结点的值都要小；根结点的值最小；<br><a href="#Q02-25">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="27">
+<li><span id="A02-27">
+
+<ul>
+<li>参考：<a href="http://wsfdl.com/algorithm/2017/01/28/%E7%90%86%E8%A7%A3%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C.html" target="_blank" rel="noopener">理解 Consistent Hashing</a></li>
+<li>一致性哈希是一种特殊的哈希算法，哈希表槽位数（大小）的改变平均只需要对K/n个关键字重新映射，其中K是关键字的数量，n是槽位数量。而在传统哈希表中，删除或添加一个槽位几乎要对所有关键字进行重新映射；</li>
+<li>原理：<ul>
+<li>将每个节点映射到数值空间[0, (2^32)-1]，映射的规则可为IP、hostname；</li>
+<li>将每个object映射到数值空间[0, (2^32)-1]；</li>
+<li>对于某个object，对于所有满足hash(node)&lt;=hash(object)的节点，选择hash(node)最大的节点存放object；如果没有满足上述条件的节点，选择hash(node)最小的节点存放该object。</li>
+</ul>
+</li>
+<li>特点：当插入或删除时，仅有一个节点的部分object需要重哈希。</li>
+<li>平衡性：引入虚节点，虚节点实际上是物理节点的复制品，一个物理节点包含多个虚拟节点，我们将这些虚拟节点映射到数值空间[0, (2^32)-1]，对于某个object，计算出存放的虚拟节点，进而得出物理节点。虚节点越多及其位置分布越均匀，相应地，映射到物理节点的object数目也越均匀，从而提高了平衡性。<br><a href="#Q02-27">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="28">
+<li><span id="A02-28">
+
+<ul>
+<li>与单链表相比，双向链表有如下特点：<ul>
+<li>从任一节点出发，可以查找链表中的其他任意节点；</li>
+<li>既可以前向遍历，也可以后向遍历；</li>
+<li>每个指针域中都增加了一个存储指针的空间，降低了存储密度；</li>
+<li>可以在当前结点前或后插入、删除；<br><a href="#Q02-28">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="29">
+<li><span id="A02-29">
+
+<ul>
+<li>参考：<a href="https://blog.csdn.net/u011240016/article/details/53428489" target="_blank" rel="noopener">堆排序算法之初始堆建立总结</a></li>
+<li>首先根据序列构建一个完全二叉树；</li>
+<li>在完全二叉树的基础上，从最后一个非叶子结点开始调整：比较三个元素的大小（自己、左孩子、右孩子），分为三种情况：<ul>
+<li>自己最大，不用调整；</li>
+<li>左孩子最大，交换该非叶子结点与其左孩子的值，并考察以左孩子为根的子树是否满足大顶堆的要求，不满足递归向下处理；</li>
+<li>右孩子最大，交换该非叶子结点与其右孩子的值，并考察以右孩子为根的子树是否满足大顶堆的要求，不满足递归向下处理；<br><a href="#Q02-29">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="30">
+<li><span id="A02-30">
+
+<ul>
+<li>当两个堆元素数量相差较大时，选用启发时合并，即将较小的堆一个个插入较大的堆中，时间复杂度为O(nlog n)；</li>
+<li>当两个堆元素数量相关较小时，选用重新建堆法，全部拆散重排，时间复杂度为O(n1+n2)。<br><a href="#Q02-30">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="31">
+<li><span id="A02-31">
+
+<ul>
+<li>区别：<ul>
+<li>构造函数：hashmap需要hash函数，而map只需比较函数；</li>
+<li>存储结构：hashmap采用hash表存储，map一般采用红黑树实现。</li>
+</ul>
+</li>
+<li>查找时间复杂度：<ul>
+<li>hashmap：常数级别，为O(1)；</li>
+<li>map：log(n)。<br><a href="#Q02-31">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+            
+
+
+            <!-- 添加的部分 -->
+            <!-- copyright -->
+            
+            <!-- copyright -->
+        </div>
+    </div>
+
+
+    <!-- 打赏 -->
+    
+        <br>
+        <br>
+        <div class ="post-donate">
+            <div id="donate_board" class="donate_bar center">
+                <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+                <br>
+            </div>
+            <div id="donate_guide_alipay" class="donate_bar center hidden" >
+                <!-- 支付宝打赏图案 -->
+                <h1 align="center"
+style="color:#019fe8; font-size:17px; line-height:2%;">支付宝扫一扫
+                    <i class="fas fa-hand-point-down"></i>
+                </h1>
+                <img src="../../../../assets/images/alipay.png" alt="支付宝打赏">
+            </div>
+
+            <div id="donate_guide_wechat" class="donate_bar center hidden" >
+                <!-- 微信打赏图案 -->
+                <h1 align="center"
+style="color:#1AAD19; font-size:17px; line-height:2%;">微信扫一扫
+                    <i class="fas fa-hand-point-down"></i>
+                </h1>
+                <img src="../../../../assets/images/wechat.png" alt="微信打赏">
+                
+            </div>
+
+            <div id="donate_button_alipay" class="donate_bar center hidden">
+                <br>
+                <a id="btn_donate_alipay" class="btn_donate_alipay" href="javascript:;" title="切换到微信">切换到微信</a>
+            </div>
+
+            <div id="donate_button_wechat" class="donate_bar center hidden">
+                <br>
+                <a id="btn_donate_wechat" class="btn_donate_wechat" href="javascript:;" title="切换到支付宝">切换到支付宝</a>
+            </div>
+
+        
+
+            <script type="text/javascript">
+                document.getElementById('btn_donate').onclick = function(){
+                    $('#donate_board').addClass('hidden');
+                    $('#donate_guide_wechat').removeClass('hidden');
+                    $('#donate_button_wechat').removeClass('hidden');
+                }
+            </script>
+
+            <script type="text/javascript">
+                document.getElementById('btn_donate_alipay').onclick = function(){
+                    $('#donate_guide_alipay').addClass('hidden');
+                    $('#donate_button_alipay').addClass('hidden');
+                    $('#donate_guide_wechat').removeClass('hidden');
+                    $('#donate_button_wechat').removeClass('hidden');
+                }
+            </script>
+
+            <script type="text/javascript">
+                document.getElementById('btn_donate_wechat').onclick = function(){
+                    $('#donate_guide_wechat').addClass('hidden');
+                    $('#donate_button_wechat').addClass('hidden');
+                    $('#donate_guide_alipay').removeClass('hidden');
+                    $('#donate_button_alipay').removeClass('hidden');
+                }
+            </script>
+
+            
+        </div>
+
+        <div class="donateText" style="line-height:120%;"><br>“ 万物皆有时，比如你我相遇 ”</div>
+        <br>
+            
+    
+
+
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/求职/">求职</a> <a class="tag tag--primary tag--small t-link" href="/tags/面试/">面试</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/15/networks/"
+                    data-tooltip="开发岗面试问题总结：计算机网络"
+                    aria-label="上一篇: 开发岗面试问题总结：计算机网络"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/15/DesignPatterns/"
+                    data-tooltip="开发岗面试问题总结：设计模式"
+                    aria-label="下一篇: 开发岗面试问题总结：设计模式"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/08/15/dataStructure/"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=/2019/08/15/dataStructure/"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitment"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                
+<div id="gitment"></div>
+
+<!-- Gitment评论插件通用代码 -->
+
+<link rel="stylesheet" href='assets/js/gitment.css'>
+<script src='assets/js/gitment.js'></script>
+
+<script>
+var gitment = new Gitment({
+  owner: 'liuyihust',
+  repo: '',
+  oauth: {
+    client_id: '4d67b0b86332dbac9f61',
+    client_secret:'59b0670047644cff4d5740c6e239f758ade18049',
+  },
+})
+gitment.render('git')
+</script>
+
+<!-- Gitment代码结束 -->
+            
+        
+    </div>
+
+    
+
+</article>
+
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <i class="fas fa-user-clock"></i>
+    <span id="timeDate">0</span><span id="times">0</span>
+    <script>
+        var now = new Date();
+        function createtime() {
+            var grt= new Date("04/01/2018 00:00:00");//此处修改你的建站时间或者网站上线时间
+            now.setTime(now.getTime()+250);
+            days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+            hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+            if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+            mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+            seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+            snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+            document.getElementById("timeDate").innerHTML = "Blog Age: "+dnum+" days ";
+            document.getElementById("times").innerHTML = hnum + " h " + mnum + " m " + snum + " s";
+        }
+        setInterval("createtime()",250);
+	</script>
+
+    <br>
+
+    <span class="copyrights">
+        Copyrights &copy; 2020 Liu Yi. All Rights Reserved.
+    </span>
+
+
+</footer>
+
+
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/15/networks/"
+                    data-tooltip="开发岗面试问题总结：计算机网络"
+                    aria-label="上一篇: 开发岗面试问题总结：计算机网络"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/15/DesignPatterns/"
+                    data-tooltip="开发岗面试问题总结：设计模式"
+                    aria-label="下一篇: 开发岗面试问题总结：设计模式"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/08/15/dataStructure/"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=/2019/08/15/dataStructure/"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitment"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=/2019/08/15/dataStructure/"
+                        aria-label="分享到 Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=/2019/08/15/dataStructure/"
+                        aria-label="分享到 Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/portrait.gif" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Liu Yi</h4>
+        
+            <div id="about-card-bio"><p>无趣的人生，有趣地生活。<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=245 height=52 align="middle" src="//music.163.com/outchain/player?type=2&id=26294503&auto=1&height=32"></iframe></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>学生</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                湖北武汉
+            </div>
+        
+    </div>
+</div>
+        
+            <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-times"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="/assets/images/logo-algolia-nebula-blue-full.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    />
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">没有找到文章</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/21/randomNumber/"
+                            aria-label=": Random Number Generator"
+                        >
+                            <img class="media-image" src="/2018/04/21/randomNumber/random.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/21/randomNumber/"
+                            aria-label=": Random Number Generator"
+                        >
+                            <h3 class="media-heading">Random Number Generator</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2018年4月21日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>C++编程时经常要用到随机数，那么到底有哪些随机数产生器或函数呢？我这里来做个小结。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/22/Japanese-1/"
+                            aria-label=": 日语中的数字与时间"
+                        >
+                            <img class="media-image" src="/2018/04/22/Japanese-1/japan.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/22/Japanese-1/"
+                            aria-label=": 日语中的数字与时间"
+                        >
+                            <h3 class="media-heading">日语中的数字与时间</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2018年4月22日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>日语中的数字与时间常见表示。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/25/Japanese-2/"
+                            aria-label=": 日语中的动词变形"
+                        >
+                            <img class="media-image" src="/2018/04/25/Japanese-2/maomi.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/25/Japanese-2/"
+                            aria-label=": 日语中的动词变形"
+                        >
+                            <h3 class="media-heading">日语中的动词变形</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2018年4月25日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>学过日语的人都知道，日语中的动词是需要变形的，所以我这里简单来总结一下日语中的动词变形！</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/15/setup-package/"
+                            aria-label=": 程序打包（Setup使用技巧）"
+                        >
+                            <img class="media-image" src="/2019/01/15/setup-package/pakage.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/15/setup-package/"
+                            aria-label=": 程序打包（Setup使用技巧）"
+                        >
+                            <h3 class="media-heading">程序打包（Setup使用技巧）</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年1月15日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>常用打包软件Setup的使用技巧。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/20/vs-skills/"
+                            aria-label=": VS使用技巧"
+                        >
+                            <img class="media-image" src="/2019/01/20/vs-skills/vs.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/20/vs-skills/"
+                            aria-label=": VS使用技巧"
+                        >
+                            <h3 class="media-heading">VS使用技巧</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年1月20日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>VS基础…</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/02/28/tf-version-problem/"
+                            aria-label=": 安装Tensorflow版本不匹配问题及解决"
+                        >
+                            <img class="media-image" src="/2019/02/28/tf-version-problem/tensorflow.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/02/28/tf-version-problem/"
+                            aria-label=": 安装Tensorflow版本不匹配问题及解决"
+                        >
+                            <h3 class="media-heading">安装Tensorflow版本不匹配问题及解决</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年2月28日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>安装Tensorflow时踩过的坑…</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/09/themeConfig/"
+                            aria-label=": 博客瞎折腾——tranquilpeak主题"
+                        >
+                            <img class="media-image" src="/2019/08/09/themeConfig/cat.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/09/themeConfig/"
+                            aria-label=": 博客瞎折腾——tranquilpeak主题"
+                        >
+                            <h3 class="media-heading">博客瞎折腾——tranquilpeak主题</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月9日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather">The article has been encrypted, please enter your password to view.<br></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/11/linux-files/"
+                            aria-label=": linux文件和目录"
+                        >
+                            <img class="media-image" src="/2019/08/11/linux-files/newtux.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/11/linux-files/"
+                            aria-label=": linux文件和目录"
+                        >
+                            <h3 class="media-heading">linux文件和目录</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月11日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Linux学习笔记：文件和目录</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/12/Welcome/"
+                            aria-label=": Welcome To Liuyee&#39;s Blog"
+                        >
+                            <img class="media-image" src="/2019/08/12/Welcome/deer.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/12/Welcome/"
+                            aria-label=": Welcome To Liuyee&#39;s Blog"
+                        >
+                            <h3 class="media-heading">Welcome To Liuyee&#39;s Blog</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月12日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Don’t aim for success if you want it, just stick to what you love and believe in, and it will come naturally.</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/15/DevelopingInterview/"
+                            aria-label=": 开发岗面试问题总结：C/C++语言"
+                        >
+                            <img class="media-image" src="/2019/08/15/DevelopingInterview/thumbnail.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/15/DevelopingInterview/"
+                            aria-label=": 开发岗面试问题总结：C/C++语言"
+                        >
+                            <h3 class="media-heading">开发岗面试问题总结：C/C++语言</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月15日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>开发岗面试问题总结之C/C++语言</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="没有找到文章"
+                data-message-one="找到 1 篇文章"
+                data-message-other="找到 {n} 篇文章">
+                找到 23 篇文章
+            </p>
+        </div>
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+
+
+    
+        <script src="/assets/js/gitment.js"></script>
+        <script type="text/javascript">
+          (function() {
+            new Gitment({
+              id: '/2019/08/15/dataStructure/',
+              owner: 'liuyihust',
+              repo: 'BlogComments',
+              oauth: {
+                client_id: '4d67b0b86332dbac9f61',
+                client_secret: '59b0670047644cff4d5740c6e239f758ade18049'
+              }
+            }).render('gitment')
+          })()
+        </script>
+    
+
+
+
+    <script src="/assets/js/moment-with-locales.js"></script>
+    <script src="/assets/js/algoliasearch.js"></script>
+    <script>
+      var algoliaClient = algoliasearch('SCS7H6XC2V', '3c07d7df305177e5342667b398d803ef');
+      var algoliaIndex = algoliaClient.initIndex('tranquilpeak');
+    </script>
+
+
+
+        <!-- 点击特效 -->
+        
+            <script async src="/assets/js/text.js"></script>
+        
+    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":400,"vOffset":-80},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.9,"opacityOnHover":0.1},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

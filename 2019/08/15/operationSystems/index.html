@@ -1,0 +1,1404 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Liuyee&#39;s Blog">
+    <title>开发岗面试问题总结：操作系统 - Liuyee&#39;s Blog</title>
+    <meta name="author" content="Liu Yi">
+    
+        <meta name="keywords" content="开发,面试,求职,操作系统,线程,进程">
+    
+    
+        <link rel="icon" href="/assets/images/favicon.ico">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liu Yi","sameAs":["https://github.com/liuyihust","mailto:liuyihust@foxmail.com"],"image":"portrait.gif"},"articleBody":"\n\n\n\n\n题目操作系统\n系统中断是什么，用户态和内核态的区别\nPCB内存布局\n虚拟内存和物理内存怎么对应\n操作系统中内存块以何种数据结构构成\n\n进程与线程\n用过多线程吗，以前的多线程代码还能怎么优化，线程池的实现。答案\n单核机器上写多线程程序，是否需要考虑加锁，为什么？答案\n线程需要保存哪些上下文，SP、PC、EAX这些寄存器是干嘛用的。答案\n线程间的同步方式，最好说出具体的系统调用。答案\n进程与线程什么意思，为什么要有进程线程，其中有什么区别，他们各自怎么同步的。答案\n多进程和多线程的使用场景。答案\n死锁，如何解决死锁？答案\n进程间通讯方式。答案\n怎么保证一个CPU只有一个线程运行？\n线程的基本组成是什么？答案\n线程有什么状态？运行挂起结束状态，有新生状态吗？答案\n守护进程、僵尸进程、孤儿进程，守护进程的作用是什么？答案\n协程是什么？答案\n进程的状态？答案\n\n参考答案操作系统进程与线程\n\n\n\n为何需要线程池：频繁的创建和销毁线程会大大地浪费时间和效率，更浪费内存。线程池便是针对这一问题而设计的。可以很好地解决线程的重复利用，避免重复开销。\n线程池的优点：\n线程是稀缺资源，使用线程池可以减少创建和销毁线程的次数，每个工作线程都可以重复使用；\n可以根据系统的承受能力，调整线程池中工作线程的数量，防止因为消耗过多内存导致服务器崩溃。\n\n\n线程池的风险：\n死锁\n资源不足：除了线程对象所需的内存之外，每个线程都需要两个可能很大的执行调用堆栈。如果线程池太大，那么被那些线程消耗的资源可能严重地影响系统性能。\n并发错误：线程保存空闲状态，尽管队列中有工作要处理；\n线程泄漏：当从池中除去一个线程以执行一项任务，而在任务完成后该线程却没有返回池时，会发生线程泄漏。\n请求过载：仅仅是请求就压垮了服务器。解决：在某些情况下，可以简单地抛弃请求，依靠更高级别的协议稍后重试请求；也可以用一个指出服务器暂时很忙的响应来拒绝请求。返回原题\n\n\n\n\n\n\n\n\n\n单核CPU跑多线程程序，也需要加线程锁。理由如下：\n时间片的大小不定：比如单个时间片只能完成给定任务的一半，剩下的那一半就是只有等下一个时间片了。而在等待的过程中，如果不加锁，就没法保证其他线程不使用我们的资源，数据就有可能出错；\n给线程分配时间片的时机不确定：比如有a、b、c三个进程，a、c使用了共享的资源。如果前十个时间片都集中在a、b上，那么很有可能时间片分给c的时候，a已经完成了工作，因此它也不需要和c争夺资源了。如果a、c的优先级比b高，那么时间片可能大部分分配在a、c上，这个时候a、c就要疯狂争夺资源了。返回原题\n\n\n\n\n\n\n\n\n\n线程切换时需要保存当前线程ID、线程状态、堆栈、寄存器状态等信息。其中寄存器主要包括SP、PC、EAX等寄存器。\nSP（Stack Pointer）：堆栈指针，指向当前栈的栈顶地址；\nPC（Program Counter）：程序计数器，存储下一条将要执行的指令；\nEAX（Extended Accumulator Register）：累加寄存器，用于加法乘法的缺省寄存器。返回原题\n\n\n\n\n\n\n\n互斥锁（mutex）：用来保证同一时间内只有一个线程在执行某段代码（临界区）。在同一时刻只能有一个线程掌握某个互斥锁，拥有上锁状态的线程能够对共享资源进行操作。若其他线程希望上锁一个已经被上锁的互斥锁，则该线程就会挂起，直到上锁的线程释放掉互斥锁为止。主要包含以下基本函数：\n互斥锁初始化：pthread_mutex_init()；\n互斥锁上锁：pthread_mutex_lock()；\n互斥锁判断上锁：pthread_mutex_trylock()；\n互斥锁解锁：pthread_mutex_unlock()；\n消除互斥锁：pthread_mutex_destroy()。\n\n\n信号量（semaphore）：和mutex类似，表示可用资源数量，不同的是这个数量可以大于1。步骤为 信号量初始化-&gt;等待信号量-&gt;释放信号量-&gt;销毁信号量；\n条件变量（cond）：与互斥锁结合使用，是用来等待而非上锁的。它用于阻塞线程等待某个事件的发生，并且当等待的事件发生时，阻塞线程会被通知。步骤为：初始化条件变量-&gt;等待条件成立-&gt;激活条件变量-&gt;清除条件变量。\n读写锁（reader-writer lock）：也称共享互斥锁。有三种状态：读模式下加锁状态、写模式下加锁状态、不加锁状态。一次只能有一个线程可以占有写模式的读写锁，但可以有多个线程同时占有读模式的读写锁。因此与互斥量相比，读写锁允许有更高的并行性。\n临界区（critical section）：主要用于同步控制；\n临界区和互斥体的区别：\n临界区只能用于本进程内的线程，而不可用来同步多个进程中的线程；互斥量、信号量、事件都可以跨越进程使用来进行同步数据操作；\n临界区是非内核对象，只在用户态进行锁操作，速度快；互斥体是内核对象，在核心态进行锁操作，速度慢。返回原题\n\n\n\n\n\n\n\n\n\n进程和线程的区别：\n进程是资源分配的最小单位，线程是CPU调度的最小单位。\n进程有独立的地址空间，在保护模式下，一个进程崩溃后不会影响其他进程。而线程只是一个进程中的不同执行路径，线程有自己的堆栈和局部变量，但没有独立的地址空间，一个线程崩溃就等于整个进程崩溃。所以多进程的程序要比多线程的程序更加健壮。\n进程切换时，耗费资源大，效率要比线程低；\n一个程序至少要有一个进程，一个进程至少要有一个线程；\n线程的划分尺度小于进程，因此多线程程序的并发性更高；\n由于多个线程共享内存单元，从而极大地提高了程序的运行效率；\n在执行过程中，每个独立的进程有一个程序运行的入口、顺序执行序列和程序的出口，但是线程不能独立执行，必须依存在应用程序中，由应用程序提供多个线程执行控制；\n\n\n多进程同步（以下是Linux系统的，Windows系统相比少了一个信号）：\n管道（pipe）：用于父子进程间的通信；\n信号（signal）：进程间传递信号，捕获到信号后执行对应绑定的代码，和QT的信号槽类似。\n信号量（semaphore）：本身无法传递数据，配合共享内存使用，类似于线程中的锁，用于保护临界资源；\n共享内存（shared memory）：进程间最常见的数据同步方式，与信号量配合使用；\n消息队列（message）：把数据放入队列，内核逐一处理发送至目的线程；\n套接口（socket）：可用于不同机器之间的进程间通信\n\n\n多线程同步：参考上题　　返回原题\n\n\n\n\n\n\n\n多进程的优点：\n编程相对容易，无需考虑锁和同步资源的问题；\n更强的容错性：一个进程崩溃了不会影响其他进程；\n有内核保证的隔离：数据和错误隔离；\n\n\n多进程案例：\nChrome浏览器、redis、nginx；\n\n\n多线程的优点：\n创建速度快；\n数据共享更加高效：多线程共享同一虚拟地址空间；\n轻松的上下文切换开销：不用切换地址空间、不用更改寄存器、不用刷新TLB；\n提供非均质的服务：如果全都是计算任务，但每个任务的耗时不都为1s，而是1ms-1s之间波动；这样，多线程相比多进程的优势就体现出来，它能有效降低“简单任务被复杂任务压住”的概率。\n\n\n多线程案例：\n桌面软件：响应用户输入的是一个线程，后台程序处理是另外的线程返回原题\n\n\n\n\n\n\n\n\n\n死锁：进程死锁的简称。是指两个或两个以上的进程在执行过程中，以至于竞争资源或由于彼此通信而造成的一种阻塞的现象，若无外力作用，它们都将无法推进下去。此时称系统处于死锁状态或系统产生了死锁，这些永远在互相等待的进程称为死锁进程。\n造成死锁的必要条件：\n互斥条件：一个资源每次只能被一个线程使用；\n请求与保持条件：一个线程因请求资源而阻塞时，对已获得的资源保持不放；\n不剥夺条件：线程已获得的资源，在未使用完之前，不能强行剥夺；\n循环等待条件：若干线程之间形成一种首尾相接的循环等待资源关系。\n\n\n避免死锁：破坏产生死锁的4个必要条件之一便可以避免死锁。返回原题\n\n\n\n\n\n\n\nLinux系统进程间的通信方式：管道（pipe）、信号（signal）、消息队列（Message）、共享内存（shared memory）、信号量（semaphore）、套接字（socket）。\nWindows系统进程间的通信方式：管道（pipe）、信号（signal）、互斥量（mutex）、共享内存（shared memory）、套接字（socket）。返回原题\n\n\n\n\n\n\n\n线程ID：ID在本进程中是唯一的，用于标识线程；\n当前指令指针（PC）\n寄存器集合：由于线程是并发执行的，每个线程有自己不同的运行线索，当从一个线程切换到另一个线程上时，必须将原有线程的寄存器集合的状态进行保存，以便将来该线程在被重新切换时能得以恢复；\n堆栈：堆栈是保证线程独立运行所必须的。线程函数可以调用函数，而被调用函数中又是可以层层嵌套的，所以线程必须拥有自己的函数堆栈，使得函数调用可以正常执行，不受其他线程的影响。一个进程的线程共享堆区。返回原题\n\n\n\n\n\n\n\n状态：\n新建（New）：创建后尚未启动的线程状态；\n运行（Runable）：包括了操作系统线程状态中的Running和Ready，也就是处于此状态的线程有可能正在执行，也有可能正在等待着CPU为它分配执行时间；\n无限期等待（Waiting）：处于这种状态的线程不会被分配CPU执行时间，它们要等待被其他线程显式地唤醒；\n限期等待（Time Waiting）：处于这种状态的线程不会被分配CPU执行时间，不会必须被其他线程显式地唤醒，在一定时间后它们会由操作系统自动唤醒；\n阻塞（Blocked）：线程被阻塞了，等待着获取一个排它锁，这个事件将在另一个线程放弃这个锁的时候发生；而等待状态则是在等待一段时间，或者唤醒的发生，在程序等待进入同步区域时，线程将进入这种状态；\n线束（Terminated）：已终止的线程状态，线程已经结束执行。返回原题\n\n\n\n\n\n\n\n\n\n孤儿进程：一个父进程退出，而它的一个或多个子进程还在运行，那么那些子进程将成为孤儿进程。孤儿进程将被init进程（进程号为1）所收养，并由init进程对它们完成状态收集工作。所以孤儿进程不会对系统造成危害；\n僵尸进程：一个进程使用fork创建子进程，如果子进程退出，而父进程并没有调用wait或waitpid获取子进程的状态信息，那么子进程的进程描述符仍然保存在系统中。这种进程称为僵尸进程。\n危害：如果大量地产生僵尸进程，将因为没有可用的进程号而导致系统不能产生新的进程。\n解决：将父进程杀死，所有僵尸进程变为孤儿进程，被init收养，然后被释放资源；父进程对子进程进行wait()或waitpid()调用来释放其所占有资源。\n\n\n守护进程：是运行在后台的一种特殊进程，它独立于控制终端并且周期性地执行某种任务或等待处理某些发生的事件。它不需要用户输入就能运行而且提供某种服务，不是对整个系统就是对某个用户程序提供服务。\n常见的守护进程：日志进程syslogd、web服务器httpd、邮件服务器sendmail和数据库服务器mysqld等。\n特点：一个守护进程的父进程是init进程，命名通常以d结尾；一般在系统启动时开始运行，除非强行终止，否则直到系统关机都保持运行；守护进程通常以root权限运行。返回原题\n\n\n\n\n\n\n\n\n\n协程（Coroutines）：是一种比线程更加轻量级的存在。一个线程可以拥有多个协程。协程不是被操作系统内核所管理，而完全是由程序所控制，即在用户态执行。\n使用协程的好处：性能得到了很大提升，不会像线程切换那样消耗资源。协程的暂停完全由程序控制，线程的阻塞状态是由操作系统内核来进行切换。\nPython：可以通过yield/send的方式实现协程。python3.5后，async/await成为了更好的替代方案。返回原题\n\n\n\n\n\n\n\n参考：进程状态（含状态变迁图）\n三态模型：\n就绪：当一个进程获得了除处理器以外的一切所需资源，一旦得到处理器即可运行，则称此进程处理就绪状态。\n运行：当一个进程正在处理器上运行时，则称该进程处于运行状态。\n阻塞：也称等待或睡眠状态，一个进程正在等待某一事件发生，而暂时停止运行。这时即使把处理器分配给进程也无法运行，故称该进程处于阻塞状态。\n\n\n五态模型：新增新建态和终止态\n新建态：对于进程刚刚被创建时没有被提交的状态，并等待系统完成创建进程的所有必要信息。进程正在创建过程中，还不能运行。\n终止态：进程已结束运行，回收除进程控制块之外的其他资源，并让其他进程从进程控制块中收集有关信息。返回原题\n\n\n\n\n","dateCreated":"2019-08-15T22:26:57+08:00","dateModified":"2019-08-22T22:45:04+08:00","datePublished":"2019-08-15T22:26:57+08:00","description":"开发岗面试问题总结之操作系统","headline":"开发岗面试问题总结：操作系统","image":["thumbnail.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/2019/08/15/operationSystems/"},"publisher":{"@type":"Organization","name":"Liu Yi","sameAs":["https://github.com/liuyihust","mailto:liuyihust@foxmail.com"],"image":"portrait.gif","logo":{"@type":"ImageObject","url":"portrait.gif"}},"url":"/2019/08/15/operationSystems/","keywords":"求职, 面试","thumbnailUrl":"thumbnail.png"}</script>
+    <meta name="description" content="开发岗面试问题总结之操作系统">
+<meta name="keywords" content="开发,面试,求职,操作系统,线程,进程">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="开发岗面试问题总结：操作系统">
+<meta property="og:url" content="/2019/08/15/operationSystems/index.html">
+<meta property="og:site_name" content="Liuyee&#39;s Blog">
+<meta property="og:description" content="开发岗面试问题总结之操作系统">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-08-22T14:45:04.671Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="开发岗面试问题总结：操作系统">
+<meta name="twitter:description" content="开发岗面试问题总结之操作系统">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="/assets/images/portrait.gif"/>
+    
+    
+        <meta property="og:image" content="/2019/08/15/operationSystems/thumbnail.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="/2019/08/15/operationSystems/thumbnail.png"/>
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/all.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+
+    
+    <script type="text/javascript">
+	    var _hmt = _hmt || [];
+	    (function() {
+	      var hm = document.createElement("script");
+	      hm.src = "//hm.baidu.com/hm.js?9090c30aa810eb2d002253f0d0f5bbea";
+	      var s = document.getElementsByTagName("script")[0];
+	      s.parentNode.insertBefore(hm, s);
+	    })();
+    </script>
+
+
+    
+        
+            <link rel="stylesheet" href="/assets/css/gitment.css">
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/ "
+            aria-label=""
+        >
+            Liuyee&#39;s Blog
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="打开链接: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/portrait.gif" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="阅读有关作者的更多信息"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/portrait.gif" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Liu Yi</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>无趣的人生，有趣地生活。<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=245 height=52 align="middle" src="//music.163.com/outchain/player?type=2&id=26294503&auto=1&height=32"></iframe></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="https://github.com/liuyihust"
+                            title="GitHub"
+                        >
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="mailto:liuyihust@foxmail.com"
+                            title="邮箱"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">邮箱</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title">
+            开发岗面试问题总结：操作系统
+        </h1>
+    
+    
+        <div class="post-meta">
+    
+
+    <time datetime="2019-08-15T22:26:57+08:00">
+	
+		    8月 15, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Job-Hunting/">Job Hunting</a>
+
+
+    
+
+    <br>
+    <i class="fas fa-file-word"></i>
+    <font>本文字数:</font>
+    <span class="post-count">4k</span>
+    <span class="post-meta-divider">|</span>
+
+    <i class="far fa-clock"></i>
+    <font>建议阅读时长:</font>
+    <span class="post-count">13</span>
+    <font> min</font>
+
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+
+<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统"><span class="toc-text">操作系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进程与线程"><span class="toc-text">进程与线程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考答案"><span class="toc-text">参考答案</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统-1"><span class="toc-text">操作系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进程与线程-1"><span class="toc-text">进程与线程</span></a></li></ol></li></ol>
+
+
+<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><ol>
+<li>系统中断是什么，用户态和内核态的区别</li>
+<li>PCB内存布局</li>
+<li>虚拟内存和物理内存怎么对应</li>
+<li>操作系统中内存块以何种数据结构构成</li>
+</ol>
+<h2 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h2><ol>
+<li><span id="Q07-1"></span>用过多线程吗，以前的多线程代码还能怎么优化，线程池的实现。<a href="#A07-1">答案</a></li>
+<li><span id="Q07-2"></span>单核机器上写多线程程序，是否需要考虑加锁，为什么？<a href="#A07-2">答案</a></li>
+<li><span id="Q07-3"></span>线程需要保存哪些上下文，SP、PC、EAX这些寄存器是干嘛用的。<a href="#A07-3">答案</a></li>
+<li><span id="Q07-4"></span>线程间的同步方式，最好说出具体的系统调用。<a href="#A07-4">答案</a></li>
+<li><span id="Q07-5"></span>进程与线程什么意思，为什么要有进程线程，其中有什么区别，他们各自怎么同步的。<a href="#A07-5">答案</a></li>
+<li><span id="Q07-6"></span>多进程和多线程的使用场景。<a href="#A07-6">答案</a></li>
+<li><span id="Q07-7"></span>死锁，如何解决死锁？<a href="#A07-7">答案</a></li>
+<li><span id="Q07-8"></span>进程间通讯方式。<a href="#A07-8">答案</a></li>
+<li><span id="Q07-9"></span>怎么保证一个CPU只有一个线程运行？</li>
+<li><span id="Q07-10"></span>线程的基本组成是什么？<a href="#A07-10">答案</a></li>
+<li><span id="Q07-11"></span>线程有什么状态？运行挂起结束状态，有新生状态吗？<a href="#A07-11">答案</a></li>
+<li><span id="Q07-12"></span>守护进程、僵尸进程、孤儿进程，守护进程的作用是什么？<a href="#A07-12">答案</a></li>
+<li><span id="Q07-13"></span>协程是什么？<a href="#A07-13">答案</a></li>
+<li><span id="Q07-14"></span>进程的状态？<a href="#A07-14">答案</a></li>
+</ol>
+<h1 id="参考答案"><a href="#参考答案" class="headerlink" title="参考答案"></a>参考答案</h1><h2 id="操作系统-1"><a href="#操作系统-1" class="headerlink" title="操作系统"></a>操作系统</h2><h2 id="进程与线程-1"><a href="#进程与线程-1" class="headerlink" title="进程与线程"></a>进程与线程</h2><ol>
+<li><span id="A07-1">
+
+<ul>
+<li>为何需要线程池：频繁的创建和销毁线程会大大地浪费时间和效率，更浪费内存。线程池便是针对这一问题而设计的。可以很好地解决线程的重复利用，避免重复开销。</li>
+<li>线程池的优点：<ul>
+<li>线程是稀缺资源，使用线程池可以减少创建和销毁线程的次数，每个工作线程都可以重复使用；</li>
+<li>可以根据系统的承受能力，调整线程池中工作线程的数量，防止因为消耗过多内存导致服务器崩溃。</li>
+</ul>
+</li>
+<li>线程池的风险：<ul>
+<li>死锁</li>
+<li>资源不足：除了线程对象所需的内存之外，每个线程都需要两个可能很大的执行调用堆栈。如果线程池太大，那么被那些线程消耗的资源可能严重地影响系统性能。</li>
+<li>并发错误：线程保存空闲状态，尽管队列中有工作要处理；</li>
+<li>线程泄漏：当从池中除去一个线程以执行一项任务，而在任务完成后该线程却没有返回池时，会发生线程泄漏。</li>
+<li>请求过载：仅仅是请求就压垮了服务器。解决：在某些情况下，可以简单地抛弃请求，依靠更高级别的协议稍后重试请求；也可以用一个指出服务器暂时很忙的响应来拒绝请求。<br><a href="#Q07-1">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="2">
+<li><span id="A07-2">
+
+<ul>
+<li>单核CPU跑多线程程序，也需要加线程锁。理由如下：<ul>
+<li>时间片的大小不定：比如单个时间片只能完成给定任务的一半，剩下的那一半就是只有等下一个时间片了。而在等待的过程中，如果不加锁，就没法保证其他线程不使用我们的资源，数据就有可能出错；</li>
+<li>给线程分配时间片的时机不确定：比如有a、b、c三个进程，a、c使用了共享的资源。如果前十个时间片都集中在a、b上，那么很有可能时间片分给c的时候，a已经完成了工作，因此它也不需要和c争夺资源了。如果a、c的优先级比b高，那么时间片可能大部分分配在a、c上，这个时候a、c就要疯狂争夺资源了。<br><a href="#Q07-2">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="3">
+<li><span id="A07-3">
+
+<ul>
+<li>线程切换时需要保存当前线程ID、线程状态、堆栈、寄存器状态等信息。其中寄存器主要包括SP、PC、EAX等寄存器。</li>
+<li>SP（Stack Pointer）：堆栈指针，指向当前栈的栈顶地址；</li>
+<li>PC（Program Counter）：程序计数器，存储下一条将要执行的指令；</li>
+<li>EAX（Extended Accumulator Register）：累加寄存器，用于加法乘法的缺省寄存器。<br><a href="#Q07-3">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="4">
+<li><span id="A07-4">
+
+<ul>
+<li>互斥锁（mutex）：用来保证同一时间内只有一个线程在执行某段代码（临界区）。在同一时刻只能有一个线程掌握某个互斥锁，拥有上锁状态的线程能够对共享资源进行操作。若其他线程希望上锁一个已经被上锁的互斥锁，则该线程就会挂起，直到上锁的线程释放掉互斥锁为止。主要包含以下基本函数：<ul>
+<li>互斥锁初始化：pthread_mutex_init()；</li>
+<li>互斥锁上锁：pthread_mutex_lock()；</li>
+<li>互斥锁判断上锁：pthread_mutex_trylock()；</li>
+<li>互斥锁解锁：pthread_mutex_unlock()；</li>
+<li>消除互斥锁：pthread_mutex_destroy()。</li>
+</ul>
+</li>
+<li>信号量（semaphore）：和mutex类似，表示可用资源数量，不同的是这个数量可以大于1。步骤为 信号量初始化-&gt;等待信号量-&gt;释放信号量-&gt;销毁信号量；</li>
+<li>条件变量（cond）：与互斥锁结合使用，是用来等待而非上锁的。它用于阻塞线程等待某个事件的发生，并且当等待的事件发生时，阻塞线程会被通知。步骤为：初始化条件变量-&gt;等待条件成立-&gt;激活条件变量-&gt;清除条件变量。</li>
+<li>读写锁（reader-writer lock）：也称共享互斥锁。有三种状态：读模式下加锁状态、写模式下加锁状态、不加锁状态。一次只能有一个线程可以占有写模式的读写锁，但可以有多个线程同时占有读模式的读写锁。因此与互斥量相比，读写锁允许有更高的并行性。</li>
+<li>临界区（critical section）：主要用于同步控制；</li>
+<li>临界区和互斥体的区别：<ul>
+<li>临界区只能用于本进程内的线程，而不可用来同步多个进程中的线程；互斥量、信号量、事件都可以跨越进程使用来进行同步数据操作；</li>
+<li>临界区是非内核对象，只在用户态进行锁操作，速度快；互斥体是内核对象，在核心态进行锁操作，速度慢。<br><a href="#Q07-4">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="5">
+<li><span id="A07-5">
+
+<ul>
+<li>进程和线程的区别：<ul>
+<li>进程是资源分配的最小单位，线程是CPU调度的最小单位。</li>
+<li>进程有独立的地址空间，在保护模式下，一个进程崩溃后不会影响其他进程。而线程只是一个进程中的不同执行路径，线程有自己的堆栈和局部变量，但没有独立的地址空间，一个线程崩溃就等于整个进程崩溃。所以多进程的程序要比多线程的程序更加健壮。</li>
+<li>进程切换时，耗费资源大，效率要比线程低；</li>
+<li>一个程序至少要有一个进程，一个进程至少要有一个线程；</li>
+<li>线程的划分尺度小于进程，因此多线程程序的并发性更高；</li>
+<li>由于多个线程共享内存单元，从而极大地提高了程序的运行效率；</li>
+<li>在执行过程中，每个独立的进程有一个程序运行的入口、顺序执行序列和程序的出口，但是线程不能独立执行，必须依存在应用程序中，由应用程序提供多个线程执行控制；</li>
+</ul>
+</li>
+<li>多进程同步（以下是Linux系统的，Windows系统相比少了一个信号）：<ul>
+<li>管道（pipe）：用于父子进程间的通信；</li>
+<li>信号（signal）：进程间传递信号，捕获到信号后执行对应绑定的代码，和QT的信号槽类似。</li>
+<li>信号量（semaphore）：本身无法传递数据，配合共享内存使用，类似于线程中的锁，用于保护临界资源；</li>
+<li>共享内存（shared memory）：进程间最常见的数据同步方式，与信号量配合使用；</li>
+<li>消息队列（message）：把数据放入队列，内核逐一处理发送至目的线程；</li>
+<li>套接口（socket）：可用于不同机器之间的进程间通信</li>
+</ul>
+</li>
+<li>多线程同步：<a href="#A07-4">参考上题</a>　　<br><a href="#Q07-5">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="6">
+<li><span id="A07-6">
+
+<ul>
+<li>多进程的优点：<ul>
+<li>编程相对容易，无需考虑锁和同步资源的问题；</li>
+<li>更强的容错性：一个进程崩溃了不会影响其他进程；</li>
+<li>有内核保证的隔离：数据和错误隔离；</li>
+</ul>
+</li>
+<li>多进程案例：<ul>
+<li>Chrome浏览器、redis、nginx；</li>
+</ul>
+</li>
+<li>多线程的优点：<ul>
+<li>创建速度快；</li>
+<li>数据共享更加高效：多线程共享同一虚拟地址空间；</li>
+<li>轻松的上下文切换开销：不用切换地址空间、不用更改寄存器、不用刷新TLB；</li>
+<li>提供非均质的服务：如果全都是计算任务，但每个任务的耗时不都为1s，而是1ms-1s之间波动；这样，多线程相比多进程的优势就体现出来，它能有效降低“简单任务被复杂任务压住”的概率。</li>
+</ul>
+</li>
+<li>多线程案例：<ul>
+<li>桌面软件：响应用户输入的是一个线程，后台程序处理是另外的线程<br><a href="#Q07-6">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="7">
+<li><span id="A07-7">
+
+<ul>
+<li>死锁：进程死锁的简称。是指两个或两个以上的进程在执行过程中，以至于竞争资源或由于彼此通信而造成的一种阻塞的现象，若无外力作用，它们都将无法推进下去。此时称系统处于死锁状态或系统产生了死锁，这些永远在互相等待的进程称为死锁进程。</li>
+<li>造成死锁的必要条件：<ul>
+<li>互斥条件：一个资源每次只能被一个线程使用；</li>
+<li>请求与保持条件：一个线程因请求资源而阻塞时，对已获得的资源保持不放；</li>
+<li>不剥夺条件：线程已获得的资源，在未使用完之前，不能强行剥夺；</li>
+<li>循环等待条件：若干线程之间形成一种首尾相接的循环等待资源关系。</li>
+</ul>
+</li>
+<li>避免死锁：破坏产生死锁的4个必要条件之一便可以避免死锁。<br><a href="#Q07-7">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="8">
+<li><span id="A07-8">
+
+<ul>
+<li>Linux系统进程间的通信方式：管道（pipe）、信号（signal）、消息队列（Message）、共享内存（shared memory）、信号量（semaphore）、套接字（socket）。</li>
+<li>Windows系统进程间的通信方式：管道（pipe）、信号（signal）、互斥量（mutex）、共享内存（shared memory）、套接字（socket）。<br><a href="#Q07-8">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="10">
+<li><span id="A07-10">
+
+<ul>
+<li>线程ID：ID在本进程中是唯一的，用于标识线程；</li>
+<li>当前指令指针（PC）</li>
+<li>寄存器集合：由于线程是并发执行的，每个线程有自己不同的运行线索，当从一个线程切换到另一个线程上时，必须将原有线程的寄存器集合的状态进行保存，以便将来该线程在被重新切换时能得以恢复；</li>
+<li>堆栈：堆栈是保证线程独立运行所必须的。线程函数可以调用函数，而被调用函数中又是可以层层嵌套的，所以线程必须拥有自己的函数堆栈，使得函数调用可以正常执行，不受其他线程的影响。一个进程的线程共享堆区。<br><a href="#Q07-10">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="11">
+<li><span id="A07-11">
+
+<ul>
+<li>状态：<ul>
+<li>新建（New）：创建后尚未启动的线程状态；</li>
+<li>运行（Runable）：包括了操作系统线程状态中的Running和Ready，也就是处于此状态的线程有可能正在执行，也有可能正在等待着CPU为它分配执行时间；</li>
+<li>无限期等待（Waiting）：处于这种状态的线程不会被分配CPU执行时间，它们要等待被其他线程显式地唤醒；</li>
+<li>限期等待（Time Waiting）：处于这种状态的线程不会被分配CPU执行时间，不会必须被其他线程显式地唤醒，在一定时间后它们会由操作系统自动唤醒；</li>
+<li>阻塞（Blocked）：线程被阻塞了，等待着获取一个排它锁，这个事件将在另一个线程放弃这个锁的时候发生；而等待状态则是在等待一段时间，或者唤醒的发生，在程序等待进入同步区域时，线程将进入这种状态；</li>
+<li>线束（Terminated）：已终止的线程状态，线程已经结束执行。<br><a href="#Q07-11">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="12">
+<li><span id="A07-12">
+
+<ul>
+<li>孤儿进程：一个父进程退出，而它的一个或多个子进程还在运行，那么那些子进程将成为孤儿进程。孤儿进程将被init进程（进程号为1）所收养，并由init进程对它们完成状态收集工作。所以孤儿进程不会对系统造成危害；</li>
+<li>僵尸进程：一个进程使用fork创建子进程，如果子进程退出，而父进程并没有调用wait或waitpid获取子进程的状态信息，那么子进程的进程描述符仍然保存在系统中。这种进程称为僵尸进程。<ul>
+<li>危害：如果大量地产生僵尸进程，将因为没有可用的进程号而导致系统不能产生新的进程。</li>
+<li>解决：将父进程杀死，所有僵尸进程变为孤儿进程，被init收养，然后被释放资源；父进程对子进程进行wait()或waitpid()调用来释放其所占有资源。</li>
+</ul>
+</li>
+<li>守护进程：是运行在后台的一种特殊进程，它独立于控制终端并且周期性地执行某种任务或等待处理某些发生的事件。它不需要用户输入就能运行而且提供某种服务，不是对整个系统就是对某个用户程序提供服务。<ul>
+<li>常见的守护进程：日志进程syslogd、web服务器httpd、邮件服务器sendmail和数据库服务器mysqld等。</li>
+<li>特点：一个守护进程的父进程是init进程，命名通常以d结尾；一般在系统启动时开始运行，除非强行终止，否则直到系统关机都保持运行；守护进程通常以root权限运行。<br><a href="#Q07-12">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<ol start="13">
+<li><span id="A07-13">
+
+<ul>
+<li>协程（Coroutines）：是一种比线程更加轻量级的存在。一个线程可以拥有多个协程。协程不是被操作系统内核所管理，而完全是由程序所控制，即在用户态执行。</li>
+<li>使用协程的好处：性能得到了很大提升，不会像线程切换那样消耗资源。协程的暂停完全由程序控制，线程的阻塞状态是由操作系统内核来进行切换。</li>
+<li>Python：可以通过yield/send的方式实现协程。python3.5后，async/await成为了更好的替代方案。<br><a href="#Q07-13">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="14">
+<li><span id="A07-14">
+
+<ul>
+<li>参考：<a href="https://blog.csdn.net/qicheng777/article/details/77427157" target="_blank" rel="noopener">进程状态（含状态变迁图）</a></li>
+<li>三态模型：<ul>
+<li>就绪：当一个进程获得了除处理器以外的一切所需资源，一旦得到处理器即可运行，则称此进程处理就绪状态。</li>
+<li>运行：当一个进程正在处理器上运行时，则称该进程处于运行状态。</li>
+<li>阻塞：也称等待或睡眠状态，一个进程正在等待某一事件发生，而暂时停止运行。这时即使把处理器分配给进程也无法运行，故称该进程处于阻塞状态。</li>
+</ul>
+</li>
+<li>五态模型：新增新建态和终止态<ul>
+<li>新建态：对于进程刚刚被创建时没有被提交的状态，并等待系统完成创建进程的所有必要信息。进程正在创建过程中，还不能运行。</li>
+<li>终止态：进程已结束运行，回收除进程控制块之外的其他资源，并让其他进程从进程控制块中收集有关信息。<br><a href="#Q07-14">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+            
+
+
+            <!-- 添加的部分 -->
+            <!-- copyright -->
+            
+            <!-- copyright -->
+        </div>
+    </div>
+
+
+    <!-- 打赏 -->
+    
+        <br>
+        <br>
+        <div class ="post-donate">
+            <div id="donate_board" class="donate_bar center">
+                <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+                <br>
+            </div>
+            <div id="donate_guide_alipay" class="donate_bar center hidden" >
+                <!-- 支付宝打赏图案 -->
+                <h1 align="center"
+style="color:#019fe8; font-size:17px; line-height:2%;">支付宝扫一扫
+                    <i class="fas fa-hand-point-down"></i>
+                </h1>
+                <img src="../../../../assets/images/alipay.png" alt="支付宝打赏">
+            </div>
+
+            <div id="donate_guide_wechat" class="donate_bar center hidden" >
+                <!-- 微信打赏图案 -->
+                <h1 align="center"
+style="color:#1AAD19; font-size:17px; line-height:2%;">微信扫一扫
+                    <i class="fas fa-hand-point-down"></i>
+                </h1>
+                <img src="../../../../assets/images/wechat.png" alt="微信打赏">
+                
+            </div>
+
+            <div id="donate_button_alipay" class="donate_bar center hidden">
+                <br>
+                <a id="btn_donate_alipay" class="btn_donate_alipay" href="javascript:;" title="切换到微信">切换到微信</a>
+            </div>
+
+            <div id="donate_button_wechat" class="donate_bar center hidden">
+                <br>
+                <a id="btn_donate_wechat" class="btn_donate_wechat" href="javascript:;" title="切换到支付宝">切换到支付宝</a>
+            </div>
+
+        
+
+            <script type="text/javascript">
+                document.getElementById('btn_donate').onclick = function(){
+                    $('#donate_board').addClass('hidden');
+                    $('#donate_guide_wechat').removeClass('hidden');
+                    $('#donate_button_wechat').removeClass('hidden');
+                }
+            </script>
+
+            <script type="text/javascript">
+                document.getElementById('btn_donate_alipay').onclick = function(){
+                    $('#donate_guide_alipay').addClass('hidden');
+                    $('#donate_button_alipay').addClass('hidden');
+                    $('#donate_guide_wechat').removeClass('hidden');
+                    $('#donate_button_wechat').removeClass('hidden');
+                }
+            </script>
+
+            <script type="text/javascript">
+                document.getElementById('btn_donate_wechat').onclick = function(){
+                    $('#donate_guide_wechat').addClass('hidden');
+                    $('#donate_button_wechat').addClass('hidden');
+                    $('#donate_guide_alipay').removeClass('hidden');
+                    $('#donate_button_alipay').removeClass('hidden');
+                }
+            </script>
+
+            
+        </div>
+
+        <div class="donateText" style="line-height:120%;"><br>“ 万物皆有时，比如你我相遇 ”</div>
+        <br>
+            
+    
+
+
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/求职/">求职</a> <a class="tag tag--primary tag--small t-link" href="/tags/面试/">面试</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/15/handCode/"
+                    data-tooltip="开发岗面试问题总结：手撕代码"
+                    aria-label="上一篇: 开发岗面试问题总结：手撕代码"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/15/networks/"
+                    data-tooltip="开发岗面试问题总结：计算机网络"
+                    aria-label="下一篇: 开发岗面试问题总结：计算机网络"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/08/15/operationSystems/"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=/2019/08/15/operationSystems/"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitment"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                
+<div id="gitment"></div>
+
+<!-- Gitment评论插件通用代码 -->
+
+<link rel="stylesheet" href='assets/js/gitment.css'>
+<script src='assets/js/gitment.js'></script>
+
+<script>
+var gitment = new Gitment({
+  owner: 'liuyihust',
+  repo: '',
+  oauth: {
+    client_id: '4d67b0b86332dbac9f61',
+    client_secret:'59b0670047644cff4d5740c6e239f758ade18049',
+  },
+})
+gitment.render('git')
+</script>
+
+<!-- Gitment代码结束 -->
+            
+        
+    </div>
+
+    
+
+</article>
+
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <i class="fas fa-user-clock"></i>
+    <span id="timeDate">0</span><span id="times">0</span>
+    <script>
+        var now = new Date();
+        function createtime() {
+            var grt= new Date("04/01/2018 00:00:00");//此处修改你的建站时间或者网站上线时间
+            now.setTime(now.getTime()+250);
+            days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+            hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+            if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+            mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+            seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+            snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+            document.getElementById("timeDate").innerHTML = "Blog Age: "+dnum+" days ";
+            document.getElementById("times").innerHTML = hnum + " h " + mnum + " m " + snum + " s";
+        }
+        setInterval("createtime()",250);
+	</script>
+
+    <br>
+
+    <span class="copyrights">
+        Copyrights &copy; 2020 Liu Yi. All Rights Reserved.
+    </span>
+
+
+</footer>
+
+
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/15/handCode/"
+                    data-tooltip="开发岗面试问题总结：手撕代码"
+                    aria-label="上一篇: 开发岗面试问题总结：手撕代码"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/15/networks/"
+                    data-tooltip="开发岗面试问题总结：计算机网络"
+                    aria-label="下一篇: 开发岗面试问题总结：计算机网络"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/08/15/operationSystems/"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=/2019/08/15/operationSystems/"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitment"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=/2019/08/15/operationSystems/"
+                        aria-label="分享到 Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=/2019/08/15/operationSystems/"
+                        aria-label="分享到 Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/portrait.gif" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Liu Yi</h4>
+        
+            <div id="about-card-bio"><p>无趣的人生，有趣地生活。<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=245 height=52 align="middle" src="//music.163.com/outchain/player?type=2&id=26294503&auto=1&height=32"></iframe></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>学生</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                湖北武汉
+            </div>
+        
+    </div>
+</div>
+        
+            <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-times"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="/assets/images/logo-algolia-nebula-blue-full.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    />
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">没有找到文章</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/21/randomNumber/"
+                            aria-label=": Random Number Generator"
+                        >
+                            <img class="media-image" src="/2018/04/21/randomNumber/random.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/21/randomNumber/"
+                            aria-label=": Random Number Generator"
+                        >
+                            <h3 class="media-heading">Random Number Generator</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2018年4月21日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>C++编程时经常要用到随机数，那么到底有哪些随机数产生器或函数呢？我这里来做个小结。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/22/Japanese-1/"
+                            aria-label=": 日语中的数字与时间"
+                        >
+                            <img class="media-image" src="/2018/04/22/Japanese-1/japan.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/22/Japanese-1/"
+                            aria-label=": 日语中的数字与时间"
+                        >
+                            <h3 class="media-heading">日语中的数字与时间</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2018年4月22日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>日语中的数字与时间常见表示。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/25/Japanese-2/"
+                            aria-label=": 日语中的动词变形"
+                        >
+                            <img class="media-image" src="/2018/04/25/Japanese-2/maomi.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/25/Japanese-2/"
+                            aria-label=": 日语中的动词变形"
+                        >
+                            <h3 class="media-heading">日语中的动词变形</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2018年4月25日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>学过日语的人都知道，日语中的动词是需要变形的，所以我这里简单来总结一下日语中的动词变形！</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/15/setup-package/"
+                            aria-label=": 程序打包（Setup使用技巧）"
+                        >
+                            <img class="media-image" src="/2019/01/15/setup-package/pakage.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/15/setup-package/"
+                            aria-label=": 程序打包（Setup使用技巧）"
+                        >
+                            <h3 class="media-heading">程序打包（Setup使用技巧）</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年1月15日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>常用打包软件Setup的使用技巧。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/20/vs-skills/"
+                            aria-label=": VS使用技巧"
+                        >
+                            <img class="media-image" src="/2019/01/20/vs-skills/vs.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/20/vs-skills/"
+                            aria-label=": VS使用技巧"
+                        >
+                            <h3 class="media-heading">VS使用技巧</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年1月20日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>VS基础…</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/02/28/tf-version-problem/"
+                            aria-label=": 安装Tensorflow版本不匹配问题及解决"
+                        >
+                            <img class="media-image" src="/2019/02/28/tf-version-problem/tensorflow.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/02/28/tf-version-problem/"
+                            aria-label=": 安装Tensorflow版本不匹配问题及解决"
+                        >
+                            <h3 class="media-heading">安装Tensorflow版本不匹配问题及解决</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年2月28日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>安装Tensorflow时踩过的坑…</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/09/themeConfig/"
+                            aria-label=": 博客瞎折腾——tranquilpeak主题"
+                        >
+                            <img class="media-image" src="/2019/08/09/themeConfig/cat.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/09/themeConfig/"
+                            aria-label=": 博客瞎折腾——tranquilpeak主题"
+                        >
+                            <h3 class="media-heading">博客瞎折腾——tranquilpeak主题</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月9日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather">The article has been encrypted, please enter your password to view.<br></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/11/linux-files/"
+                            aria-label=": linux文件和目录"
+                        >
+                            <img class="media-image" src="/2019/08/11/linux-files/newtux.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/11/linux-files/"
+                            aria-label=": linux文件和目录"
+                        >
+                            <h3 class="media-heading">linux文件和目录</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月11日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Linux学习笔记：文件和目录</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/12/Welcome/"
+                            aria-label=": Welcome To Liuyee&#39;s Blog"
+                        >
+                            <img class="media-image" src="/2019/08/12/Welcome/deer.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/12/Welcome/"
+                            aria-label=": Welcome To Liuyee&#39;s Blog"
+                        >
+                            <h3 class="media-heading">Welcome To Liuyee&#39;s Blog</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月12日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Don’t aim for success if you want it, just stick to what you love and believe in, and it will come naturally.</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/15/DevelopingInterview/"
+                            aria-label=": 开发岗面试问题总结：C/C++语言"
+                        >
+                            <img class="media-image" src="/2019/08/15/DevelopingInterview/thumbnail.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/15/DevelopingInterview/"
+                            aria-label=": 开发岗面试问题总结：C/C++语言"
+                        >
+                            <h3 class="media-heading">开发岗面试问题总结：C/C++语言</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月15日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>开发岗面试问题总结之C/C++语言</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="没有找到文章"
+                data-message-one="找到 1 篇文章"
+                data-message-other="找到 {n} 篇文章">
+                找到 23 篇文章
+            </p>
+        </div>
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+
+
+    
+        <script src="/assets/js/gitment.js"></script>
+        <script type="text/javascript">
+          (function() {
+            new Gitment({
+              id: '/2019/08/15/operationSystems/',
+              owner: 'liuyihust',
+              repo: 'BlogComments',
+              oauth: {
+                client_id: '4d67b0b86332dbac9f61',
+                client_secret: '59b0670047644cff4d5740c6e239f758ade18049'
+              }
+            }).render('gitment')
+          })()
+        </script>
+    
+
+
+
+    <script src="/assets/js/moment-with-locales.js"></script>
+    <script src="/assets/js/algoliasearch.js"></script>
+    <script>
+      var algoliaClient = algoliasearch('SCS7H6XC2V', '3c07d7df305177e5342667b398d803ef');
+      var algoliaIndex = algoliaClient.initIndex('tranquilpeak');
+    </script>
+
+
+
+        <!-- 点击特效 -->
+        
+            <script async src="/assets/js/text.js"></script>
+        
+    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":400,"vOffset":-80},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.9,"opacityOnHover":0.1},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,0 +1,1275 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Liuyee&#39;s Blog">
+    <title>开发岗面试问题总结：设计模式 - Liuyee&#39;s Blog</title>
+    <meta name="author" content="Liu Yi">
+    
+        <meta name="keywords" content="开发,面试,求职,设计模式">
+    
+    
+        <link rel="icon" href="/assets/images/favicon.ico">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Liu Yi","sameAs":["https://github.com/liuyihust","mailto:liuyihust@foxmail.com"],"image":"portrait.gif"},"articleBody":"\n\n\n\n\n\n题目\n单例模式。答案\n装饰器模式。答案\n观察者模式的多线程安全问题，写个医生，病人的观察者模式啊。答案\n说一下OOP的设计模式五项原则。答案\n生产者消费者的同步操作。\n工厂模式？优点？答案\n\n参考答案\n\n\n\n单例模式：一个类只能有一个对象被创建，如果有多个对象的话，可能会导致状态的混乱和不一致。通过单例模式，可以做到：\n确保一个类只有一个实例被建立；\n提供了一个对对象的全局访问指针；\n在不影响单例类的客户端的情况下允许将来有多个实例。\n\n\n三种单例模式的实现：懒汉式、饿汉式和多线程式；\n懒汉式：特点是延迟加载，比如配置文件的实例直到用到的时候才会被加载；\n饿汉式：特点是一开始就加载了，用“空间换时间”；\n多线程式：\n\n\n\n\n\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748/********* 第一种：懒汉式 **********/// GetInstance使用懒惰初始化，即它的返回值是当这个函数首次被访问时才创建的。// 这是一种防弹设计，所有GetInstance()之后的调用都返回相同实例的指针。// 缺陷：假设单例还未初始化，若有两个线程同时调用GetInstance方法，然后两个线程都初始化一个单例，最后得到的指针并不是指向同一个地方，不满足单例类的定义了。class Singleton &#123;private:    Singleton() &#123;&#125;;    static Singleton* m_pInstance; // 静态成员对象指针变量只会分配指针空间，而不是对象空间，所以不会调用构造函数public:    static Singleton* GetInstance() &#123;        if (m_pInstance == NULL)            m_pInstance = new Singleton();        return m_pInstance;    &#125;&#125;;/********* 第二种：饿汉式 **********/// 有两个状态：单例未初始化和单例已经初始化class Singleton &#123;private:    Singleton() &#123;&#125;;    public:    static Singleton* GetInstance() &#123;        static Singleton instance; // 静态成员对象在运行之初就已经分配了空间，调用构造函数了        return &amp;instance;    &#125;&#125;;/********* 第三种：多线程式 **********/class Singleton &#123;private:    static Singleton* m_instance;    Singleton() &#123;&#125;;public:    static Singleton* GetInstance() &#123;        if (NULL == m_instance) &#123;            Lock(); // 借助其他类来实现，如boost            if (NULL == m_instance) &#123;                m_instance = new Singleton;            &#125;            UnLock();        &#125;        return m_instance;    &#125;&#125;\n\n返回原题\n\n\n\n\n装饰器模式：允许向一个现有的对象添加新的功能，同时又不改变其结构。属于结构型模式，是作为现有的类的一个包装。比生成子类更加灵活\n优点：装饰类和被装饰类可以独立发展，不会相互耦合，装饰模式是继承的一个替代模式，可以动态扩展一个实现类的功能。\n缺点：多层装饰比较复杂。返回原题\n\n\n\n\n\n\n\n观察者模式：当对象间存在一对多关系时，则使用观察者模式。当一个对象的状态发生改变时，所有依赖它的对象都得到通知并被自动更新。观察者模式属于行为型模式。\n优点：\n观察者和被观察者是抽象耦合的；\n建立一套触发机制。\n\n\n缺点：\n如果一个被观察者有很多直接或间接的观察者，将所有的观察者都通知到位会花费很多时间；\n如果观察者和观察目标之间有循环依赖的话，观察目标会触发它们之间进行循环调用，可能导致系统崩溃；\n没有相应的机制让观察者知道所观察的目标对象是怎么发生变化的，而仅仅是知道观察目标发生了变化。\n\n\n\n\n\nObserver.hcpp1234567class Observer {public:    Observer() {};    virtual ~Observer() {};    // 定义纯虚函数，规范接口    virtual void update() = 0;};\n\n\nSubject.hcpp1234567891011121314151617#include &lt;vector&gt;#include \"Observer.h\"using namespace std;class Subject {public:    Subject() {};    virtual ~Subject() {};    void addObserver(Observer *observer);    void delObserver(Observer *observer);    void notifyObservers();    virtual int getStatus() = 0;    virtual void setStatus(int status) = 0;private:    vector&lt;Observer*&gt; m_observers;};\n\n\nSubject.cppcpp123456789101112131415161718#inlcude Subject.hvoid Subject::addObserver(Observer *observer) {    m_observers.push_back(observer);}void Subject::delObserver(Observer *observer) {    for (auto iter = m_observers.begin(); iter != m_observers.end(); ++iter) {        if (*iter == observer) {            m_observer.erase(iter);            return;        }    }}void Subject::notifyObservers() {    for (auto iter = m_observers.begin(); iter != m_observers.end(); ++iter) {        (*iter)-&gt;update();    }}\n\n\nConcreteObserver.hcpp12345678910111213141516#include &lt;string&gt;#include \"Observer.h\"#include \"Subject.h\"using namespace std;class ConcreteObserver: public Observer {private:    string m_observerName;    Subject *m_subject;public:    ConcreteObserver(string name, Subject* subject): m_observerName(name), m_subject(subject) {};    ~ConcreteObserver() {};    void update();};\n\n\nConcreteObserver.cppcpp12345678#include &lt;iostream&gt;#include \"ConcreteObserver.h\"using namespace std;void ConcreteObserver::update() {    cout &lt;&lt; \"update observer[\" &lt;&lt; m_observerName &lt;&lt; \"] status: \" &lt;&lt; m_subject-&gt;getStatus() &lt;&lt; endl;}\n\n\nConcreteSubject.hcpp123456789101112131415161718#include &lt;string&gt;#include \"Observer.h\"#include \"Subject.h\"using namespace std;class ConcreteSubject: public Subject {private:    string m_subjectName;    int m_status;public:    ConcreteSubject(string name): m_subjectName(name), m_status(0) {};    ~ConcreteSubjec() {};        void setStatus(int status);    int getStatus();};\n\n\nConcreteSubject.cppcpp123456789101112#include &lt;iostream&gt;#include \"ConcreteSubject.h\"using namespace std;void ConcreteSubject::setStatus(int status) {    m_status = status;    cout &lt;&lt; \"setStatus subject[\" &lt;&lt; m_subjectName &lt;&lt; \"] status: \" &lt;&lt; status &lt;&lt; endl;}int ConcreteSubject::getStatus() {    return m_status;}\n\n\nmain.cppcpp123456789101112131415161718192021222324252627282930313233#include &lt;iostream&gt;#include \"Subject.h\"#include \"Observer.h\"#include \"ConcreteObserver.h\"#include \"ConcreteSubject.h\"int main(int argc, char *argv[]) {    Subject* subjectA = new ConcreteSubject(\"subjectA\");    Subject* subjectB = new ConcreteSubject(\"subjectB\");        Observer* observerA = new ConcreteObserver(\"observerA\", subjectA);    Observer* observerB = new ConcreteObserver(\"observerB\", subjectB);        subjectA-&gt;addObserver(observerA);    subjectB-&gt;addObserver(observerB);        subjectA-&gt;setStatus(1);    subjectA-&gt;notifyObservers();        subjectB-&gt;setStatus(2);    subjectB-&gt;notifyObservers();        subjectA-&gt;addObserver(observerB);    subjectA-&gt;setStatus(2);    subjectA-&gt;notifyObservers();        delete subjectA;    delete subjectB;    delete observerA;    delete observerB;        return 0;}\n返回原题\n\n\n\n\n单一职责原则：类的职责单一，对外只提供一种功能，而引起类变化的原因都应该只有一个；\n开闭原则：类的改动是通过增加代码进行的，而不是修改源代码；\n里氏替换原则：任何抽象类出现的地方都可以用它的实现类进行替换，实际就是虚拟机制，语言级别实现面向对象功能；\n依赖倒转原则：依赖于抽象（接口），不要依赖具体实现（类），也就是针对接口编程；\n接口隔离原则：不应该强迫用户的程序依赖他们不需要的接口方法，一个接口应该只提供一种对外功能，不应该把所有操作都封装到一个接口中去；\n合成复用原则：如果使用继承，会导致父类的任何变换都可能影响到子类的行为。如果使用对象组合，就降低了这种依赖关系。对于继承和组合，优先使用组合；\n迪米特原则：一个对象应当对其他对象尽可能少的了解，从而降低各个对象之间的耦合，提高系统的可维护性。返回原题\n\n\n\n\n\n\n\n工厂模式：属于创建型模式，它提供了一种创建对象的最佳方式。在工厂模式中，在创建对象时不会对客户端暴露创建逻辑，并且是通过使用一个共同的接口来指向新创建的对象。\n优点：\n一个调用者想创建一个对象，只需知道其名称就可以了；\n扩展性高，如果想增加一个产品，只要扩展一个工厂类就可以；\n屏蔽产品的具体实现，调用者只关心产品的接口。\n\n\n缺点：\n每次增加一个产品时，都需要增加一个具体类和对象实现工厂，使用系统中类的个数成倍增加，在一定程序上增加了系统的复杂度，同时也增加了系统具体类的依赖。返回原题\n\n\n\n\n","dateCreated":"2019-08-15T22:06:15+08:00","dateModified":"2019-08-22T22:33:35+08:00","datePublished":"2019-08-15T22:06:15+08:00","description":"开发岗面试问题总结之设计模式","headline":"开发岗面试问题总结：设计模式","image":["thumbnail.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/2019/08/15/DesignPatterns/"},"publisher":{"@type":"Organization","name":"Liu Yi","sameAs":["https://github.com/liuyihust","mailto:liuyihust@foxmail.com"],"image":"portrait.gif","logo":{"@type":"ImageObject","url":"portrait.gif"}},"url":"/2019/08/15/DesignPatterns/","keywords":"求职, 面试","thumbnailUrl":"thumbnail.png"}</script>
+    <meta name="description" content="开发岗面试问题总结之设计模式">
+<meta name="keywords" content="开发,面试,求职,设计模式">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="开发岗面试问题总结：设计模式">
+<meta property="og:url" content="/2019/08/15/DesignPatterns/index.html">
+<meta property="og:site_name" content="Liuyee&#39;s Blog">
+<meta property="og:description" content="开发岗面试问题总结之设计模式">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-08-22T14:33:35.144Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="开发岗面试问题总结：设计模式">
+<meta name="twitter:description" content="开发岗面试问题总结之设计模式">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="/assets/images/portrait.gif"/>
+    
+    
+        <meta property="og:image" content="/2019/08/15/DesignPatterns/thumbnail.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="/2019/08/15/DesignPatterns/thumbnail.png"/>
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/all.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+
+    
+    <script type="text/javascript">
+	    var _hmt = _hmt || [];
+	    (function() {
+	      var hm = document.createElement("script");
+	      hm.src = "//hm.baidu.com/hm.js?9090c30aa810eb2d002253f0d0f5bbea";
+	      var s = document.getElementsByTagName("script")[0];
+	      s.parentNode.insertBefore(hm, s);
+	    })();
+    </script>
+
+
+    
+        
+            <link rel="stylesheet" href="/assets/css/gitment.css">
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/ "
+            aria-label=""
+        >
+            Liuyee&#39;s Blog
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="打开链接: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/portrait.gif" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="阅读有关作者的更多信息"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/portrait.gif" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Liu Yi</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>无趣的人生，有趣地生活。<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=245 height=52 align="middle" src="//music.163.com/outchain/player?type=2&id=26294503&auto=1&height=32"></iframe></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="https://github.com/liuyihust"
+                            title="GitHub"
+                        >
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="mailto:liuyihust@foxmail.com"
+                            title="邮箱"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">邮箱</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title">
+            开发岗面试问题总结：设计模式
+        </h1>
+    
+    
+        <div class="post-meta">
+    
+
+    <time datetime="2019-08-15T22:06:15+08:00">
+	
+		    8月 15, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Job-Hunting/">Job Hunting</a>
+
+
+    
+
+    <br>
+    <i class="fas fa-file-word"></i>
+    <font>本文字数:</font>
+    <span class="post-count">1.8k</span>
+    <span class="post-meta-divider">|</span>
+
+    <i class="far fa-clock"></i>
+    <font>建议阅读时长:</font>
+    <span class="post-count">7</span>
+    <font> min</font>
+
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+
+
+
+
+
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><ol>
+<li><span id="Q06-1"></span>单例模式。<a href="#A06-1">答案</a></li>
+<li><span id="Q06-2"></span>装饰器模式。<a href="#A06-2">答案</a></li>
+<li><span id="Q06-3"></span>观察者模式的多线程安全问题，写个医生，病人的观察者模式啊。<a href="#A06-3">答案</a></li>
+<li><span id="Q06-4"></span>说一下OOP的设计模式五项原则。<a href="#A06-4">答案</a></li>
+<li><span id="Q06-5"></span>生产者消费者的同步操作。</li>
+<li><span id="Q06-6"></span>工厂模式？优点？<a href="#A06-6">答案</a></li>
+</ol>
+<h2 id="参考答案"><a href="#参考答案" class="headerlink" title="参考答案"></a>参考答案</h2><ol>
+<li><span id="A06-1">
+
+<ul>
+<li>单例模式：一个类只能有一个对象被创建，如果有多个对象的话，可能会导致状态的混乱和不一致。通过单例模式，可以做到：<ul>
+<li>确保一个类只有一个实例被建立；</li>
+<li>提供了一个对对象的全局访问指针；</li>
+<li>在不影响单例类的客户端的情况下允许将来有多个实例。</li>
+</ul>
+</li>
+<li>三种单例模式的实现：懒汉式、饿汉式和多线程式；<ul>
+<li>懒汉式：特点是延迟加载，比如配置文件的实例直到用到的时候才会被加载；</li>
+<li>饿汉式：特点是一开始就加载了，用“空间换时间”；</li>
+<li>多线程式：</li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/********* 第一种：懒汉式 **********/</span></span><br><span class="line"><span class="comment">// GetInstance使用懒惰初始化，即它的返回值是当这个函数首次被访问时才创建的。</span></span><br><span class="line"><span class="comment">// 这是一种防弹设计，所有GetInstance()之后的调用都返回相同实例的指针。</span></span><br><span class="line"><span class="comment">// 缺陷：假设单例还未初始化，若有两个线程同时调用GetInstance方法，然后两个线程都初始化一个单例，最后得到的指针并不是指向同一个地方，不满足单例类的定义了。</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Singleton() &#123;&#125;;</span><br><span class="line">    <span class="keyword">static</span> Singleton* m_pInstance; <span class="comment">// 静态成员对象指针变量只会分配指针空间，而不是对象空间，所以不会调用构造函数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">static</span> Singleton* <span class="title">GetInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (m_pInstance == <span class="literal">NULL</span>)</span><br><span class="line">            m_pInstance = <span class="keyword">new</span> Singleton();</span><br><span class="line">        <span class="keyword">return</span> m_pInstance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/********* 第二种：饿汉式 **********/</span></span><br><span class="line"><span class="comment">// 有两个状态：单例未初始化和单例已经初始化</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Singleton() &#123;&#125;;</span><br><span class="line">    </span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">static</span> Singleton* <span class="title">GetInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">static</span> Singleton instance; <span class="comment">// 静态成员对象在运行之初就已经分配了空间，调用构造函数了</span></span><br><span class="line">        <span class="keyword">return</span> &amp;instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/********* 第三种：多线程式 **********/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">static</span> Singleton* m_instance;</span><br><span class="line">    Singleton() &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">static</span> Singleton* <span class="title">GetInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="literal">NULL</span> == m_instance) &#123;</span><br><span class="line">            Lock(); <span class="comment">// 借助其他类来实现，如boost</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="literal">NULL</span> == m_instance) &#123;</span><br><span class="line">                m_instance = <span class="keyword">new</span> Singleton;</span><br><span class="line">            &#125;</span><br><span class="line">            UnLock();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> m_instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="#Q06-1">返回原题</a></p>
+<ol start="2">
+<li><span id="A06-2">
+
+<ul>
+<li>装饰器模式：允许向一个现有的对象添加新的功能，同时又不改变其结构。属于结构型模式，是作为现有的类的一个包装。比生成子类更加灵活</li>
+<li>优点：装饰类和被装饰类可以独立发展，不会相互耦合，装饰模式是继承的一个替代模式，可以动态扩展一个实现类的功能。</li>
+<li>缺点：多层装饰比较复杂。<br><a href="#Q06-2">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="3">
+<li><span id="A06-3">
+
+<ul>
+<li>观察者模式：当对象间存在一对多关系时，则使用观察者模式。当一个对象的状态发生改变时，所有依赖它的对象都得到通知并被自动更新。观察者模式属于行为型模式。</li>
+<li>优点：<ul>
+<li>观察者和被观察者是抽象耦合的；</li>
+<li>建立一套触发机制。</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>如果一个被观察者有很多直接或间接的观察者，将所有的观察者都通知到位会花费很多时间；</li>
+<li>如果观察者和观察目标之间有循环依赖的话，观察目标会触发它们之间进行循环调用，可能导致系统崩溃；</li>
+<li>没有相应的机制让观察者知道所观察的目标对象是怎么发生变化的，而仅仅是知道观察目标发生了变化。</li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+<figure class="codeblock codeblock--tabbed"><figcaption><span>Observer.h</span><ul class="tabs"><li class="tab active">cpp</li></ul></figcaption><div class="tabs-content"><figure class="highlight cpp" style="display: block;"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observer</span> {</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Observer() {};</span><br><span class="line">    <span class="keyword">virtual</span> ~Observer() {};</span><br><span class="line">    <span class="comment">// 定义纯虚函数，规范接口</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure></div></figure>
+
+
+<figure class="codeblock codeblock--tabbed"><figcaption><span>Subject.h</span><ul class="tabs"><li class="tab active">cpp</li></ul></figcaption><div class="tabs-content"><figure class="highlight cpp" style="display: block;"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Observer.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Subject</span> {</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Subject() {};</span><br><span class="line">    <span class="keyword">virtual</span> ~Subject() {};</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">addObserver</span><span class="params">(Observer *observer)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">delObserver</span><span class="params">(Observer *observer)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">notifyObservers</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">int</span> <span class="title">getStatus</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">setStatus</span><span class="params">(<span class="keyword">int</span> status)</span> </span>= <span class="number">0</span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;Observer*&gt; m_observers;</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure></div></figure>
+
+
+<figure class="codeblock codeblock--tabbed"><figcaption><span>Subject.cpp</span><ul class="tabs"><li class="tab active">cpp</li></ul></figcaption><div class="tabs-content"><figure class="highlight cpp" style="display: block;"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#inlcude Subject.h</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Subject::addObserver(Observer *observer) {</span><br><span class="line">    m_observers.push_back(observer);</span><br><span class="line">}</span><br><span class="line"><span class="keyword">void</span> Subject::delObserver(Observer *observer) {</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> iter = m_observers.begin(); iter != m_observers.end(); ++iter) {</span><br><span class="line">        <span class="keyword">if</span> (*iter == observer) {</span><br><span class="line">            m_observer.erase(iter);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"><span class="keyword">void</span> Subject::notifyObservers() {</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> iter = m_observers.begin(); iter != m_observers.end(); ++iter) {</span><br><span class="line">        (*iter)-&gt;update();</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></div></figure>
+
+
+<figure class="codeblock codeblock--tabbed"><figcaption><span>ConcreteObserver.h</span><ul class="tabs"><li class="tab active">cpp</li></ul></figcaption><div class="tabs-content"><figure class="highlight cpp" style="display: block;"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Observer.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Subject.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteObserver</span>:</span> <span class="keyword">public</span> Observer {</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">string</span> m_observerName;</span><br><span class="line">    Subject *m_subject;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    ConcreteObserver(<span class="built_in">string</span> name, Subject* subject): m_observerName(name), m_subject(subject) {};</span><br><span class="line">    ~ConcreteObserver() {};</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">update</span><span class="params">()</span></span>;</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure></div></figure>
+
+
+<figure class="codeblock codeblock--tabbed"><figcaption><span>ConcreteObserver.cpp</span><ul class="tabs"><li class="tab active">cpp</li></ul></figcaption><div class="tabs-content"><figure class="highlight cpp" style="display: block;"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"ConcreteObserver.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> ConcreteObserver::update() {</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"update observer["</span> &lt;&lt; m_observerName &lt;&lt; <span class="string">"] status: "</span> &lt;&lt; m_subject-&gt;getStatus() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></div></figure>
+
+
+<figure class="codeblock codeblock--tabbed"><figcaption><span>ConcreteSubject.h</span><ul class="tabs"><li class="tab active">cpp</li></ul></figcaption><div class="tabs-content"><figure class="highlight cpp" style="display: block;"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Observer.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Subject.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteSubject</span>:</span> <span class="keyword">public</span> Subject {</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">string</span> m_subjectName;</span><br><span class="line">    <span class="keyword">int</span> m_status;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    ConcreteSubject(<span class="built_in">string</span> name): m_subjectName(name), m_status(<span class="number">0</span>) {};</span><br><span class="line">    ~ConcreteSubjec() {};</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setStatus</span><span class="params">(<span class="keyword">int</span> status)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">getStatus</span><span class="params">()</span></span>;</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure></div></figure>
+
+
+<figure class="codeblock codeblock--tabbed"><figcaption><span>ConcreteSubject.cpp</span><ul class="tabs"><li class="tab active">cpp</li></ul></figcaption><div class="tabs-content"><figure class="highlight cpp" style="display: block;"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"ConcreteSubject.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> ConcreteSubject::setStatus(<span class="keyword">int</span> status) {</span><br><span class="line">    m_status = status;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"setStatus subject["</span> &lt;&lt; m_subjectName &lt;&lt; <span class="string">"] status: "</span> &lt;&lt; status &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">}</span><br><span class="line"><span class="keyword">int</span> ConcreteSubject::getStatus() {</span><br><span class="line">    <span class="keyword">return</span> m_status;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></div></figure>
+
+
+<figure class="codeblock codeblock--tabbed"><figcaption><span>main.cpp</span><ul class="tabs"><li class="tab active">cpp</li></ul></figcaption><div class="tabs-content"><figure class="highlight cpp" style="display: block;"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Subject.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Observer.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"ConcreteObserver.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"ConcreteSubject.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span>{</span><br><span class="line">    Subject* subjectA = <span class="keyword">new</span> ConcreteSubject(<span class="string">"subjectA"</span>);</span><br><span class="line">    Subject* subjectB = <span class="keyword">new</span> ConcreteSubject(<span class="string">"subjectB"</span>);</span><br><span class="line">    </span><br><span class="line">    Observer* observerA = <span class="keyword">new</span> ConcreteObserver(<span class="string">"observerA"</span>, subjectA);</span><br><span class="line">    Observer* observerB = <span class="keyword">new</span> ConcreteObserver(<span class="string">"observerB"</span>, subjectB);</span><br><span class="line">    </span><br><span class="line">    subjectA-&gt;addObserver(observerA);</span><br><span class="line">    subjectB-&gt;addObserver(observerB);</span><br><span class="line">    </span><br><span class="line">    subjectA-&gt;setStatus(<span class="number">1</span>);</span><br><span class="line">    subjectA-&gt;notifyObservers();</span><br><span class="line">    </span><br><span class="line">    subjectB-&gt;setStatus(<span class="number">2</span>);</span><br><span class="line">    subjectB-&gt;notifyObservers();</span><br><span class="line">    </span><br><span class="line">    subjectA-&gt;addObserver(observerB);</span><br><span class="line">    subjectA-&gt;setStatus(<span class="number">2</span>);</span><br><span class="line">    subjectA-&gt;notifyObservers();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">delete</span> subjectA;</span><br><span class="line">    <span class="keyword">delete</span> subjectB;</span><br><span class="line">    <span class="keyword">delete</span> observerA;</span><br><span class="line">    <span class="keyword">delete</span> observerB;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></div></figure>
+<p><a href="#Q06-3">返回原题</a></p>
+<ol start="4">
+<li><span id="A06-4">
+
+<ul>
+<li>单一职责原则：类的职责单一，对外只提供一种功能，而引起类变化的原因都应该只有一个；</li>
+<li>开闭原则：类的改动是通过增加代码进行的，而不是修改源代码；</li>
+<li>里氏替换原则：任何抽象类出现的地方都可以用它的实现类进行替换，实际就是虚拟机制，语言级别实现面向对象功能；</li>
+<li>依赖倒转原则：依赖于抽象（接口），不要依赖具体实现（类），也就是针对接口编程；</li>
+<li>接口隔离原则：不应该强迫用户的程序依赖他们不需要的接口方法，一个接口应该只提供一种对外功能，不应该把所有操作都封装到一个接口中去；</li>
+<li>合成复用原则：如果使用继承，会导致父类的任何变换都可能影响到子类的行为。如果使用对象组合，就降低了这种依赖关系。对于继承和组合，优先使用组合；</li>
+<li>迪米特原则：一个对象应当对其他对象尽可能少的了解，从而降低各个对象之间的耦合，提高系统的可维护性。<br><a href="#Q06-4">返回原题</a></li>
+</ul>
+</span></li>
+</ol>
+<ol start="6">
+<li><span id="A06-6">
+
+<ul>
+<li>工厂模式：属于创建型模式，它提供了一种创建对象的最佳方式。在工厂模式中，在创建对象时不会对客户端暴露创建逻辑，并且是通过使用一个共同的接口来指向新创建的对象。</li>
+<li>优点：<ul>
+<li>一个调用者想创建一个对象，只需知道其名称就可以了；</li>
+<li>扩展性高，如果想增加一个产品，只要扩展一个工厂类就可以；</li>
+<li>屏蔽产品的具体实现，调用者只关心产品的接口。</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>每次增加一个产品时，都需要增加一个具体类和对象实现工厂，使用系统中类的个数成倍增加，在一定程序上增加了系统的复杂度，同时也增加了系统具体类的依赖。<br><a href="#Q06-6">返回原题</a></li>
+</ul>
+</li>
+</ul>
+</span></li>
+</ol>
+            
+
+
+            <!-- 添加的部分 -->
+            <!-- copyright -->
+            
+            <!-- copyright -->
+        </div>
+    </div>
+
+
+    <!-- 打赏 -->
+    
+        <br>
+        <br>
+        <div class ="post-donate">
+            <div id="donate_board" class="donate_bar center">
+                <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+                <br>
+            </div>
+            <div id="donate_guide_alipay" class="donate_bar center hidden" >
+                <!-- 支付宝打赏图案 -->
+                <h1 align="center"
+style="color:#019fe8; font-size:17px; line-height:2%;">支付宝扫一扫
+                    <i class="fas fa-hand-point-down"></i>
+                </h1>
+                <img src="../../../../assets/images/alipay.png" alt="支付宝打赏">
+            </div>
+
+            <div id="donate_guide_wechat" class="donate_bar center hidden" >
+                <!-- 微信打赏图案 -->
+                <h1 align="center"
+style="color:#1AAD19; font-size:17px; line-height:2%;">微信扫一扫
+                    <i class="fas fa-hand-point-down"></i>
+                </h1>
+                <img src="../../../../assets/images/wechat.png" alt="微信打赏">
+                
+            </div>
+
+            <div id="donate_button_alipay" class="donate_bar center hidden">
+                <br>
+                <a id="btn_donate_alipay" class="btn_donate_alipay" href="javascript:;" title="切换到微信">切换到微信</a>
+            </div>
+
+            <div id="donate_button_wechat" class="donate_bar center hidden">
+                <br>
+                <a id="btn_donate_wechat" class="btn_donate_wechat" href="javascript:;" title="切换到支付宝">切换到支付宝</a>
+            </div>
+
+        
+
+            <script type="text/javascript">
+                document.getElementById('btn_donate').onclick = function(){
+                    $('#donate_board').addClass('hidden');
+                    $('#donate_guide_wechat').removeClass('hidden');
+                    $('#donate_button_wechat').removeClass('hidden');
+                }
+            </script>
+
+            <script type="text/javascript">
+                document.getElementById('btn_donate_alipay').onclick = function(){
+                    $('#donate_guide_alipay').addClass('hidden');
+                    $('#donate_button_alipay').addClass('hidden');
+                    $('#donate_guide_wechat').removeClass('hidden');
+                    $('#donate_button_wechat').removeClass('hidden');
+                }
+            </script>
+
+            <script type="text/javascript">
+                document.getElementById('btn_donate_wechat').onclick = function(){
+                    $('#donate_guide_wechat').addClass('hidden');
+                    $('#donate_button_wechat').addClass('hidden');
+                    $('#donate_guide_alipay').removeClass('hidden');
+                    $('#donate_button_alipay').removeClass('hidden');
+                }
+            </script>
+
+            
+        </div>
+
+        <div class="donateText" style="line-height:120%;"><br>“ 万物皆有时，比如你我相遇 ”</div>
+        <br>
+            
+    
+
+
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/求职/">求职</a> <a class="tag tag--primary tag--small t-link" href="/tags/面试/">面试</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/15/dataStructure/"
+                    data-tooltip="开发岗面试问题总结：数据结构"
+                    aria-label="上一篇: 开发岗面试问题总结：数据结构"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/15/DevelopingInterview/"
+                    data-tooltip="开发岗面试问题总结：C/C++语言"
+                    aria-label="下一篇: 开发岗面试问题总结：C/C++语言"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/08/15/DesignPatterns/"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=/2019/08/15/DesignPatterns/"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitment"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                
+<div id="gitment"></div>
+
+<!-- Gitment评论插件通用代码 -->
+
+<link rel="stylesheet" href='assets/js/gitment.css'>
+<script src='assets/js/gitment.js'></script>
+
+<script>
+var gitment = new Gitment({
+  owner: 'liuyihust',
+  repo: '',
+  oauth: {
+    client_id: '4d67b0b86332dbac9f61',
+    client_secret:'59b0670047644cff4d5740c6e239f758ade18049',
+  },
+})
+gitment.render('git')
+</script>
+
+<!-- Gitment代码结束 -->
+            
+        
+    </div>
+
+    
+
+</article>
+
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <i class="fas fa-user-clock"></i>
+    <span id="timeDate">0</span><span id="times">0</span>
+    <script>
+        var now = new Date();
+        function createtime() {
+            var grt= new Date("04/01/2018 00:00:00");//此处修改你的建站时间或者网站上线时间
+            now.setTime(now.getTime()+250);
+            days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+            hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+            if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+            mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+            seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+            snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+            document.getElementById("timeDate").innerHTML = "Blog Age: "+dnum+" days ";
+            document.getElementById("times").innerHTML = hnum + " h " + mnum + " m " + snum + " s";
+        }
+        setInterval("createtime()",250);
+	</script>
+
+    <br>
+
+    <span class="copyrights">
+        Copyrights &copy; 2020 Liu Yi. All Rights Reserved.
+    </span>
+
+
+</footer>
+
+
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/15/dataStructure/"
+                    data-tooltip="开发岗面试问题总结：数据结构"
+                    aria-label="上一篇: 开发岗面试问题总结：数据结构"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/15/DevelopingInterview/"
+                    data-tooltip="开发岗面试问题总结：C/C++语言"
+                    aria-label="下一篇: 开发岗面试问题总结：C/C++语言"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/08/15/DesignPatterns/"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=/2019/08/15/DesignPatterns/"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitment"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=/2019/08/15/DesignPatterns/"
+                        aria-label="分享到 Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=/2019/08/15/DesignPatterns/"
+                        aria-label="分享到 Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/portrait.gif" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Liu Yi</h4>
+        
+            <div id="about-card-bio"><p>无趣的人生，有趣地生活。<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=245 height=52 align="middle" src="//music.163.com/outchain/player?type=2&id=26294503&auto=1&height=32"></iframe></p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>学生</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                湖北武汉
+            </div>
+        
+    </div>
+</div>
+        
+            <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-times"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="/assets/images/logo-algolia-nebula-blue-full.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    />
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">没有找到文章</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/21/randomNumber/"
+                            aria-label=": Random Number Generator"
+                        >
+                            <img class="media-image" src="/2018/04/21/randomNumber/random.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/21/randomNumber/"
+                            aria-label=": Random Number Generator"
+                        >
+                            <h3 class="media-heading">Random Number Generator</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2018年4月21日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>C++编程时经常要用到随机数，那么到底有哪些随机数产生器或函数呢？我这里来做个小结。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/22/Japanese-1/"
+                            aria-label=": 日语中的数字与时间"
+                        >
+                            <img class="media-image" src="/2018/04/22/Japanese-1/japan.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/22/Japanese-1/"
+                            aria-label=": 日语中的数字与时间"
+                        >
+                            <h3 class="media-heading">日语中的数字与时间</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2018年4月22日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>日语中的数字与时间常见表示。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/25/Japanese-2/"
+                            aria-label=": 日语中的动词变形"
+                        >
+                            <img class="media-image" src="/2018/04/25/Japanese-2/maomi.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2018/04/25/Japanese-2/"
+                            aria-label=": 日语中的动词变形"
+                        >
+                            <h3 class="media-heading">日语中的动词变形</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2018年4月25日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>学过日语的人都知道，日语中的动词是需要变形的，所以我这里简单来总结一下日语中的动词变形！</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/15/setup-package/"
+                            aria-label=": 程序打包（Setup使用技巧）"
+                        >
+                            <img class="media-image" src="/2019/01/15/setup-package/pakage.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/15/setup-package/"
+                            aria-label=": 程序打包（Setup使用技巧）"
+                        >
+                            <h3 class="media-heading">程序打包（Setup使用技巧）</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年1月15日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>常用打包软件Setup的使用技巧。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/20/vs-skills/"
+                            aria-label=": VS使用技巧"
+                        >
+                            <img class="media-image" src="/2019/01/20/vs-skills/vs.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/01/20/vs-skills/"
+                            aria-label=": VS使用技巧"
+                        >
+                            <h3 class="media-heading">VS使用技巧</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年1月20日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>VS基础…</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/02/28/tf-version-problem/"
+                            aria-label=": 安装Tensorflow版本不匹配问题及解决"
+                        >
+                            <img class="media-image" src="/2019/02/28/tf-version-problem/tensorflow.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/02/28/tf-version-problem/"
+                            aria-label=": 安装Tensorflow版本不匹配问题及解决"
+                        >
+                            <h3 class="media-heading">安装Tensorflow版本不匹配问题及解决</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年2月28日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>安装Tensorflow时踩过的坑…</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/09/themeConfig/"
+                            aria-label=": 博客瞎折腾——tranquilpeak主题"
+                        >
+                            <img class="media-image" src="/2019/08/09/themeConfig/cat.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/09/themeConfig/"
+                            aria-label=": 博客瞎折腾——tranquilpeak主题"
+                        >
+                            <h3 class="media-heading">博客瞎折腾——tranquilpeak主题</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月9日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather">The article has been encrypted, please enter your password to view.<br></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/11/linux-files/"
+                            aria-label=": linux文件和目录"
+                        >
+                            <img class="media-image" src="/2019/08/11/linux-files/newtux.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/11/linux-files/"
+                            aria-label=": linux文件和目录"
+                        >
+                            <h3 class="media-heading">linux文件和目录</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月11日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Linux学习笔记：文件和目录</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/12/Welcome/"
+                            aria-label=": Welcome To Liuyee&#39;s Blog"
+                        >
+                            <img class="media-image" src="/2019/08/12/Welcome/deer.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/12/Welcome/"
+                            aria-label=": Welcome To Liuyee&#39;s Blog"
+                        >
+                            <h3 class="media-heading">Welcome To Liuyee&#39;s Blog</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月12日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Don’t aim for success if you want it, just stick to what you love and believe in, and it will come naturally.</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/15/DevelopingInterview/"
+                            aria-label=": 开发岗面试问题总结：C/C++语言"
+                        >
+                            <img class="media-image" src="/2019/08/15/DevelopingInterview/thumbnail.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="/2019/08/15/DevelopingInterview/"
+                            aria-label=": 开发岗面试问题总结：C/C++语言"
+                        >
+                            <h3 class="media-heading">开发岗面试问题总结：C/C++语言</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2019年8月15日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>开发岗面试问题总结之C/C++语言</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="没有找到文章"
+                data-message-one="找到 1 篇文章"
+                data-message-other="找到 {n} 篇文章">
+                找到 23 篇文章
+            </p>
+        </div>
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+
+
+    
+        <script src="/assets/js/gitment.js"></script>
+        <script type="text/javascript">
+          (function() {
+            new Gitment({
+              id: '/2019/08/15/DesignPatterns/',
+              owner: 'liuyihust',
+              repo: 'BlogComments',
+              oauth: {
+                client_id: '4d67b0b86332dbac9f61',
+                client_secret: '59b0670047644cff4d5740c6e239f758ade18049'
+              }
+            }).render('gitment')
+          })()
+        </script>
+    
+
+
+
+    <script src="/assets/js/moment-with-locales.js"></script>
+    <script src="/assets/js/algoliasearch.js"></script>
+    <script>
+      var algoliaClient = algoliasearch('SCS7H6XC2V', '3c07d7df305177e5342667b398d803ef');
+      var algoliaIndex = algoliaClient.initIndex('tranquilpeak');
+    </script>
+
+
+
+        <!-- 点击特效 -->
+        
+            <script async src="/assets/js/text.js"></script>
+        
+    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":400,"vOffset":-80},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.9,"opacityOnHover":0.1},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
